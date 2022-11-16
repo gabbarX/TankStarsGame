@@ -8,7 +8,7 @@ import com.tankstars.game.TankStars;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setWindowedMode(800,800);
+		config.setWindowedMode(1600,900);
 		config.setForegroundFPS(60);
 		config.setTitle("TankStars");
 		config.useVsync(true);
