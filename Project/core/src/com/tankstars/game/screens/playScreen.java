@@ -1,11 +1,22 @@
-package com.tankstars.game;
+package com.tankstars.game.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
+import com.tankstars.game.TankStars;
 
-public class MainMenu implements Screen {
+public class playScreen implements Screen {
+
+    private Game game;
+    Texture texture;
+    public playScreen(TankStars game) {
+        this.game = game;
+        texture = new Texture("tank.jpg");
+    }
+
     @Override
     public void show() {
-        System.out.println("Hello I am main menu");
+
     }
 
     @Override
