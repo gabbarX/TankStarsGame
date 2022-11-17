@@ -1,15 +1,17 @@
 package com.tankstars.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tankstars.game.screens.MainScreen;
+import com.tankstars.game.screens.splash;
 
 public class TankStars extends Game {
 	public Resources resources;
+	private SpriteBatch batch;
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		setScreen(new splash());
-//		setScreen(new MainMenu());
 		resources = new Resources();
 		setScreen(new MainScreen(this));
 	}
