@@ -9,9 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.tankstars.game.TankStars;
 
-public class MainMenu implements Screen {
-
+public class MainScreen extends DefaultScreen{
     private Stage stage;
     private Table table;
     private TextButton playButton, exitButton;
@@ -19,8 +19,11 @@ public class MainMenu implements Screen {
     private Skin skin;
     private BitmapFont white,black;
     private TextureAtlas atlas;
+    public MainScreen(TankStars game) {
+        super(game);
+    }
     @Override
-    public void show() {
+    public void show(){
         stage = new Stage();
         atlas = new TextureAtlas("playbutton");
         skin = new Skin(atlas);
@@ -43,39 +46,17 @@ public class MainMenu implements Screen {
         table.debug();
         stage.addActor(table);
     }
-
     @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(0,0,0,1);
+    public void render(float delta){
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        stage.act(delta);
-        stage.draw();
-
+        batch.begin();
+        game.resources.mainScreenBackgroundSprite.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        game.resources.mainScreenBackgroundSprite.draw(batch);
+        batch.end();
     }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
+    public void dispose(){
+        batch.dispose();
 
     }
 }
