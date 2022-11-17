@@ -19,8 +19,6 @@ public class MainMenu implements Screen {
     private Skin skin;
     private BitmapFont white,black;
     private TextureAtlas atlas;
-
-
     @Override
     public void show() {
         stage = new Stage();
@@ -34,7 +32,7 @@ public class MainMenu implements Screen {
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.up = skin.getDrawable("playbutton.png");
         textButtonStyle.down = skin.getDrawable("playbutton.png");
-        textButtonStyle.pressedOffsetX =1;
+        textButtonStyle.pressedOffsetX = 1;
         textButtonStyle.pressedOffsetY = -1;
         textButtonStyle.font = black;
 
