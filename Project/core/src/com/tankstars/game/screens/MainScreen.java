@@ -51,8 +51,8 @@ public class MainScreen extends DefaultScreen{
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        game.resources.mainScreenBackgroundSprite.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        game.resources.mainScreenBackgroundSprite.draw(batch);
+        game.resources.mainMenuBackgroundSprite.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        game.resources.mainMenuBackgroundSprite.draw(batch);
         batch.end();
     }
     public void dispose(){

@@ -9,10 +9,14 @@ public class Resources {
     protected Sprite sprite;
     public Texture mainScreenBackground;
     public Sprite mainScreenBackgroundSprite;
+    public Texture mainMenuBackground;
+    public Sprite mainMenuBackgroundSprite;
     public Resources(){
         batch = new SpriteBatch();
         mainScreenBackground = new Texture("mainScreenBackground.png");
         mainScreenBackgroundSprite = new Sprite(mainScreenBackground);
+        mainMenuBackground = new Texture("mainMenu.png");
+        mainMenuBackgroundSprite = new Sprite(mainMenuBackground);
     }
     public void dispose(){
         batch.dispose();

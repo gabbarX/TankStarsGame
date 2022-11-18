@@ -2,6 +2,7 @@ package com.tankstars.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.tankstars.game.screens.LoadingScreen;
 import com.tankstars.game.screens.MainScreen;
 import com.tankstars.game.screens.splash;
 
@@ -13,7 +14,7 @@ public class TankStars extends Game {
 		batch = new SpriteBatch();
 		setScreen(new splash());
 		resources = new Resources();
-		setScreen(new MainScreen(this));
+		setScreen(new LoadingScreen(this));
 	}
 
 	@Override
