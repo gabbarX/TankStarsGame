@@ -25,7 +25,8 @@ public class MainScreen extends DefaultScreen{
     public MainScreen(TankStars game) {
         super(game);
     }
-    public void setup(){
+    @Override
+    public void show(){
         stage = new Stage();
         background = new Image(new Texture(Gdx.files.internal("mainMenu/background.jpeg")));
         tankstars = new Image(new Texture(Gdx.files.internal("mainMenu/tankstars.png")));
@@ -44,9 +45,6 @@ public class MainScreen extends DefaultScreen{
         textButtonStyle.pressedOffsetX = 1;
         textButtonStyle.pressedOffsetY = -1;
         textButtonStyle.font = black;
-    }
-    @Override
-    public void show(){
         stage.addActor(background);
         Gdx.input.setInputProcessor(stage);
         table.center().right();
@@ -76,7 +74,7 @@ public class MainScreen extends DefaultScreen{
         vsComputerButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new LoadingScreen(game));
+                game.setScreen(new SelectTankScreen(game));
             }
         });
         exitButton.addListener(new ClickListener(){
@@ -105,14 +103,8 @@ public class MainScreen extends DefaultScreen{
 
 //        line that brings debug lines on table
         stage.setDebugAll(true);
-
-
         stage.act(delta);
         stage.draw();
-//        batch.begin();
-//        game.resources.mainMenuBackgroundSprite.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-//        game.resources.mainMenuBackgroundSprite.draw(batch);
-//        batch.end();
     }
     public void dispose(){
         batch.dispose();
