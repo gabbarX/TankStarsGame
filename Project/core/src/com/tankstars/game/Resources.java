@@ -13,9 +13,9 @@ public class Resources {
     public Sprite mainMenuBackgroundSprite;
     public Resources(){
         batch = new SpriteBatch();
-        mainScreenBackground = new Texture("mainScreenBackground.png");
+        mainScreenBackground = new Texture("mainMenu/loadingScreen.jpg");
         mainScreenBackgroundSprite = new Sprite(mainScreenBackground);
-        mainMenuBackground = new Texture("mainMenu.png");
+        mainMenuBackground = new Texture("mainMenu/loadingScreen.jpg");
         mainMenuBackgroundSprite = new Sprite(mainMenuBackground);
     }
     public void dispose(){

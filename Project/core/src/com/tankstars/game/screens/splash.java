@@ -13,7 +13,7 @@ public class splash implements Screen {
     @Override
     public void show() {
         batch = new SpriteBatch();
-        Texture splashTexture = new Texture("mainScreen.png");
+        Texture splashTexture = new Texture("mainMenu/loadingScreen.jpg");
         splash = new Sprite(splashTexture);
         splash.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
     }

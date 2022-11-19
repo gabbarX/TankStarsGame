@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.tankstars.game.TankStars;
 
 public class MainScreen extends DefaultScreen{
@@ -38,6 +39,8 @@ public class MainScreen extends DefaultScreen{
         white = new BitmapFont(Gdx.files.internal("fonts/white.fnt"), false);
         black = new BitmapFont(Gdx.files.internal("fonts/black.fnt"), false);
 
+//        table.center().right();
+
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.up = skin.getDrawable("button_up");
         textButtonStyle.down = skin.getDrawable("button_down");
@@ -58,7 +61,7 @@ public class MainScreen extends DefaultScreen{
         exitButton.pad(20);
 
         settingsButton = new TextButton("Settings", textButtonStyle);
-        settingsButton.pad(10);
+        settingsButton.pad(20);
 
         tankstars = new Image(new Texture(Gdx.files.internal("mainMenu/tankstars.png")));
 
