@@ -14,7 +14,6 @@ import com.tankstars.game.TankStars;
 
 public class MainScreen extends DefaultScreen{
     private Stage stage;
-    private Table table;
     Image tankstars, background;
     private TextButton playButton, exitButton, settingsButton;
     private Label heading;
@@ -34,12 +33,13 @@ public class MainScreen extends DefaultScreen{
 
         atlas = new TextureAtlas("mainMenu/pack/button.atlas");
         skin = new Skin(atlas);
-        table = new Table(skin);
+        Table table = new Table(skin);
         table.setBounds(0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         white = new BitmapFont(Gdx.files.internal("fonts/white.fnt"), false);
         black = new BitmapFont(Gdx.files.internal("fonts/black.fnt"), false);
 
 //        table.center().right();
+//        table.hi
 
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.up = skin.getDrawable("button_up");
@@ -80,7 +80,10 @@ public class MainScreen extends DefaultScreen{
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+//        line that brings debug lines on table
         stage.setDebugAll(true);
+
+
         stage.act(delta);
         stage.draw();
 //        batch.begin();
