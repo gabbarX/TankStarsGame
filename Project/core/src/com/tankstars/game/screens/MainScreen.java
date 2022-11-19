@@ -14,7 +14,7 @@ import com.tankstars.game.TankStars;
 public class MainScreen extends DefaultScreen{
     private Stage stage;
     private Table table;
-    Image tankstars;
+    Image tankstars, background;
     private TextButton playButton, exitButton, settingsButton;
     private Label heading;
     private Skin skin;
@@ -26,6 +26,8 @@ public class MainScreen extends DefaultScreen{
     @Override
     public void show(){
         stage = new Stage();
+        background = new Image(new Texture(Gdx.files.internal("mainMenu/background.png")));
+        stage.addActor(background);
 
         Gdx.input.setInputProcessor(stage);
 
