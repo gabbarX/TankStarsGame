@@ -1,0 +1,19 @@
+
+items.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+tankstars
+  rotate: false
+  xy: 0, 7
+  size: 314, 159
+  orig: 314, 159
+  offset: 0, 0
+  index: -1
+TankA
+  rotate: false
+  xy: 315, 0
+  size: 293, 166
+  orig: 293, 166
+  offset: 0, 0
+  index: -1
