@@ -2,18 +2,19 @@ package com.tankstars.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.tankstars.game.TankStars;
 
 public class MainScreen extends DefaultScreen{
     private Stage stage;
     private Table table;
+    Image tankstars;
     private TextButton playButton, exitButton, settingsButton;
     private Label heading;
     private Skin skin;
@@ -46,13 +47,25 @@ public class MainScreen extends DefaultScreen{
         playButton.pad(20);
 
         exitButton = new TextButton("Exit", textButtonStyle);
+        exitButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                Gdx.app.exit();
+            }
+        });
         exitButton.pad(20);
 
         settingsButton = new TextButton("Settings", textButtonStyle);
         settingsButton.pad(10);
 
+        tankstars = new Image(new Texture(Gdx.files.internal("mainMenu/tankstars.png")));
+
+        table.add(tankstars);
+        table.row();
         table.add(playButton);
+        table.row();
         table.add(exitButton);
+        table.row();
         table.add(settingsButton);
         table.debug();
         stage.addActor(table);
