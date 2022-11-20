@@ -16,12 +16,12 @@ public class LoadGame extends DefaultScreen
 {
     private Stage stage;
     private Image background;
-    private Table table;
+    private Table table, table2;
     private ImageButton backButton;
-    private TextButton savegame, savegame1, savegame2, savegame3;
+    private TextButton savegame, savegame1, savegame2, savegame3, savegame4;
     private TextureAtlas savedGameAtlas;
     private BitmapFont white,black;
-    private Skin savedGameskin,skin;
+    private Skin savedGameskin,skin, itemSkin;
     private TextButton.TextButtonStyle savedGamesStyle, textButtonStyle;
     public LoadGame(TankStars game) {
         super(game);
@@ -34,11 +34,15 @@ public class LoadGame extends DefaultScreen
         stage.addActor(background);
         savedGameAtlas = new TextureAtlas("loadGame/pack/savedGames/savedgames.atlas");
         savedGameskin = new Skin(savedGameAtlas);
+        skin = new Skin(new TextureAtlas("mainMenu/pack/button.atlas"));
         table = new Table(savedGameskin);
+        table2 = new Table(skin);
         white = new BitmapFont(Gdx.files.internal("fonts/white.fnt"), false);
         black = new BitmapFont(Gdx.files.internal("fonts/black.fnt"), false);
 
-        skin = new Skin(new TextureAtlas("mainMenu/pack/button.atlas"));
+
+        itemSkin = new Skin(new TextureAtlas("selectTankMenu/items/items.pack"));
+
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.up = skin.getDrawable("button_up");
         textButtonStyle.down = skin.getDrawable("button_down");
@@ -57,24 +61,45 @@ public class LoadGame extends DefaultScreen
 //        table.align(0).center();
 //        table.setPosition(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
+
+        // make a button back
+        backButton = new ImageButton(itemSkin.getDrawable("cross"));
+        backButton.setSize(100,100);
+        backButton.setPosition(Gdx.graphics.getWidth()*1/100, Gdx.graphics.getHeight()*85/100);
+
+        //backButton Function
+        backButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
+                game.setScreen(new MainScreen(game));
+            }
+        });
+
         table.setPosition(Gdx.graphics.getWidth()*8/15 - 50, Gdx.graphics.getHeight() - 100, Align.center);
         savegame = new TextButton("Saved Games",savedGamesStyle);
         table.add(savegame).size(300,70);
         table.row();
         table.center();
-        savegame1 = new TextButton("20-11-2022 Ankit vs Prakar", textButtonStyle);
-        table.add(savegame1).size(500,70);
-        table.row();
+
+
+        //TABLE 2
+        table2.setPosition(Gdx.graphics.getWidth()*8/15 - 50, Gdx.graphics.getHeight() - 300, Align.center);
+        savegame1 = new TextButton("20-11-2022 Ankit vs Prakhar", textButtonStyle);
+        table2.add(savegame1).size(500,70);
+        table2.row();
         savegame2 = new TextButton("20-11-2022 Kalicharan vs Kirmada", textButtonStyle);
-        table.add(savegame1).size(500,70);
-        table.row();
+        table2.add(savegame2).size(500,70);
+        table2.row();
         savegame3 = new TextButton("20-11-2022 Raju vs Rancho", textButtonStyle);
-        table.add(savegame1).size(500,70);
-        table.row();
-        savegame1 = new TextButton("20-11-2022 Naruto vs Sasuke", textButtonStyle);
-        table.add(savegame1).size(500,70);
+        table2.add(savegame3).size(500,70);
+        table2.row();
+        savegame4 = new TextButton("20-11-2022 Naruto vs Sasuke", textButtonStyle);
+        table2.add(savegame4).size(500,70);
+        table2.row();
 
         stage.addActor(table);
+        stage.addActor(table2);
+        stage.addActor(backButton);
     }
 
     @Override
