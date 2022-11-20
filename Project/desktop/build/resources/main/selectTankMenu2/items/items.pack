@@ -1,0 +1,96 @@
+
+items.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+chooseTank
+  rotate: false
+  xy: 0, 370
+  size: 488, 121
+  orig: 488, 121
+  offset: 0, 0
+  index: -1
+TankNameBar
+  rotate: false
+  xy: 0, 266
+  size: 398, 103
+  orig: 398, 103
+  offset: 0, 0
+  index: -1
+TankAbrams
+  rotate: false
+  xy: 0, 94
+  size: 281, 171
+  orig: 281, 171
+  offset: 0, 0
+  index: -1
+button_up
+  rotate: false
+  xy: 489, 374
+  size: 295, 117
+  orig: 295, 117
+  offset: 0, 0
+  index: -1
+Player2Chosen
+  rotate: false
+  xy: 785, 309
+  size: 186, 182
+  orig: 186, 182
+  offset: 0, 0
+  index: -1
+button_down
+  rotate: false
+  xy: 0, 0
+  size: 196, 93
+  orig: 196, 93
+  offset: 0, 0
+  index: -1
+Player1Chosen
+  rotate: false
+  xy: 282, 82
+  size: 182, 183
+  orig: 182, 183
+  offset: 0, 0
+  index: -1
+TankBuratino
+  rotate: false
+  xy: 489, 203
+  size: 280, 170
+  orig: 280, 170
+  offset: 0, 0
+  index: -1
+TankFrost
+  rotate: false
+  xy: 465, 32
+  size: 280, 170
+  orig: 280, 170
+  offset: 0, 0
+  index: -1
+button
+  rotate: false
+  xy: 770, 258
+  size: 150, 50
+  orig: 150, 50
+  offset: 0, 0
+  index: -1
+arrow_left
+  rotate: false
+  xy: 972, 443
+  size: 30, 48
+  orig: 30, 48
+  offset: 0, 0
+  index: -1
+arrow_right
+  rotate: false
+  xy: 197, 45
+  size: 30, 48
+  orig: 30, 48
+  offset: 0, 0
+  index: -1
+cross
+  rotate: false
+  xy: 399, 334
+  size: 30, 35
+  orig: 30, 35
+  offset: 0, 0
+  index: -1

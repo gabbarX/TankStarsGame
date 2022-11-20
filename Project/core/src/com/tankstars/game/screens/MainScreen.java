@@ -77,6 +77,12 @@ public class MainScreen extends DefaultScreen{
                 game.setScreen(new SelectTankScreen(game));
             }
         });
+        vsPlayerButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new SelectTankScreen2(game));
+            }
+        });
         exitButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
