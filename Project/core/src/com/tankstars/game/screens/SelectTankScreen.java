@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -124,6 +125,17 @@ public class SelectTankScreen extends DefaultScreen{
         stage.addActor(backButton);
         stage.addActor(TankAbramsButton);
         stage.addActor(chooseTank);
+
+        //play button clicked
+        playButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //loadGameScreen
+//                System.out.println("Loading game...");
+                game.setScreen(new GameScreen(game));
+            }
+        });
+
         // left button clicked
         leftButton.addListener(new ClickListener(){
             @Override
