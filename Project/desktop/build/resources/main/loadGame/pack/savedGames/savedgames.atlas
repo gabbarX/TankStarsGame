@@ -1,0 +1,13 @@
+
+savedgames.png
+size: 1024, 256
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+SavedGames
+  rotate: false
+  xy: 2, 2
+  size: 622, 179
+  orig: 622, 179
+  offset: 0, 0
+  index: -1

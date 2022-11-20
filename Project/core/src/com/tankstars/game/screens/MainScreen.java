@@ -15,7 +15,7 @@ import com.tankstars.game.TankStars;
 public class MainScreen extends DefaultScreen{
     private Stage stage;
     Image tankstars, background, tank, tankStarsLogo;
-    private TextButton exitButton, settingsButton, vsComputerButton, vsPlayerButton;
+    private TextButton exitButton, settingsButton, vsComputerButton, vsPlayerButton, loadGameButton;
     private Label heading, heading1;
     private Skin skin, skin1;
     private BitmapFont white,black;
@@ -65,6 +65,8 @@ public class MainScreen extends DefaultScreen{
         vsComputerButton.pad(20);
         vsPlayerButton = new TextButton("vs PLAYER",textButtonStyle);
         vsPlayerButton.pad(20);
+        loadGameButton = new TextButton("Load Game",textButtonStyle);
+        loadGameButton.pad(20);
         settingsButton = new TextButton("SETTINGS",textButtonStyle);
         settingsButton.pad(20);
         exitButton = new TextButton("Exit", textButtonStyle);
@@ -83,6 +85,20 @@ public class MainScreen extends DefaultScreen{
                 game.setScreen(new SelectTankScreen2(game));
             }
         });
+        loadGameButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //loadGameScreen
+//                System.out.println("Loading game...");
+                game.setScreen(new LoadGame(game));
+            }
+        });
+        settingsButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+//           //settings Button functionality
+            }
+        });
         exitButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -94,6 +110,8 @@ public class MainScreen extends DefaultScreen{
         table.add(vsComputerButton);
         table.row();
         table.add(vsPlayerButton);
+        table.row();
+        table.add(loadGameButton);
         table.row();
         table.add(settingsButton);
         table.row();
