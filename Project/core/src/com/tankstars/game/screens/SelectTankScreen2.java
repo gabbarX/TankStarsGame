@@ -180,16 +180,32 @@ public class SelectTankScreen2 extends SelectTankScreen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                int tank1 = 0;
+                int tank2 = 0;
+                switch(player1Tank) {
+                    case "Abrams":
+                        tank1 = 0;
+                        break;
+                    case "Buratino":
+                        tank1 = 2;
+                        break;
+                    case "Frost":
+                        tank1 = 1;
+                        break;
+                }
                 switch (tankName) {
                     case "Abrams":
                         player2Tank = "Abrams";
+                        tank2 = 0;
                         isPlayer2 = true;
                         break;
                     case "Buratino":
                         player2Tank = "Buratino";
+                        tank2 = 2;
                         isPlayer2 = true;
                         break;
                     case "Frost":
+                        tank2 = 1;
                         player2Tank = "Frost";
                         isPlayer2 = true;
                         break;
@@ -197,7 +213,7 @@ public class SelectTankScreen2 extends SelectTankScreen {
                         isPlayer2 = false;
                         break;
                 }
-                game.setScreen(new LoadingScreen(game));
+                game.setScreen(new GameScreen(game, tank1, tank2));
             }
         });
         leftButton.addListener(new ClickListener() {

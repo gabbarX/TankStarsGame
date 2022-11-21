@@ -132,7 +132,16 @@ public class SelectTankScreen extends DefaultScreen{
             public void clicked(InputEvent event, float x, float y) {
                 //loadGameScreen
 //                System.out.println("Loading game...");
-                game.setScreen(new GameScreen(game));
+                int tank = 0;
+                switch(tankName){
+                    case "Buratino":
+                        tank = 2;
+                        break;
+                    case "Frost":
+                        tank = 1;
+                        break;
+                }
+                game.setScreen(new GameScreen(game, tank));
             }
         });
 

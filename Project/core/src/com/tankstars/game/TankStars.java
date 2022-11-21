@@ -12,7 +12,7 @@ public class TankStars extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		setScreen(new splash());
+		setScreen(new LoadingScreen(this));
 		resources = new Resources();
 		setScreen(new LoadingScreen(this));
 	}

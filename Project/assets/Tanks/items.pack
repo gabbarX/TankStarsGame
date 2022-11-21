@@ -1,0 +1,173 @@
+
+items.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+TankAbrams
+  rotate: false
+  xy: 0, 340
+  size: 281, 171
+  orig: 281, 171
+  offset: 0, 0
+  index: -1
+TankAbramsReverse
+  rotate: false
+  xy: 0, 168
+  size: 281, 171
+  orig: 281, 171
+  offset: 0, 0
+  index: -1
+TankBuratino
+  rotate: false
+  xy: 282, 341
+  size: 280, 170
+  orig: 280, 170
+  offset: 0, 0
+  index: -1
+TankBuratinoReverse
+  rotate: false
+  xy: 282, 170
+  size: 280, 170
+  orig: 280, 170
+  offset: 0, 0
+  index: -1
+TankFrost
+  rotate: false
+  xy: 563, 341
+  size: 280, 170
+  orig: 280, 170
+  offset: 0, 0
+  index: -1
+TankFrostReverse
+  rotate: false
+  xy: 563, 170
+  size: 280, 170
+  orig: 280, 170
+  offset: 0, 0
+  index: -1
+HighPressure
+  rotate: false
+  xy: 0, 82
+  size: 82, 85
+  orig: 82, 85
+  offset: 0, 0
+  index: -1
+Blizzard
+  rotate: false
+  xy: 0, 0
+  size: 82, 81
+  orig: 82, 81
+  offset: 0, 0
+  index: -1
+AssaultDrones
+  rotate: false
+  xy: 844, 427
+  size: 82, 84
+  orig: 82, 84
+  offset: 0, 0
+  index: -1
+FrostBite
+  rotate: false
+  xy: 83, 83
+  size: 82, 84
+  orig: 82, 84
+  offset: 0, 0
+  index: -1
+AbramsShotgun
+  rotate: false
+  xy: 83, 0
+  size: 83, 82
+  orig: 83, 82
+  offset: 0, 0
+  index: -1
+AbramsVolley
+  rotate: false
+  xy: 844, 344
+  size: 82, 82
+  orig: 82, 82
+  offset: 0, 0
+  index: -1
+AreaStrike
+  rotate: false
+  xy: 166, 83
+  size: 79, 84
+  orig: 79, 84
+  offset: 0, 0
+  index: -1
+Homing
+  rotate: false
+  xy: 167, 0
+  size: 80, 82
+  orig: 80, 82
+  offset: 0, 0
+  index: -1
+RapidFire
+  rotate: false
+  xy: 927, 430
+  size: 82, 81
+  orig: 82, 81
+  offset: 0, 0
+  index: -1
+FrostBlast
+  rotate: false
+  xy: 844, 262
+  size: 81, 81
+  orig: 81, 81
+  offset: 0, 0
+  index: -1
+AbramsSplitterChain
+  rotate: false
+  xy: 927, 349
+  size: 81, 80
+  orig: 81, 80
+  offset: 0, 0
+  index: -1
+AbramsAirStrike
+  rotate: false
+  xy: 844, 181
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+IceSplitter
+  rotate: false
+  xy: 246, 87
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+Shredder
+  rotate: false
+  xy: 327, 91
+  size: 83, 78
+  orig: 83, 78
+  offset: 0, 0
+  index: -1
+AbramsBigOne
+  rotate: false
+  xy: 411, 91
+  size: 80, 78
+  orig: 80, 78
+  offset: 0, 0
+  index: -1
+Hounds
+  rotate: false
+  xy: 492, 92
+  size: 79, 77
+  orig: 79, 77
+  offset: 0, 0
+  index: -1
+MIRV
+  rotate: false
+  xy: 572, 89
+  size: 78, 80
+  orig: 78, 80
+  offset: 0, 0
+  index: -1
+AbramsVeritcalSlam
+  rotate: false
+  xy: 651, 92
+  size: 77, 77
+  orig: 77, 77
+  offset: 0, 0
+  index: -1
