@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.sun.java.swing.action.AlignCenterAction;
@@ -25,15 +26,18 @@ import java.util.ArrayList;
 public class GameScreen extends DefaultScreen {
     public GameScreen(TankStars game, int player1){
         super(game);
+        flag = true;
         this.isPlayer1 = player1;
         this.isPlayer2 = (int) (Math.random() * 3);
     }
     public GameScreen(TankStars game, int player1, int player2) {
         super(game);
+        flag = false;
         this.isPlayer1 = player1;
         this.isPlayer2 = player2;
     }
     private Stage stage;
+    private boolean flag;
     private Image background, dirtTerrain, healthBarP1, healthbarP2, badgeP1, badgeP2, vslogo;
     Player player1, player2;
     int isPlayer1, isPlayer2;
@@ -63,9 +67,54 @@ public class GameScreen extends DefaultScreen {
                 break;
         }
         stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
         tankAtlas = new TextureAtlas("Tanks/items.pack");
         background = new Image(new Texture(Gdx.files.internal("Game Screen/main_game_bg.png")));
         dirtTerrain = new Image(new Texture(Gdx.files.internal("Game Screen/dirt_terrain.png")));
+        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.font = new BitmapFont(Gdx.files.internal("Fonts/black.fnt"));
+        textButtonStyle.up = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Tanks/button_up.png"))));
+        textButtonStyle.down = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Tanks/button_down.png"))));
+        TextButton forward1 = new TextButton("Forward", textButtonStyle);
+        forward1.setSize(100, 50);
+        forward1.setPosition(Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10);
+        forward1.pad(20);
+        TextButton backward1 = new TextButton("Backward", textButtonStyle);
+        backward1.setSize(125, 50);
+        backward1.pad(20);
+        backward1.setPosition(Gdx.graphics.getWidth()/10+150, Gdx.graphics.getHeight()/10);
+        TextButton forward2 = new TextButton("Forward", textButtonStyle);
+        forward2.setSize(100, 50);
+        forward2.setPosition(Gdx.graphics.getWidth()/10 * 7, Gdx.graphics.getHeight()/10);
+        forward2.pad(20);
+        TextButton backward2 = new TextButton("Backward", textButtonStyle);
+        backward2.setSize(125, 50);
+        backward2.pad(20);
+        backward2.setPosition(Gdx.graphics.getWidth()/10 * 7 + 150, Gdx.graphics.getHeight()/10);
+        forward1.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                player1.tank.setPosition(player1.tank.getPositionX()+10, player1.tank.getPositionY());
+            }
+        });
+        backward1.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                player1.tank.setPosition(player1.tank.getPositionX()-10, player1.tank.getPositionY());
+            }
+        });
+        forward2.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                player2.tank.setPosition(player2.tank.getPositionX()-10, player2.tank.getPositionY());
+            }
+        });
+        backward2.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                player2.tank.setPosition(player2.tank.getPositionX()+10, player2.tank.getPositionY());
+            }
+        });
         dirtTerrain.setHeight(Gdx.graphics.getHeight()/4);
         dirtTerrain.setWidth(Gdx.graphics.getWidth());
         dirtTerrain.setPosition(0,0);
@@ -74,8 +123,12 @@ public class GameScreen extends DefaultScreen {
         badgeP1 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
         badgeP2 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
         vslogo = new Image(new Texture(Gdx.files.internal("Game Screen/vslogo.png")));
-        player1.tank.tankSprite.setPosition(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/4);
-        player2.tank.tankSprite.setPosition(Gdx.graphics.getWidth()*4/5, Gdx.graphics.getHeight()/4);
+//        player1.tank.tankSprite.setPosition(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/4);
+//        player2.tank.tankSprite.setPosition(Gdx.graphics.getWidth()*4/5, Gdx.graphics.getHeight()/4);
+        player1.tank.setPosition(Gdx.graphics.getWidth()/7, Gdx.graphics.getHeight()/4);
+        player2.tank.setPosition(Gdx.graphics.getWidth()*4/5, Gdx.graphics.getHeight()/4);
+        player1.tank.setSize(100,60);
+        player2.tank.setSize(100,60);
         healthBarP1.setPosition(230,600);
         badgeP1.setSize(60,60);
         badgeP1.setPosition(190,600);
@@ -90,6 +143,12 @@ public class GameScreen extends DefaultScreen {
         stage.addActor(badgeP1);
         stage.addActor(badgeP2);
         stage.addActor(vslogo);
+        stage.addActor(forward1);
+        stage.addActor(backward1);
+        if (!flag){
+            stage.addActor(forward2);
+            stage.addActor(backward2);
+        }
     }
 
     @Override
