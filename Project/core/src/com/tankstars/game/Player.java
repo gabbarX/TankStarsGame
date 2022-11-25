@@ -1,8 +1,6 @@
 package com.tankstars.game;
 
-import java.util.Objects;
-
-public class Player {
+public class Player extends TankStars{
     private int hitPoints = 800;
     public Tank tank;
     private boolean isPlayer1;

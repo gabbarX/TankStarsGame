@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import java.util.ArrayList;
 
-public class Tank {
+public class Tank extends TankStars{
     public ArrayList<Weapon> weapons;
     public Sprite tankSprite;
     public TextureAtlas tankAtlas;
@@ -71,4 +71,9 @@ public class Tank {
     public int getPositionY(){
         return positionY;
     }
+    public void moveTank(){}
+    public void takeDamage(){}
+    public void attack(){}
+    public void showAvailableWepons(){}
+//    public void
 }

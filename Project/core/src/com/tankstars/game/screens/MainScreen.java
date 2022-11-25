@@ -126,7 +126,7 @@ public class MainScreen extends DefaultScreen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 //        line that brings debug lines on table
-//        stage.setDebugAll(true);
+        stage.setDebugAll(true);
         stage.act(delta);
         stage.draw();
     }

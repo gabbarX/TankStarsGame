@@ -8,7 +8,6 @@ import com.tankstars.game.TankStars;
 public class DefaultScreen implements Screen {
     TankStars game;
     SpriteBatch batch;
-    Sprite sprite;
 
     public DefaultScreen(TankStars game){
         this.game = game;
