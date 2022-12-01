@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -26,6 +29,9 @@ import java.awt.image.ImageProducer;
 import java.util.ArrayList;
 
 public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
+    private World world;
+    private Box2DDebugRenderer debugRenderer;
+    private OrthographicCamera camera;
     public GameScreen(TankStars game, int player1){
         super(game);
         flag = true;
@@ -46,6 +52,11 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     private TextureAtlas tankAtlas;
     @Override
     public void show() {
+        world = new World(new Vector2(0,-9.8f), true);
+        debugRenderer = new Box2DDebugRenderer();
+        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+
         switch(isPlayer1) {
             case 0:
                 player1 = new Player("Abrams", true);
@@ -152,12 +163,16 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             stage.addActor(backward2);
         }
     }
-
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+        debugRenderer.render(world, camera.combined);
+        // create a body definition for the tank
+        BodyDef tankDef = new BodyDef();
+        tankDef.type = BodyDef.BodyType.DynamicBody;
+        tankDef.position.set(0, 0);
+        // create a fixture 
 //        stage.setDebugAll(true);
         stage.act(delta);
         stage.draw();
