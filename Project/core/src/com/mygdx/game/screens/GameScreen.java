@@ -166,55 +166,54 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         Gdx.input.setInputProcessor(stage);
         tankAtlas = new TextureAtlas("Tanks/items.pack");
         background = new Image(new Texture(Gdx.files.internal("Game Screen/gameScreenBackground.jpg")));
-        dirtTerrain = new Image(new Texture(Gdx.files.internal("Game Screen/dirt_terrain.png")));
-        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.font = new BitmapFont(Gdx.files.internal("Fonts/black.fnt"));
-        textButtonStyle.up = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Tanks/button_up.png"))));
-        textButtonStyle.down = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Tanks/button_down.png"))));
-        TextButton forward1 = new TextButton("Forward", textButtonStyle);
-        forward1.setSize(100, 50);
-        forward1.setPosition(Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10);
-        forward1.pad(20);
-        TextButton backward1 = new TextButton("Backward", textButtonStyle);
-        backward1.setSize(125, 50);
-        backward1.pad(20);
-        backward1.setPosition(Gdx.graphics.getWidth()/10+150, Gdx.graphics.getHeight()/10);
-        TextButton forward2 = new TextButton("Forward", textButtonStyle);
-        forward2.setSize(100, 50);
-        forward2.setPosition(Gdx.graphics.getWidth()/10 * 7, Gdx.graphics.getHeight()/10);
-        forward2.pad(20);
-        TextButton backward2 = new TextButton("Backward", textButtonStyle);
-        backward2.setSize(125, 50);
-        backward2.pad(20);
-        backward2.setPosition(Gdx.graphics.getWidth()/10 * 7 + 150, Gdx.graphics.getHeight()/10);
-        forward1.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                // go back to the previous screen using set screen
-                game.setScreen((Screen) new com.tankstars.game.screens.SelectTankScreen(game));
-            }
-        });
-        backward1.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                player1.tank.setPosition(player1.tank.getPositionX()-10, player1.tank.getPositionY());
-            }
-        });
-        forward2.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                player2.tank.setPosition(player2.tank.getPositionX()-10, player2.tank.getPositionY());
-            }
-        });
-        backward2.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                player2.tank.setPosition(player2.tank.getPositionX()+10, player2.tank.getPositionY());
-            }
-        });
-        dirtTerrain.setHeight(Gdx.graphics.getHeight()/4);
-        dirtTerrain.setWidth(Gdx.graphics.getWidth());
-        dirtTerrain.setPosition(0,0);
+//        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+//        textButtonStyle.font = new BitmapFont(Gdx.files.internal("Fonts/black.fnt"));
+//        textButtonStyle.up = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Tanks/button_up.png"))));
+//        textButtonStyle.down = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Tanks/button_down.png"))));
+//        TextButton forward1 = new TextButton("Forward", textButtonStyle);
+//        forward1.setSize(100, 50);
+//        forward1.setPosition(Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10);
+//        forward1.pad(20);
+//        TextButton backward1 = new TextButton("Backward", textButtonStyle);
+//        backward1.setSize(125, 50);
+//        backward1.pad(20);
+//        backward1.setPosition(Gdx.graphics.getWidth()/10+150, Gdx.graphics.getHeight()/10);
+//        TextButton forward2 = new TextButton("Forward", textButtonStyle);
+//        forward2.setSize(100, 50);
+//        forward2.setPosition(Gdx.graphics.getWidth()/10 * 7, Gdx.graphics.getHeight()/10);
+//        forward2.pad(20);
+//        TextButton backward2 = new TextButton("Backward", textButtonStyle);
+//        backward2.setSize(125, 50);
+//        backward2.pad(20);
+//        backward2.setPosition(Gdx.graphics.getWidth()/10 * 7 + 150, Gdx.graphics.getHeight()/10);
+//        forward1.addListener(new ClickListener() {
+//            @Override
+//            public void clicked(InputEvent event, float x, float y) {
+//                // go back to the previous screen using set screen
+//                game.setScreen((Screen) new com.tankstars.game.screens.SelectTankScreen(game));
+//            }
+//        });
+//        backward1.addListener(new ClickListener() {
+//            @Override
+//            public void clicked(InputEvent event, float x, float y) {
+//                player1.tank.setPosition(player1.tank.getPositionX()-10, player1.tank.getPositionY());
+//            }
+//        });
+//        forward2.addListener(new ClickListener() {
+//            @Override
+//            public void clicked(InputEvent event, float x, float y) {
+//                player2.tank.setPosition(player2.tank.getPositionX()-10, player2.tank.getPositionY());
+//            }
+//        });
+//        backward2.addListener(new ClickListener() {
+//            @Override
+//            public void clicked(InputEvent event, float x, float y) {
+//                player2.tank.setPosition(player2.tank.getPositionX()+10, player2.tank.getPositionY());
+//            }
+//        });
+//        dirtTerrain.setHeight(Gdx.graphics.getHeight()/4);
+//        dirtTerrain.setWidth(Gdx.graphics.getWidth());
+//        dirtTerrain.setPosition(0,0);
         healthBarP1 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
         healthbarP2 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
         badgeP1 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
@@ -222,10 +221,10 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 //        vslogo = new Image(new Texture(Gdx.files.internal("Game Screen/vslogo.png")));
 //        player1.tank.tankSprite.setPosition(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/4);
 //        player2.tank.tankSprite.setPosition(Gdx.graphics.getWidth()*4/5, Gdx.graphics.getHeight()/4);
-        player1.tank.setPosition(Gdx.graphics.getWidth()/7, Gdx.graphics.getHeight()/4);
-        player2.tank.setPosition(Gdx.graphics.getWidth()*4/5, Gdx.graphics.getHeight()/4);
-        player1.tank.setSize(100,60);
-        player2.tank.setSize(100,60);
+//        player1.tank.setPosition(Gdx.graphics.getWidth()/7, Gdx.graphics.getHeight()/4);
+//        player2.tank.setPosition(Gdx.graphics.getWidth()*4/5, Gdx.graphics.getHeight()/4);
+//        player1.tank.setSize(100,60);
+//        player2.tank.setSize(100,60);
         healthBarP1.setPosition(230,600);
         badgeP1.setSize(60,60);
         badgeP1.setPosition(190,600);
@@ -234,18 +233,17 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         badgeP2.setSize(60,60);
 //        vslogo.setPosition(546,590);
         stage.addActor(background);
-        stage.addActor(dirtTerrain);
         stage.addActor(healthBarP1);
         stage.addActor(healthbarP2);
         stage.addActor(badgeP1);
         stage.addActor(badgeP2);
 //        stage.addActor(vslogo);
-        stage.addActor(forward1);
-        stage.addActor(backward1);
-        if (!flag){
-            stage.addActor(forward2);
-            stage.addActor(backward2);
-        }
+//        stage.addActor(forward1);
+//        stage.addActor(backward1);
+//        if (!flag){
+//            stage.addActor(forward2);
+//            stage.addActor(backward2);
+//        }
 //        Gdx.input.setInputProcessor(new InputController(){
 //            @Override
 //            public boolean keyDown(int keycode){
@@ -266,8 +264,8 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         stage.draw();
         batch = new SpriteBatch();
         batch.begin();
-        player1.tank.tankSprite.draw(batch);
-        player2.tank.tankSprite.draw(batch);
+//        player1.tank.tankSprite.draw(batch);
+//        player2.tank.tankSprite.draw(batch);
         batch.end();
         world.step(1/60f, 6, 2);
         debugRenderer.render(world, camera.combined);

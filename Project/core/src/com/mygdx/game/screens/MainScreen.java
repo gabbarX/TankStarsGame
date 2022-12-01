@@ -12,15 +12,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.tankstars.game.TankStars;
 
-public class MainScreen extends DefaultScreen{
+public class MainScreen extends com.tankstars.game.screens.DefaultScreen {
     private Stage stage;
-    Image tankstars, background, tank, tankStarsLogo;
-    private TextButton exitButton, settingsButton, vsComputerButton, vsPlayerButton, loadGameButton;
+    Image tankstars, background, tank, tankStarsLogo, popUp;
+    private TextButton exitButton, settingsButton, vsComputerButton, vsPlayerButton, loadGameButton, yesButton, noButton;
     private Label heading, heading1;
     private Skin skin, skin1;
     private BitmapFont white,black;
     private TextureAtlas atlas, atlas1;
-    private Table table, table1;
+    private Table table, table1, exitTable;
     private TextButton.TextButtonStyle textButtonStyle;
     public MainScreen(TankStars game) {
         super(game);
@@ -30,12 +30,18 @@ public class MainScreen extends DefaultScreen{
         stage = new Stage();
         background = new Image(new Texture(Gdx.files.internal("mainMenu/background.jpeg")));
         tankstars = new Image(new Texture(Gdx.files.internal("mainMenu/tankstars.png")));
+        popUp = new Image(new Texture(Gdx.files.internal("mainMenu/popUpBackground.jpg")));
+        popUp.setPosition(287.5f, 200);
+        popUp.setSize(500, 225);
         atlas = new TextureAtlas("mainMenu/pack/button.atlas");
         atlas1 = new TextureAtlas("mainMenu/items/items.pack");
         skin = new Skin(atlas);
         skin1 = new Skin(atlas1);
         table = new Table(skin);
         table1 = new Table(skin1);
+        exitTable = new Table(skin);
+
+
         white = new BitmapFont(Gdx.files.internal("fonts/white.fnt"), false);
         black = new BitmapFont(Gdx.files.internal("fonts/black.fnt"), false);
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
@@ -45,6 +51,17 @@ public class MainScreen extends DefaultScreen{
         textButtonStyle.pressedOffsetX = 1;
         textButtonStyle.pressedOffsetY = -1;
         textButtonStyle.font = black;
+        yesButton = new TextButton("YES", textButtonStyle);
+        yesButton.setTransform(true);
+        yesButton.setScale(0.6f);
+        yesButton.pad(10);
+        noButton = new TextButton("NO", textButtonStyle);
+        noButton.setTransform(true);
+        noButton.setScale(0.6f);
+        noButton.pad(10);
+        exitTable.add(yesButton);
+        exitTable.add(noButton);
+        exitTable.setPosition(600, 300);
         stage.addActor(background);
         Gdx.input.setInputProcessor(stage);
         table.center().right();
@@ -102,7 +119,22 @@ public class MainScreen extends DefaultScreen{
         exitButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
+                stage.addActor(popUp);
+                stage.addActor(exitTable);
+//                black.draw(stage.getBatch(), "Are you sure you want to exit?", 400, 400);
+            }
+        });
+        yesButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
                 Gdx.app.exit();
+            }
+        });
+        noButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                exitTable.remove();
+                popUp.remove();
             }
         });
         table.add(tankstars);
@@ -124,11 +156,12 @@ public class MainScreen extends DefaultScreen{
     public void render(float delta){
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+        batch.begin();
 //        line that brings debug lines on table
         stage.setDebugAll(true);
         stage.act(delta);
         stage.draw();
+        batch.end();
     }
     public void dispose(){
         batch.dispose();
