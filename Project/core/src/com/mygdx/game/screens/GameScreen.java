@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.Array;
 import com.sun.java.swing.action.AlignCenterAction;
 import com.tankstars.game.Player;
 import com.tankstars.game.TankStars;
+import com.badlogic.gdx.physics.box2d.World;
 
 
 import com.badlogic.gdx.Screen;
@@ -24,7 +25,7 @@ import com.badlogic.gdx.Screen;
 import java.awt.image.ImageProducer;
 import java.util.ArrayList;
 
-public class GameScreen extends DefaultScreen {
+public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     public GameScreen(TankStars game, int player1){
         super(game);
         flag = true;
@@ -123,7 +124,7 @@ public class GameScreen extends DefaultScreen {
         healthbarP2 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
         badgeP1 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
         badgeP2 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
-        vslogo = new Image(new Texture(Gdx.files.internal("Game Screen/vslogo.png")));
+//        vslogo = new Image(new Texture(Gdx.files.internal("Game Screen/vslogo.png")));
 //        player1.tank.tankSprite.setPosition(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/4);
 //        player2.tank.tankSprite.setPosition(Gdx.graphics.getWidth()*4/5, Gdx.graphics.getHeight()/4);
         player1.tank.setPosition(Gdx.graphics.getWidth()/7, Gdx.graphics.getHeight()/4);
@@ -136,14 +137,14 @@ public class GameScreen extends DefaultScreen {
         healthbarP2.setPosition(670,600);
         badgeP2.setPosition(930,600);
         badgeP2.setSize(60,60);
-        vslogo.setPosition(546,590);
+//        vslogo.setPosition(546,590);
         stage.addActor(background);
         stage.addActor(dirtTerrain);
         stage.addActor(healthBarP1);
         stage.addActor(healthbarP2);
         stage.addActor(badgeP1);
         stage.addActor(badgeP2);
-        stage.addActor(vslogo);
+//        stage.addActor(vslogo);
         stage.addActor(forward1);
         stage.addActor(backward1);
         if (!flag){
