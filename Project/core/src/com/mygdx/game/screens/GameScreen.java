@@ -184,6 +184,9 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         healthbarP2 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
         badgeP1 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
         badgeP2 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
+
+
+
 //        vslogo = new Image(new Texture(Gdx.files.internal("Game Screen/vslogo.png")));
 //        player1.tank.tankSprite.setPosition(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/4);
 //        player2.tank.tankSprite.setPosition(Gdx.graphics.getWidth()*4/5, Gdx.graphics.getHeight()/4);
@@ -192,62 +195,64 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 //        player1.tank.setSize(100,60);
 //        player2.tank.setSize(100,60);
 ////        stage.addActor(vslogo);
-        Gdx.input.setInputProcessor(new InputController(){
-            @Override
-            public boolean keyDown(int keycode){
-                switch(keycode){
-                    case (Input.Keys.A):
-                        // code to move the tank behind
-                        System.out.println("MOVE BACKWARD");
-                        if (isPlayer1Turn){
-                            tank1Speed.x = -100000;
-                        }
-                        else{
-                            tank2Speed.x = -100000;
-                        }
-                        break;
-                    case (Input.Keys.D):
-                        System.out.println("MOVE FORWARD");
-                        if (isPlayer1Turn){
-                            tank1Speed.x = 100000;
-                        }
-                        else{
-                            tank2Speed.x = 100000;
-                        }
-                        break;
-                }
-                return true;
-            }
-            @Override
-            public boolean keyUp(int keycode) {
-                switch (keycode){
-                    case (Input.Keys.A):
-                        tank1Speed.x = 0;
-                        tank2Speed.x = 0;
-                        break;
-                    case (Input.Keys.D):
-                        tank1Speed.x = 0;
-                        tank2Speed.x = 0;
-                }
-                return true;
-            }
-            @Override
-            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                // if pointer is on the fire button then
-                if (fireButton.isPressed()){
-                    System.out.println("FIRE");
-                    isPlayer1Turn = !isPlayer1Turn;
-                }
-//                fireButton.addListener(new ClickListener(){
-//                    @Override
-//                    public void clicked(InputEvent event, float x, float y) {
-//                        System.out.println("HERE");
-//                        isPlayer1Turn = !isPlayer1Turn;
-//                    }
-//                });
-                return super.touchDown(screenX, screenY, pointer, button);
-            }
-        });
+
+
+//        Gdx.input.setInputProcessor(new InputController(){
+//            @Override
+//            public boolean keyDown(int keycode){
+//                switch(keycode){
+//                    case (Input.Keys.A):
+//                        // code to move the tank behind
+//                        System.out.println("MOVE BACKWARD");
+//                        if (isPlayer1Turn){
+//                            tank1Speed.x = -100000;
+//                        }
+//                        else{
+//                            tank2Speed.x = -100000;
+//                        }
+//                        break;
+//                    case (Input.Keys.D):
+//                        System.out.println("MOVE FORWARD");
+//                        if (isPlayer1Turn){
+//                            tank1Speed.x = 100000;
+//                        }
+//                        else{
+//                            tank2Speed.x = 100000;
+//                        }
+//                        break;
+//                }
+//                return true;
+//            }
+//            @Override
+//            public boolean keyUp(int keycode) {
+//                switch (keycode){
+//                    case (Input.Keys.A):
+//                        tank1Speed.x = 0;
+//                        tank2Speed.x = 0;
+//                        break;
+//                    case (Input.Keys.D):
+//                        tank1Speed.x = 0;
+//                        tank2Speed.x = 0;
+//                }
+//                return true;
+//            }
+//            @Override
+//            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+//                // if pointer is on the fire button then
+//                if (fireButton.isPressed()){
+//                    System.out.println("FIRE");
+//                    isPlayer1Turn = !isPlayer1Turn;
+//                }
+////                fireButton.addListener(new ClickListener(){
+////                    @Override
+////                    public void clicked(InputEvent event, float x, float y) {
+////                        System.out.println("HERE");
+////                        isPlayer1Turn = !isPlayer1Turn;
+////                    }
+////                });
+//                return super.touchDown(screenX, screenY, pointer, button);
+//            }
+//        });
         healthBarP1.setPosition(230,600);
         badgeP1.setSize(60,60);
         badgeP1.setPosition(190,600);
@@ -346,9 +351,37 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         stage.act(delta);
         stage.draw();
         tankBody.applyForceToCenter(tank1Speed,true);
+//        tankBody.applyForce();
         tankBody2.applyForceToCenter(tank2Speed,true);
 //        player1.tank.tankSprite.draw(batch);
 //        player2.tank.tankSprite.draw(batch);
+
+        if(Gdx.input.isKeyPressed(Input.Keys.A)){
+            if (isPlayer1Turn){
+                tank1Speed.x = -100000;
+            }
+            else{
+                tank2Speed.x = -100000;
+            }
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.D)){
+            if (isPlayer1Turn){
+                tank1Speed.x = 100000;
+            }
+            else{
+                tank2Speed.x = 100000;
+            }
+        }
+//        if(Gdx.input.isKeyPressed(Input.Keys.S)){
+//            if (isPlayer1Turn){
+//                tank1Speed.x = 0;
+//            }
+//            else{
+//                tank2Speed.x = 0;
+//            }
+//        }
+
+
 
         world.step(1/60f, 6, 2);
         debugRenderer.render(world, camera.combined);
