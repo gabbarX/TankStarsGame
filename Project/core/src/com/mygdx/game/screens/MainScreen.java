@@ -5,10 +5,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.tankstars.game.TankStars;
 
@@ -22,6 +24,8 @@ public class MainScreen extends com.tankstars.game.screens.DefaultScreen {
     private TextureAtlas atlas, atlas1;
     private Table table, table1, exitTable;
     private TextButton.TextButtonStyle textButtonStyle;
+    private Texture myTexture;
+    private ImageButton pauseButton;
     public MainScreen(TankStars game) {
         super(game);
     }
@@ -41,6 +45,9 @@ public class MainScreen extends com.tankstars.game.screens.DefaultScreen {
         table = new Table(skin);
         table1 = new Table(skin1);
         exitTable = new Table(skin);
+
+
+        //Image button
 
 
         white = new BitmapFont(Gdx.files.internal("fonts/white.fnt"), false);
@@ -151,6 +158,7 @@ public class MainScreen extends com.tankstars.game.screens.DefaultScreen {
         table.row();
 //        table.debug();
         stage.addActor(table);
+//        stage.addActor(pauseButton);
     }
     @Override
     public void render(float delta){
