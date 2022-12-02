@@ -338,6 +338,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     }
     @Override
     public void render(float delta) {
+//        batch.end();
         batch.begin();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -346,13 +347,13 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         stage.draw();
         tankBody.applyForceToCenter(tank1Speed,true);
         tankBody2.applyForceToCenter(tank2Speed,true);
-
 //        player1.tank.tankSprite.draw(batch);
 //        player2.tank.tankSprite.draw(batch);
 
         world.step(1/60f, 6, 2);
         debugRenderer.render(world, camera.combined);
 //        debugRenderer.render(world, camera.combined);
+        batch.end();
     }
 
     @Override
