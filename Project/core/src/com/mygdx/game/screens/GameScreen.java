@@ -38,6 +38,15 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     Player player1, player2;
     int isPlayer1, isPlayer2;
     private TextureAtlas tankAtlas;
+    private Texture myTexture;
+    private Table pauseTable;
+    private TextButton.TextButtonStyle textButtonStyle;
+    private TextButton resumeButton, mainMenuButton;
+
+//    private TextureRegion;
+//    private TextureRegionDrawable;
+    private ImageButton pauseButton;
+    Image popUp = new Image(new Texture(Gdx.files.internal("mainMenu/popUpBackground.jpg")));
     public GameScreen(TankStars game, int player1){
         super(game);
         world = new World(new Vector2(0,-9.8f), true);
@@ -254,12 +263,69 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 //                }
 //            }
 //        })
+
+
+        TextureAtlas atlas = new TextureAtlas("mainMenu/pack/button.atlas");
+        Skin skin = new Skin(atlas);
+        BitmapFont black = new BitmapFont(Gdx.files.internal("fonts/black.fnt"), false);
+        pauseTable = new Table(skin);
+//        pauseTable.add()
+        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        // making buttons for main menu screen
+        textButtonStyle.up = skin.getDrawable("button_up");
+        textButtonStyle.down = skin.getDrawable("button_down");
+        textButtonStyle.pressedOffsetX = 1;
+        textButtonStyle.pressedOffsetY = -1;
+        textButtonStyle.font = black;
+
+        resumeButton = new TextButton("Resume", textButtonStyle);
+        mainMenuButton = new TextButton("MainMenu", textButtonStyle);
+//        resumeButton.setSize(100,20);
+        resumeButton.setTransform(true);
+        resumeButton.setScale(0.8f);
+//        resumeButton.pad(10);
+
+        mainMenuButton.setTransform(true);
+        mainMenuButton.setScale(0.8f);
+//        mainMenuButton.pad(10);
+
+
+        resumeButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                popUp.remove();
+                pauseTable.remove();
+            }
+        });
+
+        pauseTable.add(resumeButton);
+        pauseTable.row();
+        pauseTable.add(mainMenuButton);
+//        pauseTable.setSize(100,100);
+        pauseTable.setPosition(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
+
+
+
+        myTexture = new Texture(Gdx.files.internal("Game Screen/pause.png"));
+        pauseButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(myTexture)));
+        pauseButton.setPosition(0,Gdx.graphics.getHeight()-60);
+        pauseButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                popUp.setPosition(Gdx.graphics.getWidth()-780,Gdx.graphics.getHeight()-480);
+                stage.addActor(popUp);
+                stage.addActor(pauseTable);
+//                black.draw(stage.getBatch(), "Are you sure you want to exit?", 400, 400);
+            }
+        });
+        stage.addActor(pauseButton);
+
     }
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.setDebugAll(true);
+//        stage.setDebugAll(true);
         stage.act(delta);
         stage.draw();
         batch = new SpriteBatch();
@@ -268,7 +334,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 //        player2.tank.tankSprite.draw(batch);
         batch.end();
         world.step(1/60f, 6, 2);
-        debugRenderer.render(world, camera.combined);
+//        debugRenderer.render(world, camera.combined);
     }
 
     @Override
