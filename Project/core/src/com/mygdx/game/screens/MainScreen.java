@@ -28,6 +28,7 @@ public class MainScreen extends com.tankstars.game.screens.DefaultScreen {
     @Override
     public void show(){
         stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
         background = new Image(new Texture(Gdx.files.internal("mainMenu/background.jpeg")));
         tankstars = new Image(new Texture(Gdx.files.internal("mainMenu/tankstars.png")));
         popUp = new Image(new Texture(Gdx.files.internal("mainMenu/popUpBackground.jpg")));
@@ -63,7 +64,6 @@ public class MainScreen extends com.tankstars.game.screens.DefaultScreen {
         exitTable.add(noButton);
         exitTable.setPosition(600, 300);
         stage.addActor(background);
-        Gdx.input.setInputProcessor(stage);
         table.center().right();
         // create sprites from atlas
         tankStarsLogo = new Image(skin1, "tankstars");

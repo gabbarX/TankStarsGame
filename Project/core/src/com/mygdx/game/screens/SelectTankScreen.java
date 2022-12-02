@@ -26,10 +26,9 @@ public class SelectTankScreen extends DefaultScreen{
     private String tankName;
     private ImageButton rightButton, leftButton, backButton;
     private TextButton playButton, TankAbramsButton, TankBuratinoButton, TankFrostButton, chooseTank;
-    private Label heading, heading1;
-    private Skin skin, skin1;
+    private Skin skin;
     private BitmapFont white,black;
-    private TextureAtlas atlas, atlas1;
+    private TextureAtlas atlas;
     public SelectTankScreen(TankStars game) {
         super(game);
     }
@@ -141,7 +140,7 @@ public class SelectTankScreen extends DefaultScreen{
                         tank = 1;
                         break;
                 }
-                game.setScreen(new GameScreen(game, tank));
+//                game.setScreen(new GameScreen(game, tank));
             }
         });
 

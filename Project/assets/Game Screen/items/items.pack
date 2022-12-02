@@ -1,0 +1,26 @@
+
+items.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+button_up
+  rotate: false
+  xy: 1, 1
+  size: 295, 117
+  orig: 295, 117
+  offset: 0, 0
+  index: -1
+button_down
+  rotate: false
+  xy: 298, 25
+  size: 196, 93
+  orig: 196, 93
+  offset: 0, 0
+  index: -1
+button
+  rotate: false
+  xy: 496, 68
+  size: 150, 50
+  orig: 150, 50
+  offset: 0, 0
+  index: -1
