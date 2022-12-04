@@ -25,10 +25,10 @@ public class TankFrost {
         this.isPlayer2 = isPlayer2;
         FrostBlast = new com.tankstars.game.Weapon(new Sprite(tankAtlas.findRegion("FrostBlast")), "Blast");
         FrostBite = new com.tankstars.game.Weapon(new Sprite(tankAtlas.findRegion("FrostBite")), "Bite");
-        FrostBlizzard = new com.tankstars.game.Weapon(new Sprite(tankAtlas.findRegion("FrostBlizzard")), "Blizzard");
-        FrostAssaultDrones = new com.tankstars.game.Weapon(new Sprite(tankAtlas.findRegion("FrostAssaultDrones")), "AssaultDrones");
-        FrostHighPressure = new com.tankstars.game.Weapon(new Sprite(tankAtlas.findRegion("FrostHighPressure")), "HighPressure");
-        FrostIceSplitter = new com.tankstars.game.Weapon(new Sprite(tankAtlas.findRegion("FrostIceSplitter")), "IceSplitter");
+        FrostBlizzard = new com.tankstars.game.Weapon(new Sprite(tankAtlas.findRegion("Blizzard")), "Blizzard");
+        FrostAssaultDrones = new com.tankstars.game.Weapon(new Sprite(tankAtlas.findRegion("AssaultDrones")), "AssaultDrones");
+        FrostHighPressure = new com.tankstars.game.Weapon(new Sprite(tankAtlas.findRegion("HighPressure")), "HighPressure");
+        FrostIceSplitter = new com.tankstars.game.Weapon(new Sprite(tankAtlas.findRegion("IceSplitter")), "IceSplitter");
     }
 
 }

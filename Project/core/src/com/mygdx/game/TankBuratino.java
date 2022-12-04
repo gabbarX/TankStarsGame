@@ -1,9 +1,7 @@
 package com.tankstars.game;
-
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-
 public class TankBuratino {
     private int hitPoints;
     private Skin tankSkin;
@@ -23,12 +21,12 @@ public class TankBuratino {
         tankSprite = new Sprite(tankAtlas.findRegion("TankBuratino"));
         this.isPlayer1 = isPlayer1;
         this.isPlayer2 = isPlayer2;
-        BuratinoHoming = new com.tankstars.game.Weapons(new Sprite(tankAtlas.findRegion("BuratinoHoming")), "Homing");
-        BuratinoMIRV = new com.tankstars.game.Weapons(new Sprite(tankAtlas.findRegion("BuratinoMIRV")), "MIRV");
-        BuratinoShredder = new com.tankstars.game.Weapons(new Sprite(tankAtlas.findRegion("BuratinoShredder")), "Shredder");
-        BuratinoAreaStrike = new com.tankstars.game.Weapons(new Sprite(tankAtlas.findRegion("BuratinoAreaStrike")), "AreaStrike");
-        BuratinnoRapidFire = new com.tankstars.game.Weapons(new Sprite(tankAtlas.findRegion("BuratinnoRapidFire")), "RapidFire");
-        BuratinoHounds = new com.tankstars.game.Weapons(new Sprite(tankAtlas.findRegion("BuratinoHounds")), "Hounds");
+        BuratinoHoming = new com.tankstars.game.Weapons(new Sprite(tankAtlas.findRegion("Homing")), "Homing");
+        BuratinoMIRV = new com.tankstars.game.Weapons(new Sprite(tankAtlas.findRegion("MIRV")), "MIRV");
+        BuratinoShredder = new com.tankstars.game.Weapons(new Sprite(tankAtlas.findRegion("Shredder")), "Shredder");
+        BuratinoAreaStrike = new com.tankstars.game.Weapons(new Sprite(tankAtlas.findRegion("AreaStrike")), "AreaStrike");
+        BuratinnoRapidFire = new com.tankstars.game.Weapons(new Sprite(tankAtlas.findRegion("RapidFire")), "RapidFire");
+        BuratinoHounds = new com.tankstars.game.Weapons(new Sprite(tankAtlas.findRegion("Hounds")), "Hounds");
     }
 
 }
