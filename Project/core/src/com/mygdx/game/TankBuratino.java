@@ -9,26 +9,26 @@ public class TankBuratino {
     private Skin tankSkin;
     private TextureAtlas tankAtlas;
     private Sprite tankSprite;
-    private Weapons BuratinoHoming;
-    private Weapons BuratinoMIRV;
-    private Weapons BuratinoShredder;
-    private Weapons BuratinoAreaStrike;
-    private Weapons BuratinnoRapidFire;
-    private Weapons BuratinoHounds;
+    private com.tankstars.game.Weapons BuratinoHoming;
+    private com.tankstars.game.Weapons BuratinoMIRV;
+    private com.tankstars.game.Weapons BuratinoShredder;
+    private com.tankstars.game.Weapons BuratinoAreaStrike;
+    private com.tankstars.game.Weapons BuratinnoRapidFire;
+    private com.tankstars.game.Weapons BuratinoHounds;
     private boolean isPlayer1;
     private boolean isPlayer2;
     public TankBuratino(boolean isPlayer1, boolean isPlayer2){
-        tankAtlas = new TextureAtlas("Tank/items.pack");
+        tankAtlas = new TextureAtlas("Tanks/items.pack");
         tankSkin = new Skin(tankAtlas);
         tankSprite = new Sprite(tankAtlas.findRegion("TankBuratino"));
         this.isPlayer1 = isPlayer1;
         this.isPlayer2 = isPlayer2;
-        BuratinoHoming = new Weapons(new Sprite(tankAtlas.findRegion("BuratinoHoming")), "Homing");
-        BuratinoMIRV = new Weapons(new Sprite(tankAtlas.findRegion("BuratinoMIRV")), "MIRV");
-        BuratinoShredder = new Weapons(new Sprite(tankAtlas.findRegion("BuratinoShredder")), "Shredder");
-        BuratinoAreaStrike = new Weapons(new Sprite(tankAtlas.findRegion("BuratinoAreaStrike")), "AreaStrike");
-        BuratinnoRapidFire = new Weapons(new Sprite(tankAtlas.findRegion("BuratinnoRapidFire")), "RapidFire");
-        BuratinoHounds = new Weapons(new Sprite(tankAtlas.findRegion("BuratinoHounds")), "Hounds");
+        BuratinoHoming = new com.tankstars.game.Weapons(new Sprite(tankAtlas.findRegion("BuratinoHoming")), "Homing");
+        BuratinoMIRV = new com.tankstars.game.Weapons(new Sprite(tankAtlas.findRegion("BuratinoMIRV")), "MIRV");
+        BuratinoShredder = new com.tankstars.game.Weapons(new Sprite(tankAtlas.findRegion("BuratinoShredder")), "Shredder");
+        BuratinoAreaStrike = new com.tankstars.game.Weapons(new Sprite(tankAtlas.findRegion("BuratinoAreaStrike")), "AreaStrike");
+        BuratinnoRapidFire = new com.tankstars.game.Weapons(new Sprite(tankAtlas.findRegion("BuratinnoRapidFire")), "RapidFire");
+        BuratinoHounds = new com.tankstars.game.Weapons(new Sprite(tankAtlas.findRegion("BuratinoHounds")), "Hounds");
     }
 
 }

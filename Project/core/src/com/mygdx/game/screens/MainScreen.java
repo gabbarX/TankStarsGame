@@ -45,11 +45,7 @@ public class MainScreen extends com.tankstars.game.screens.DefaultScreen {
         table = new Table(skin);
         table1 = new Table(skin1);
         exitTable = new Table(skin);
-
-
         //Image button
-
-
         white = new BitmapFont(Gdx.files.internal("fonts/white.fnt"), false);
         black = new BitmapFont(Gdx.files.internal("fonts/black.fnt"), false);
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();

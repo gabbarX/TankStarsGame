@@ -5,168 +5,203 @@ filter: Nearest,Nearest
 repeat: none
 TankAbrams
   rotate: false
-  xy: 0, 340
+  xy: 0, 337
   size: 281, 171
   orig: 281, 171
   offset: 0, 0
   index: -1
 TankAbramsReverse
   rotate: false
-  xy: 0, 168
+  xy: 0, 165
   size: 281, 171
   orig: 281, 171
   offset: 0, 0
   index: -1
 TankBuratino
   rotate: false
-  xy: 282, 341
+  xy: 282, 338
   size: 280, 170
   orig: 280, 170
   offset: 0, 0
   index: -1
 TankBuratinoReverse
   rotate: false
-  xy: 282, 170
+  xy: 282, 167
   size: 280, 170
   orig: 280, 170
   offset: 0, 0
   index: -1
 TankFrost
   rotate: false
-  xy: 563, 341
+  xy: 563, 338
   size: 280, 170
   orig: 280, 170
   offset: 0, 0
   index: -1
 TankFrostReverse
   rotate: false
-  xy: 563, 170
+  xy: 563, 167
   size: 280, 170
   orig: 280, 170
   offset: 0, 0
   index: -1
+button_up
+  rotate: false
+  xy: 0, 47
+  size: 295, 117
+  orig: 295, 117
+  offset: 0, 0
+  index: -1
+button_down
+  rotate: false
+  xy: 296, 73
+  size: 196, 93
+  orig: 196, 93
+  offset: 0, 0
+  index: -1
+button
+  rotate: false
+  xy: 844, 458
+  size: 150, 50
+  orig: 150, 50
+  offset: 0, 0
+  index: -1
 HighPressure
   rotate: false
-  xy: 0, 82
+  xy: 493, 81
   size: 82, 85
   orig: 82, 85
   offset: 0, 0
   index: -1
-Blizzard
-  rotate: false
-  xy: 0, 0
-  size: 82, 81
-  orig: 82, 81
-  offset: 0, 0
-  index: -1
 AssaultDrones
   rotate: false
-  xy: 844, 427
+  xy: 844, 373
   size: 82, 84
   orig: 82, 84
   offset: 0, 0
   index: -1
 FrostBite
   rotate: false
-  xy: 83, 83
+  xy: 576, 82
   size: 82, 84
   orig: 82, 84
   offset: 0, 0
   index: -1
 AbramsShotgun
   rotate: false
-  xy: 83, 0
+  xy: 659, 84
   size: 83, 82
   orig: 83, 82
   offset: 0, 0
   index: -1
 AbramsVolley
   rotate: false
-  xy: 844, 344
+  xy: 844, 290
   size: 82, 82
   orig: 82, 82
   offset: 0, 0
   index: -1
 AreaStrike
   rotate: false
-  xy: 166, 83
+  xy: 844, 205
   size: 79, 84
   orig: 79, 84
   offset: 0, 0
   index: -1
-Homing
+Blizzard
   rotate: false
-  xy: 167, 0
-  size: 80, 82
-  orig: 80, 82
-  offset: 0, 0
-  index: -1
-RapidFire
-  rotate: false
-  xy: 927, 430
+  xy: 743, 85
   size: 82, 81
   orig: 82, 81
   offset: 0, 0
   index: -1
+Homing
+  rotate: false
+  xy: 927, 375
+  size: 80, 82
+  orig: 80, 82
+  offset: 0, 0
+  index: -1
 FrostBlast
   rotate: false
-  xy: 844, 262
+  xy: 927, 293
   size: 81, 81
   orig: 81, 81
   offset: 0, 0
   index: -1
-AbramsSplitterChain
-  rotate: false
-  xy: 927, 349
-  size: 81, 80
-  orig: 81, 80
-  offset: 0, 0
-  index: -1
 AbramsAirStrike
   rotate: false
-  xy: 844, 181
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
-IceSplitter
-  rotate: false
-  xy: 246, 87
+  xy: 844, 124
   size: 80, 80
   orig: 80, 80
   offset: 0, 0
   index: -1
 Shredder
   rotate: false
-  xy: 327, 91
+  xy: 826, 45
   size: 83, 78
   orig: 83, 78
   offset: 0, 0
   index: -1
+RapidFire
+  rotate: false
+  xy: 743, 3
+  size: 82, 81
+  orig: 82, 81
+  offset: 0, 0
+  index: -1
 AbramsBigOne
   rotate: false
-  xy: 411, 91
+  xy: 910, 45
   size: 80, 78
   orig: 80, 78
   offset: 0, 0
   index: -1
-Hounds
+AbramsSplitterChain
   rotate: false
-  xy: 492, 92
-  size: 79, 77
-  orig: 79, 77
+  xy: 493, 0
+  size: 81, 80
+  orig: 81, 80
+  offset: 0, 0
+  index: -1
+chooseButton
+  rotate: false
+  xy: 296, 15
+  size: 61, 57
+  orig: 61, 57
+  offset: 0, 0
+  index: -1
+chooseButtonBackground
+  rotate: false
+  xy: 358, 15
+  size: 61, 57
+  orig: 61, 57
+  offset: 0, 0
+  index: -1
+IceSplitter
+  rotate: false
+  xy: 924, 209
+  size: 80, 80
+  orig: 80, 80
   offset: 0, 0
   index: -1
 MIRV
   rotate: false
-  xy: 572, 89
+  xy: 925, 128
   size: 78, 80
   orig: 78, 80
   offset: 0, 0
   index: -1
+Hounds
+  rotate: false
+  xy: 659, 6
+  size: 79, 77
+  orig: 79, 77
+  offset: 0, 0
+  index: -1
 AbramsVeritcalSlam
   rotate: false
-  xy: 651, 92
+  xy: 576, 4
   size: 77, 77
   orig: 77, 77
   offset: 0, 0
