@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.Bullet;
 import com.mygdx.game.InputController;
 import com.sun.java.swing.action.AlignCenterAction;
 import com.tankstars.game.Player;
@@ -37,6 +38,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     TextButton fireButton;
     Skin skin;
     Body tankBody, tankBody2;
+    Body bullet;
     private TextureAtlas tankAtlas;
     boolean isPlayer1Turn = true;
     Vector2 tank1Speed = new Vector2(0f, 0f);
@@ -44,11 +46,14 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     private Texture myTexture;
     private Table pauseTable;
     private TextButton resumeButton, mainMenuButton;
+    ArrayList<Bullet> bulletlist = new ArrayList<Bullet>();
 
 //    private TextureRegion;
 //    private TextureRegionDrawable;
     private ImageButton pauseButton;
     private ImageButton selectWeapon;
+//    private Image bullet;
+
 
     Image popUp = new Image(new Texture(Gdx.files.internal("mainMenu/popUpBackground.jpg")));
     public GameScreen(TankStars game, int player1, int player2) {
@@ -142,10 +147,11 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             tankShape.setAsBox(20, 20);
             Fixture tankFixture2 = tankBody2.createFixture(tankFixtureDef);
         }
-        // Bullet Definition
+
     }
     @Override
     public void show() {
+//        bullet = new Image(new Texture(Gdx.files.internal("Game Screen/tempBullet.png")));
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         atlas = new TextureAtlas("mainMenu/pack/button.atlas");
@@ -220,8 +226,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         fireButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("HERE");
-                isPlayer1Turn = !isPlayer1Turn;
+                System.out.println("Fire");
             }
         });
 //        stage.addActor(vslogo);
@@ -307,10 +312,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 //        stage.setDebugAll(true);
         stage.act(delta);
         stage.draw();
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
-            System.out.println("Shoot");
-        }
-
         if(Gdx.input.isKeyPressed(Input.Keys.A)){
             if (isPlayer1Turn){
                 tank1Speed.x = -100000;
@@ -327,14 +328,29 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
                 tank2Speed.x = 100000;
             }
         }
+
+        for(Bullet bill: bulletlist){
+            bill.draw(batch);
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+
+
+
+            bulletlist.add(new Bullet((int)tankBody.getPosition().x,(int)tankBody.getPosition().y,30));
+            System.out.println("HERE");
+            isPlayer1Turn = !isPlayer1Turn;
+        }
         tankBody.applyForceToCenter(tank1Speed,true);
 //        tankBody.applyForce();
         tankBody2.applyForceToCenter(tank2Speed,true);
 //        player1.tank.tankSprite.draw(batch);
 //        player2.tank.tankSprite.draw(batch);
         world.step(1/60f, 6, 2);
-//        debugRenderer.render(world, camera.combined);
+        debugRenderer.render(world, camera.combined);
         batch.end();
+        for(Bullet bill: bulletlist){
+            bill.update(Gdx.graphics.getDeltaTime());
+        }
     }
     @Override
     public void dispose() {
