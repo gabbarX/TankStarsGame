@@ -49,7 +49,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 //    private TextureRegionDrawable;
     private ImageButton pauseButton;
     private ImageButton selectWeapon;
-    private ImageButton
+
     Image popUp = new Image(new Texture(Gdx.files.internal("mainMenu/popUpBackground.jpg")));
     public GameScreen(TankStars game, int player1, int player2) {
         super(game);
@@ -307,6 +307,10 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 //        stage.setDebugAll(true);
         stage.act(delta);
         stage.draw();
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+            System.out.println("Shoot");
+        }
+
         if(Gdx.input.isKeyPressed(Input.Keys.A)){
             if (isPlayer1Turn){
                 tank1Speed.x = -100000;
