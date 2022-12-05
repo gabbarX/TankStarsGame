@@ -48,6 +48,8 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 //    private TextureRegion;
 //    private TextureRegionDrawable;
     private ImageButton pauseButton;
+    private ImageButton selectWeapon;
+    private ImageButton
     Image popUp = new Image(new Texture(Gdx.files.internal("mainMenu/popUpBackground.jpg")));
     public GameScreen(TankStars game, int player1, int player2) {
         super(game);
@@ -127,7 +129,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             // Tank Fixture Definition
             FixtureDef tankFixtureDef = new FixtureDef();
             tankFixtureDef.shape = tankShape;
-            tankFixtureDef.density = 10f;
+            tankFixtureDef.density = 12f;
             tankFixtureDef.friction = 0.7f;
             tankFixtureDef.restitution = 0.2f;
             Fixture tankFixture = tankBody.createFixture(tankFixtureDef);
@@ -257,7 +259,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         pauseTable.add(resumeButton);
         pauseTable.row();
         pauseTable.add(mainMenuButton);
-//        pauseTable.setSize(100,100);
         pauseTable.setPosition(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
         myTexture = new Texture(Gdx.files.internal("Game Screen/pause.png"));
         pauseButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(myTexture)));
@@ -271,6 +272,20 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 //                black.draw(stage.getBatch(), "Are you sure you want to exit?", 400, 400);
             }
         });
+
+        selectWeapon = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Tanks/chooseButton.png")))));
+        selectWeapon.setPosition(Gdx.graphics.getWidth()/2+60,Gdx.graphics.getHeight()/6);
+        selectWeapon.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                popUp.setPosition(Gdx.graphics.getWidth()-350,0);
+                popUp.setSize(700,Gdx.graphics.getHeight());
+                stage.addActor(popUp);
+            }
+        });
+
+
+        stage.addActor(selectWeapon);
         stage.addActor(pauseButton);
 //        switch(Player1.getTankType()){
 //            case 0:
@@ -314,7 +329,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 //        player1.tank.tankSprite.draw(batch);
 //        player2.tank.tankSprite.draw(batch);
         world.step(1/60f, 6, 2);
-        debugRenderer.render(world, camera.combined);
+//        debugRenderer.render(world, camera.combined);
         batch.end();
     }
     @Override
