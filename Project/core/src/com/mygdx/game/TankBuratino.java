@@ -1,6 +1,7 @@
 package com.tankstars.game;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 public class TankBuratino {
     private int hitPoints;
@@ -28,5 +29,7 @@ public class TankBuratino {
         BuratinnoRapidFire = new com.tankstars.game.Weapons(new Sprite(tankAtlas.findRegion("RapidFire")), "RapidFire");
         BuratinoHounds = new com.tankstars.game.Weapons(new Sprite(tankAtlas.findRegion("Hounds")), "Hounds");
     }
-
+    public Sprite getTankSprite() {
+        return tankSprite;
+    }
 }

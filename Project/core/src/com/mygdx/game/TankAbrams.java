@@ -1,6 +1,7 @@
 package com.tankstars.game;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class TankAbrams {
@@ -28,5 +29,9 @@ public class TankAbrams {
         AbramsShotgun = new com.tankstars.game.Weapons(new Sprite(tankAtlas.findRegion("AbramsShotgun")), "Shotgun");
         AbramsVolley = new com.tankstars.game.Weapons(new Sprite(tankAtlas.findRegion("AbramsVolley")), "Volley");
         AbramsMIRV = new com.tankstars.game.Weapons(new Sprite(tankAtlas.findRegion("MIRV")), "MIRV");
+    }
+
+    public Sprite getTankSprite() {
+        return tankSprite;
     }
 }

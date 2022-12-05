@@ -2,6 +2,7 @@ package com.tankstars.game;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class TankFrost {
@@ -30,5 +31,7 @@ public class TankFrost {
         FrostHighPressure = new com.tankstars.game.Weapon(new Sprite(tankAtlas.findRegion("HighPressure")), "HighPressure");
         FrostIceSplitter = new com.tankstars.game.Weapon(new Sprite(tankAtlas.findRegion("IceSplitter")), "IceSplitter");
     }
-
+    public Sprite getTankSprite(){
+        return tankSprite;
+    }
 }
