@@ -15,7 +15,7 @@ public class Bullet
         time = 2;
         speed = 50;
         hitbox = new Rectangle(x,y,10,10);
-        text = new Texture("Game Screen/tempBullet.png");
+        text = new Texture("Game Screen/bullet.png");
     }
 
 
