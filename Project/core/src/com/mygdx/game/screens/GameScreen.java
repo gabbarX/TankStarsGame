@@ -51,13 +51,13 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     private Table pauseTable, AbramsTable, BuratinoTable, FrostTable;
     private TextButton resumeButton, mainMenuButton;
     ArrayList<Bullet> bulletlist = new ArrayList<Bullet>();
-//    private TextureRegion;
+    //    private TextureRegion;
 //    private TextureRegionDrawable;
     private ImageButton pauseButton;
     private ImageButton selectWeapon;
     private com.tankstars.game.Tank player1Tank, player2Tank;
     String player1TankType, player2TankType;
-//    private Image bullet;
+    //    private Image bullet;
     Image popUp = new Image(new Texture(Gdx.files.internal("mainMenu/popUpBackground.jpg")));
     Image weaponPopUp = new Image(new Texture(Gdx.files.internal("mainMenu/popUpBackground.jpg")));
     public GameScreen(TankStars game, int player1, int player2) {
