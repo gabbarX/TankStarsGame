@@ -23,7 +23,6 @@ import com.tankstars.game.TankStars;
 import com.badlogic.gdx.Screen;
 import java.awt.image.ImageProducer;
 import java.util.ArrayList;
-
 public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     private World world;
     private Box2DDebugRenderer debugRenderer;
@@ -38,9 +37,10 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     TextButton fireButton;
     Skin skin;
     Body tankBody, tankBody2;
-    Body bullet;
+    Body bulletBody;
     private TextureAtlas tankAtlas;
     boolean isPlayer1Turn = true;
+    Vector2 bulletSpeed = new Vector2(100000, 20000);
     Vector2 tank1Speed = new Vector2(0f, 0f);
     Vector2 tank2Speed = new Vector2(0f, 0f);
     private Texture myTexture;
@@ -146,6 +146,24 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             PolygonShape tankShape2 = new PolygonShape();
             tankShape.setAsBox(20, 20);
             Fixture tankFixture2 = tankBody2.createFixture(tankFixtureDef);
+        }
+
+        //Bullet body
+        {
+            BodyDef bulletDef = new BodyDef();
+            bulletDef.type = BodyDef.BodyType.DynamicBody;
+            bulletDef.position.set(-400,-32);
+            bulletBody = world.createBody(bulletDef);
+            PolygonShape bulletshape = new PolygonShape();
+            bulletshape.setAsBox(10,10);
+
+            //Bullet Fixture Defination
+            FixtureDef bulletFixtureDef = new FixtureDef();
+            bulletFixtureDef.shape = bulletshape;
+            bulletFixtureDef.density = 7f;
+//            bulletFixtureDef.friction = 0;
+//            bulletFixtureDef.restitution = 0.2f;
+            Fixture bulletFixture = bulletBody.createFixture(bulletFixtureDef);
         }
 
     }
@@ -302,7 +320,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 //            case 2:
 //                stage.addActor(Player1.getTankBuratino().getTankSprite());
 //        }
-
     }
     @Override
     public void render(float delta) {
@@ -332,14 +349,14 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         for(Bullet bill: bulletlist){
             bill.draw(batch);
         }
+
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-
-
-
-            bulletlist.add(new Bullet((int)tankBody.getPosition().x,(int)tankBody.getPosition().y,30));
             System.out.println("HERE");
             isPlayer1Turn = !isPlayer1Turn;
+            bulletBody.applyLinearImpulse(bulletSpeed,bulletBody.getPosition(),true);
         }
+        bulletlist.add(new Bullet((int)tankBody.getPosition().x,(int)tankBody.getPosition().y,30));
+
         tankBody.applyForceToCenter(tank1Speed,true);
 //        tankBody.applyForce();
         tankBody2.applyForceToCenter(tank2Speed,true);
@@ -353,7 +370,8 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         }
     }
     @Override
-    public void dispose() {
+    public void dispose()
+    {
         super.dispose();
         stage.dispose();
     }
