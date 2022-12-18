@@ -6,74 +6,43 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import java.util.ArrayList;
 
-public class Tank extends TankStars{
-    public ArrayList<Weapon> weapons;
+public class Tank extends com.tankstars.game.TankStars {
     public Sprite tankSprite;
     public TextureAtlas tankAtlas;
     public Skin tankSkin;
+    public com.tankstars.game.Weapons CurrentWeapon;
+    public com.tankstars.game.Weapons AbramsSplitterChain, AbramsBigOne, AbramsAirStrike, AbramsShotgun, AbramsVolley, AbramsMIRV;
+    public com.tankstars.game.Weapons FrostBlast, FrostBite, FrostBlizzard, FrostAssaultDrones, FrostHighPressure, FrostIceSplitter;
+    public com.tankstars.game.Weapons BuratinoHoming, BuratinoMIRV,BuratinoShredder,BuratinoAreaStrike,BuratinoRapidFire, BuratinoHounds;
     public int hitPoints = 800;
-    public int positionX;
-    public int positionY;
-    public int sizeX;
-    public int sizeY;
-    // Abrams tank
-    public Tank(int a){
+    private boolean isPlayer1;
+    private boolean isPlayer2;
+    public Tank(){
         tankAtlas = new TextureAtlas("Tanks/items.pack");
         tankSkin = new Skin(tankAtlas);
-        tankSprite = new Sprite(tankAtlas.findRegion("TankAbrams"));
-        weapons = new ArrayList<Weapon>();
-        weapons.add(new Weapon(new Sprite(tankAtlas.findRegion("MIRV")), "VerticalSlam"));
-        weapons.add(new Weapon(new Sprite(tankAtlas.findRegion("AbramsSplitterChain")), "SplitterChain"));
-        weapons.add(new Weapon(new Sprite(tankAtlas.findRegion("AbramsBigOne")), "BigOne"));
-        weapons.add(new Weapon(new Sprite(tankAtlas.findRegion("AbramsAirStrike")), "AirStrike"));
-        weapons.add(new Weapon(new Sprite(tankAtlas.findRegion("AbramsShotgun")), "Shotgun"));
-        weapons.add(new Weapon(new Sprite(tankAtlas.findRegion("AbramsVolley")), "Volley"));
+        {
+            AbramsSplitterChain = new com.tankstars.game.Weapons("SplitterChain");
+            AbramsBigOne = new com.tankstars.game.Weapons("BigOne");
+            AbramsAirStrike = new com.tankstars.game.Weapons("AirStrike");
+            AbramsShotgun = new com.tankstars.game.Weapons("Shotgun");
+            AbramsVolley = new com.tankstars.game.Weapons("Volley");
+            AbramsMIRV = new com.tankstars.game.Weapons("MIRV");
+        }
+        {
+            BuratinoHoming = new com.tankstars.game.Weapons("Homing");
+            BuratinoMIRV = new com.tankstars.game.Weapons("MIRV");
+            BuratinoShredder = new com.tankstars.game.Weapons("Shredder");
+            BuratinoAreaStrike = new com.tankstars.game.Weapons("AreaStrike");
+            BuratinoRapidFire = new com.tankstars.game.Weapons("RapidFire");
+            BuratinoHounds = new com.tankstars.game.Weapons("Hounds");
+        }
+        {
+            FrostBlast = new com.tankstars.game.Weapons("Blast");
+            FrostBite = new com.tankstars.game.Weapons("Bite");
+            FrostBlizzard = new com.tankstars.game.Weapons("Blizzard");
+            FrostAssaultDrones = new com.tankstars.game.Weapons("AssaultDrones");
+            FrostHighPressure = new com.tankstars.game.Weapons("HighPressure");
+            FrostIceSplitter = new com.tankstars.game.Weapons("IceSplitter");
+        }
     }
-    // Frost tank
-    public Tank(int a, int b){
-        tankAtlas = new TextureAtlas("Tanks/items.pack");
-        tankSkin = new Skin(tankAtlas);
-        tankSprite = new Sprite(tankAtlas.findRegion("TankFrost"));
-        weapons = new ArrayList<Weapon>();
-        weapons.add(new Weapon(new Sprite(tankAtlas.findRegion("FrostBlast")), "FrostBlast"));
-        weapons.add(new Weapon(new Sprite(tankAtlas.findRegion("FrostBite")), "FrostBite"));
-        weapons.add(new Weapon(new Sprite(tankAtlas.findRegion("AssaultDrones")), "AssaultDrones"));
-        weapons.add(new Weapon(new Sprite(tankAtlas.findRegion("Blizzard")), "Blizzard"));
-        weapons.add(new Weapon(new Sprite(tankAtlas.findRegion("HighPressure")), "HighPressure"));
-        weapons.add(new Weapon(new Sprite(tankAtlas.findRegion("IceSplitter")), "IceSplitter"));
-    }
-    // Buratino tank
-    public Tank(int a, int b, int c){
-        tankAtlas = new TextureAtlas("Tanks/items.pack");
-        tankSkin = new Skin(tankAtlas);
-        tankSprite = new Sprite(tankAtlas.findRegion("TankBuratino"));
-        weapons = new ArrayList<Weapon>();
-        weapons.add(new Weapon(new Sprite(tankAtlas.findRegion("Homing")), "Homing"));
-        weapons.add(new Weapon(new Sprite(tankAtlas.findRegion("MIRV")), "MIRV"));
-        weapons.add(new Weapon(new Sprite(tankAtlas.findRegion("Shredder")), "Shredder"));
-        weapons.add(new Weapon(new Sprite(tankAtlas.findRegion("AreaStrike")), "AreaStrike"));
-        weapons.add(new Weapon(new Sprite(tankAtlas.findRegion("RapidFire")), "RapidFire"));
-        weapons.add(new Weapon(new Sprite(tankAtlas.findRegion("Hounds")), "Hounds"));
-    }
-    public void setPosition(int x, int y){
-        positionX = x;
-        positionY = y;
-        tankSprite.setPosition(x, y);
-    }
-    public void setSize(int x, int y){
-        sizeX = x;
-        sizeY = y;
-        tankSprite.setSize(x, y);
-    }
-    public int getPositionX(){
-        return positionX;
-    }
-    public int getPositionY(){
-        return positionY;
-    }
-    public void moveTank(){}
-    public void takeDamage(){}
-    public void attack(){}
-    public void showAvailableWepons(){}
-//    public void
 }

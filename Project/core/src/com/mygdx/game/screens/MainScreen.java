@@ -26,8 +26,10 @@ public class MainScreen extends com.tankstars.game.screens.DefaultScreen {
     private TextButton.TextButtonStyle textButtonStyle;
     private Texture myTexture;
     private ImageButton pauseButton;
+    public com.tankstars.game.Resources resources;
     public MainScreen(TankStars game) {
         super(game);
+        resources = new com.tankstars.game.Resources();
     }
     @Override
     public void show(){

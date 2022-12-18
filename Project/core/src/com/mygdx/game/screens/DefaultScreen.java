@@ -6,9 +6,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tankstars.game.TankStars;
 
 public class DefaultScreen implements Screen {
-    TankStars game;
+    public TankStars game;
     SpriteBatch batch;
-
     public DefaultScreen(TankStars game){
         this.game = game;
         batch = new SpriteBatch();

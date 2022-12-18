@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+import java.awt.*;
+
 public class Resources {
     protected SpriteBatch batch;
     protected Sprite sprite;
@@ -16,9 +18,9 @@ public class Resources {
     private Skin tankSkin;
     private TextureAtlas tankAtlas;
     public Sprite AbramsSprite, BuratinoSprite, FrostSprite;
-    public Sprite AbramsSplitterChain,AbramsBigOne,AbramsAirStrike,AbramsShotgun,AbramsVolley,AbramsMIRV;
-    public Sprite FrostBlast,FrostBite,FrostBlizzard,FrostAssaultDrones,FrostHighPressure,FrostIceSplitter;
-    public Sprite BuratinoHoming, BuratinoMIRV, BuratinoShredder, BuratinoAreaStrike, BuratinnoRapidFire, BuratinoHounds;
+    public com.badlogic.gdx.scenes.scene2d.ui.Image AbramsSplitterChain,AbramsBigOne,AbramsAirStrike,AbramsShotgun,AbramsVolley,AbramsMIRV;
+    public com.badlogic.gdx.scenes.scene2d.ui.Image FrostBlast,FrostBite,FrostBlizzard,FrostAssaultDrones,FrostHighPressure,FrostIceSplitter;
+    public com.badlogic.gdx.scenes.scene2d.ui.Image BuratinoHoming, BuratinoMIRV, BuratinoShredder, BuratinoAreaStrike, BuratinnoRapidFire, BuratinoHounds;
     public Resources(){
         batch = new SpriteBatch();
         mainScreenBackground = new Texture("mainMenu/loadingScreen.jpg");
@@ -30,24 +32,24 @@ public class Resources {
         AbramsSprite = new Sprite(tankAtlas.findRegion("TankAbrams"));
         BuratinoSprite = new Sprite(tankAtlas.findRegion("TankBuratino"));
         FrostSprite = new Sprite(tankAtlas.findRegion("TankFrost"));
-        AbramsSplitterChain = new Sprite(tankAtlas.findRegion("AbramsSplitterChain"));
-        AbramsBigOne = new Sprite(tankAtlas.findRegion("AbramsBigOne"));
-        AbramsAirStrike = new Sprite(tankAtlas.findRegion("AbramsAirStrike"));
-        AbramsShotgun = new Sprite(tankAtlas.findRegion("AbramsShotgun"));
-        AbramsVolley = new Sprite(tankAtlas.findRegion("AbramsVolley"));
-        AbramsMIRV = new Sprite(tankAtlas.findRegion("MIRV"));
-        BuratinoHoming = new Sprite(tankAtlas.findRegion("Homing"));
-        BuratinoMIRV = new Sprite(tankAtlas.findRegion("MIRV"));
-        BuratinoShredder = new Sprite(tankAtlas.findRegion("Shredder"));
-        BuratinoAreaStrike = new Sprite(tankAtlas.findRegion("AreaStrike"));
-        BuratinnoRapidFire = new Sprite(tankAtlas.findRegion("RapidFire"));
-        BuratinoHounds = new Sprite(tankAtlas.findRegion("Hounds"));
-        FrostBlast = new Sprite(tankAtlas.findRegion("FrostBlast"));
-        FrostBite = new Sprite(tankAtlas.findRegion("FrostBite"));
-        FrostBlizzard = new Sprite(tankAtlas.findRegion("Blizzard"));
-        FrostAssaultDrones = new Sprite(tankAtlas.findRegion("AssaultDrones"));
-        FrostHighPressure = new Sprite(tankAtlas.findRegion("HighPressure"));
-        FrostIceSplitter = new Sprite(tankAtlas.findRegion("IceSplitter"));
+        AbramsSplitterChain = new com.badlogic.gdx.scenes.scene2d.ui.Image(tankAtlas.findRegion("AbramsSplitterChain"));
+        AbramsBigOne = new com.badlogic.gdx.scenes.scene2d.ui.Image(tankAtlas.findRegion("AbramsBigOne"));
+        AbramsAirStrike = new com.badlogic.gdx.scenes.scene2d.ui.Image(tankAtlas.findRegion("AbramsAirStrike"));
+        AbramsShotgun = new com.badlogic.gdx.scenes.scene2d.ui.Image(tankAtlas.findRegion("AbramsShotgun"));
+        AbramsVolley = new com.badlogic.gdx.scenes.scene2d.ui.Image(tankAtlas.findRegion("AbramsVolley"));
+        AbramsMIRV = new com.badlogic.gdx.scenes.scene2d.ui.Image(tankAtlas.findRegion("MIRV"));
+        BuratinoHoming = new com.badlogic.gdx.scenes.scene2d.ui.Image(tankAtlas.findRegion("Homing"));
+        BuratinoMIRV = new com.badlogic.gdx.scenes.scene2d.ui.Image(tankAtlas.findRegion("MIRV"));
+        BuratinoShredder = new com.badlogic.gdx.scenes.scene2d.ui.Image(tankAtlas.findRegion("Shredder"));
+        BuratinoAreaStrike = new com.badlogic.gdx.scenes.scene2d.ui.Image(tankAtlas.findRegion("AreaStrike"));
+        BuratinnoRapidFire = new com.badlogic.gdx.scenes.scene2d.ui.Image(tankAtlas.findRegion("RapidFire"));
+        BuratinoHounds = new com.badlogic.gdx.scenes.scene2d.ui.Image(tankAtlas.findRegion("Hounds"));
+        FrostBlast = new com.badlogic.gdx.scenes.scene2d.ui.Image(tankAtlas.findRegion("FrostBlast"));
+        FrostBite = new com.badlogic.gdx.scenes.scene2d.ui.Image(tankAtlas.findRegion("FrostBite"));
+        FrostBlizzard = new com.badlogic.gdx.scenes.scene2d.ui.Image(tankAtlas.findRegion("Blizzard"));
+        FrostAssaultDrones = new com.badlogic.gdx.scenes.scene2d.ui.Image(tankAtlas.findRegion("AssaultDrones"));
+        FrostHighPressure = new com.badlogic.gdx.scenes.scene2d.ui.Image(tankAtlas.findRegion("HighPressure"));
+        FrostIceSplitter = new com.badlogic.gdx.scenes.scene2d.ui.Image(tankAtlas.findRegion("IceSplitter"));
     }
     public void dispose(){
         batch.dispose();
