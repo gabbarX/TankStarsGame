@@ -15,6 +15,7 @@ public class Tank extends com.tankstars.game.TankStars {
     public com.tankstars.game.Weapons FrostBlast, FrostBite, FrostBlizzard, FrostAssaultDrones, FrostHighPressure, FrostIceSplitter;
     public com.tankstars.game.Weapons BuratinoHoming, BuratinoMIRV,BuratinoShredder,BuratinoAreaStrike,BuratinoRapidFire, BuratinoHounds;
     public int hitPoints = 800;
+    public int fuelLeft = 1000;
     private boolean isPlayer1;
     private boolean isPlayer2;
     public Tank(){
@@ -43,6 +44,76 @@ public class Tank extends com.tankstars.game.TankStars {
             FrostAssaultDrones = new com.tankstars.game.Weapons("AssaultDrones");
             FrostHighPressure = new com.tankstars.game.Weapons("HighPressure");
             FrostIceSplitter = new com.tankstars.game.Weapons("IceSplitter");
+        }
+    }
+    public void setHitPoints(int hitPoints) {
+        this.hitPoints = hitPoints;
+    }
+    public void setFuelLeft(int fuelLeft) {
+        this.fuelLeft = fuelLeft;
+    }
+    public int getHitPoints() {
+        return hitPoints;
+    }
+    public String getCurrentWeapon(){
+        return CurrentWeapon.getName();
+    }
+    public int getFuelLeft() {
+        return fuelLeft;
+    }
+    public void setCurrentWeapon(String weaponName) {
+        switch(weaponName){
+            case "SplitterChain":
+                CurrentWeapon = AbramsSplitterChain;
+                break;
+            case "BigOne":
+                CurrentWeapon = AbramsBigOne;
+                break;
+            case "AirStrike":
+                CurrentWeapon = AbramsAirStrike;
+                break;
+            case "Shotgun":
+                CurrentWeapon = AbramsShotgun;
+                break;
+            case "Volley":
+                CurrentWeapon = AbramsVolley;
+                break;
+            case "MIRV":
+                CurrentWeapon = AbramsMIRV;
+                break;
+            case "Homing":
+                CurrentWeapon = BuratinoHoming;
+                break;
+            case "Shredder":
+                CurrentWeapon = BuratinoShredder;
+                break;
+            case "AreaStrike":
+                CurrentWeapon = BuratinoAreaStrike;
+                break;
+            case "RapidFire":
+                CurrentWeapon = BuratinoRapidFire;
+                break;
+            case "Hounds":
+                CurrentWeapon = BuratinoHounds;
+                break;
+            case "Blast":
+                CurrentWeapon = FrostBlast;
+                break;
+            case "Bite":
+                CurrentWeapon = FrostBite;
+                break;
+            case "Blizzard":
+                CurrentWeapon = FrostBlizzard;
+                break;
+            case "AssaultDrones":
+                CurrentWeapon = FrostAssaultDrones;
+                break;
+            case "HighPressure":
+                CurrentWeapon = FrostHighPressure;
+                break;
+            case "IceSplitter":
+                CurrentWeapon = FrostIceSplitter;
+                break;
         }
     }
 }

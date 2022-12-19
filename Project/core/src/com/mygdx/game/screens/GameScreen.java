@@ -3,27 +3,22 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.Bullet;
 import com.mygdx.game.InputController;
-import com.sun.java.swing.action.AlignCenterAction;
-import com.tankstars.game.Player;
 import com.tankstars.game.TankStars;
-import com.badlogic.gdx.Screen;
-import java.awt.image.ImageProducer;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Scanner;
 
 public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     private World world;
@@ -31,12 +26,11 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     private OrthographicCamera camera;
     private Stage stage;
     private Image background, healthBarP1, healthbarP2, badgeP1, badgeP2, vslogo;
-    Player Player1, Player2;
     int isPlayer1, isPlayer2;
     TextureAtlas atlas;
     BitmapFont white, black;
     TextButton.TextButtonStyle textButtonStyle;
-    TextButton fireButton, exitButton, exitButton1, exitButton2;
+    TextButton fireButton, exitButton, exitButton1, exitButton2, saveGameButton;
     TextButton AbramsSplitterChain, AbramsBigOne, AbramsAirStrike, AbramsShotgun, AbramsVolley, AbramsMIRV;
     TextButton BuratinoHoming,BuratinoMIRV,BuratinoShredder,BuratinoAreaStrike,BuratinoRapidFire, BuratinoHounds;
     TextButton FrostBlast, FrostBite, FrostBlizzard, FrostAssaultDrones, FrostHighPressure, FrostIceSplitter;
@@ -51,7 +45,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     private Texture myTexture;
     private Table pauseTable, AbramsTable, BuratinoTable, FrostTable;
     private TextButton resumeButton, mainMenuButton;
-    ArrayList<Bullet> bulletlist = new ArrayList<Bullet>();
     //    private TextureRegion;
 //    private TextureRegionDrawable;
     private ImageButton pauseButton;
@@ -61,6 +54,189 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     //    private Image bullet;
     Image popUp = new Image(new Texture(Gdx.files.internal("mainMenu/popUpBackground.jpg")));
     Image weaponPopUp = new Image(new Texture(Gdx.files.internal("mainMenu/popUpBackground.jpg")));
+    public void saveGame() throws IOException {
+        try {
+            File myObj = new File("savedGames\\filename.txt");
+            if (myObj.createNewFile()) {
+                System.out.println("File created: " + myObj.getName());
+            } else {
+                System.out.println("File already exists.");
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        try {
+            FileWriter myWriter = new FileWriter("savedGames\\filename.txt");
+            myWriter.write(player1TankType);
+            myWriter.write("\n");
+            myWriter.write(player2TankType);
+            myWriter.write("\n");
+            myWriter.write(String.valueOf(player1Tank.getHitPoints()));
+            myWriter.write("\n");
+            myWriter.write(String.valueOf(player2Tank.getHitPoints()));
+            myWriter.write("\n");
+            myWriter.write(String.valueOf(player1Tank.getFuelLeft()));
+            myWriter.write("\n");
+            myWriter.write(String.valueOf(player2Tank.getFuelLeft()));
+            myWriter.write("\n");
+            // write the position of the tank bodies to the file
+            myWriter.write(String.valueOf(tankBody.getPosition().x));
+            myWriter.write("\n");
+            myWriter.write(String.valueOf(tankBody.getPosition().y));
+            myWriter.write("\n");
+            myWriter.write(String.valueOf(tankBody2.getPosition().x));
+            myWriter.write("\n");
+            myWriter.write(String.valueOf(tankBody2.getPosition().y));
+            myWriter.write("\n");
+            // write the current weapon of each tank to the file
+            myWriter.write(player1Tank.getCurrentWeapon());
+            myWriter.write("\n");
+            myWriter.write(player2Tank.getCurrentWeapon());
+            myWriter.write("\n");
+
+
+            myWriter.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+
+    }
+    public GameScreen(TankStars game, String filename) throws FileNotFoundException {
+        super(game);
+        // reading the data from the file
+        String fileName = "savedGames\\" + filename + ".txt";
+        File file = new File(fileName);
+        Scanner scanner = new Scanner(file);
+        player1TankType = scanner.nextLine();
+        player2TankType = scanner.nextLine();
+        int player1HitPoints = Integer.parseInt(scanner.nextLine());
+        int player2HitPoints = Integer.parseInt(scanner.nextLine());
+        int player1Fuel = Integer.parseInt(scanner.nextLine());
+        int player2Fuel = Integer.parseInt(scanner.nextLine());
+        float player1X = Float.parseFloat(scanner.nextLine());
+        float player1Y = Float.parseFloat(scanner.nextLine());
+        float player2X = Float.parseFloat(scanner.nextLine());
+        float player2Y = Float.parseFloat(scanner.nextLine());
+        String player1CurrentWeapon = scanner.nextLine();
+        String player2CurrentWeapon = scanner.nextLine();
+        scanner.close();
+        // defining the tank types for player 1 and player 2
+        {
+                // tank definition for tank 1
+                {
+                    if (player1TankType.equals("Abrams")) {
+                        player1Tank = new com.tankstars.game.TankAbrams(true, false);
+                    } else if (player1TankType.equals("Frost")) {
+                        player1Tank = new com.tankstars.game.TankFrost(true, false);
+                    } else {
+                        player1Tank = new com.tankstars.game.TankBuratino(true, false);
+                    }
+                    player1Tank.setHitPoints(player1HitPoints);
+                    player1Tank.setFuelLeft(player1Fuel);
+                    player1Tank.setCurrentWeapon(player1CurrentWeapon);
+                }
+                // tank definition for tank 2
+                {
+                    if (player2TankType.equals("Abrams")) {
+                        player2Tank = new com.tankstars.game.TankAbrams(false, true);
+                    } else if (player2TankType.equals("Frost")) {
+                        player2Tank = new com.tankstars.game.TankFrost(false, true);
+                    } else {
+                        player2Tank = new com.tankstars.game.TankBuratino(false, true);
+                    }
+                    player2Tank.setHitPoints(player2HitPoints);
+                    player2Tank.setFuelLeft(player2Fuel);
+                    player2Tank.setCurrentWeapon(player2CurrentWeapon);
+                }
+            }
+        // setting up the box2d world, camera and debugrenderer
+        {
+            world = new World(new Vector2(0, -9.8f), true);
+            debugRenderer = new Box2DDebugRenderer();
+            camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        }
+        //  ground definition
+        {
+            BodyDef groundBodyDef = new BodyDef();
+            groundBodyDef.position.set(0, 0);
+            Body groundBody = world.createBody(groundBodyDef);
+            // ground shape
+            ChainShape groundShape = new ChainShape();
+            groundShape.createChain(new Vector2[]{
+                    new Vector2(-600, 337.5f),
+                    new Vector2(-600, 65),
+                    new Vector2(-565, 65),
+                    new Vector2(-515, 10),
+                    new Vector2(-460, -55),
+                    new Vector2(-325, -55),
+                    new Vector2(-270, 10),
+                    new Vector2(-245, 37),
+                    new Vector2(-180, 37),
+                    new Vector2(-155, 10),
+                    new Vector2(-92, -64),
+                    new Vector2(100, -64),
+                    new Vector2(190, 38),
+                    new Vector2(350, 38),
+                    new Vector2(420, -35),
+                    new Vector2(500, -35),
+                    new Vector2(560, -110),
+                    new Vector2(600, -110),
+                    new Vector2(600, 337.5f),
+            });
+            // ground fixture
+            FixtureDef groundFixtureDef = new FixtureDef();
+            groundFixtureDef.shape = groundShape;
+            groundFixtureDef.density = 100000f;
+            groundFixtureDef.friction = 0f;
+            groundFixtureDef.restitution = 0f;
+            Fixture groundFixture = groundBody.createFixture(groundFixtureDef);
+        }
+        // Tanks Definition
+        {
+            BodyDef tankDef = new BodyDef();
+            tankDef.type = BodyDef.BodyType.DynamicBody;
+            tankDef.position.set(player1X, player1Y);
+            tankBody = world.createBody(tankDef);
+            PolygonShape tankShape = new PolygonShape();
+            tankShape.setAsBox(20, 20);
+            // Tank Fixture Definition
+            FixtureDef tankFixtureDef = new FixtureDef();
+            tankFixtureDef.shape = tankShape;
+            tankFixtureDef.density = 12f;
+            tankFixtureDef.friction = 0.7f;
+            tankFixtureDef.restitution = 0.2f;
+            Fixture tankFixture = tankBody.createFixture(tankFixtureDef);
+            // Tank 2 Definition
+            BodyDef tankDef2 = new BodyDef();
+            tankDef2.type = BodyDef.BodyType.DynamicBody;
+            tankDef2.position.set(player2X, player2Y);
+            tankBody2 = world.createBody(tankDef2);
+            PolygonShape tankShape2 = new PolygonShape();
+            tankShape.setAsBox(20, 20);
+            Fixture tankFixture2 = tankBody2.createFixture(tankFixtureDef);
+        }
+        //Bullet body
+        {
+            BodyDef bulletDef = new BodyDef();
+            bulletDef.type = BodyDef.BodyType.DynamicBody;
+            bulletDef.position.set(-400,-32);
+            bulletBody = world.createBody(bulletDef);
+            PolygonShape bulletshape = new PolygonShape();
+            bulletshape.setAsBox(10,10);
+
+            //Bullet Fixture Defination
+            FixtureDef bulletFixtureDef = new FixtureDef();
+            bulletFixtureDef.shape = bulletshape;
+            bulletFixtureDef.density = 7f;
+//            bulletFixtureDef.friction = 0;
+//            bulletFixtureDef.restitution = 0.2f;
+            Fixture bulletFixture = bulletBody.createFixture(bulletFixtureDef);
+        }
+    }
+
     public GameScreen(TankStars game, int player1, int player2) {
         super(game);
         // defining the tank types for player 1 and player 2
@@ -97,29 +273,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             world = new World(new Vector2(0, -9.8f), true);
             debugRenderer = new Box2DDebugRenderer();
             camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        }
-        // making player1 and player2 instances of the Player class
-        {
-            switch (player1) {
-                case 0:
-                    Player1 = new Player("TankAbrams", true, 0);
-                    break;
-                case 1:
-                    Player1 = new Player("TankFrost", true, 1);
-                    break;
-                case 2:
-                    Player1 = new Player("TankBuratino", true, 2);
-            }
-            switch (player2) {
-                case 0:
-                    Player2 = new Player("TankAbrams", false, 0);
-                    break;
-                case 1:
-                    Player2 = new Player("TankFrost", false, 1);
-                    break;
-                case 2:
-                    Player2 = new Player("TankBuratino", false, 2);
-            }
         }
         //  ground definition
         {
@@ -181,7 +334,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             tankShape.setAsBox(20, 20);
             Fixture tankFixture2 = tankBody2.createFixture(tankFixtureDef);
         }
-
         //Bullet body
         {
             BodyDef bulletDef = new BodyDef();
@@ -210,6 +362,47 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         skin = new Skin(atlas);
         white = new BitmapFont(Gdx.files.internal("fonts/white.fnt"), false);
         black = new BitmapFont(Gdx.files.internal("fonts/black.fnt"), false);
+        tankAtlas = new TextureAtlas("Tanks/items.pack");
+        background = new Image(new Texture(Gdx.files.internal("Game Screen/gameScreenBackground.jpg")));
+        healthBarP1 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
+        healthbarP2 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
+        badgeP1 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
+        badgeP2 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
+        {
+//        InputController inputController1 = new InputController(){
+//            @Override
+//            public boolean keyDown(int keycode) {
+//                switch(keycode){
+//                    case Input.Keys.D:
+//                        if (isPlayer1Turn){
+//                            tank1Speed.x = 1000;
+//                        }
+//                        else{
+//                            tank2Speed.x = -1000;
+//                        }
+//                    case Input.Keys.A:
+//                        if (isPlayer1Turn){
+//                            tank1Speed.x = -1000;
+//                        }
+//                        else{
+//                            tank2Speed.x = 1000;
+//                        }
+//                }
+//            }
+//        };
+//        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+//        inputMultiplexer.addProcessor(inputController1);
+
+//        inputMultiplexer.addProcessor();
+//        vslogo = new Image(new Texture(Gdx.files.internal("Game Screen/vslogo.png")));
+//        player1.tank.tankSprite.setPosition(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/4);
+//        player2.tank.tankSprite.setPosition(Gdx.graphics.getWidth()*4/5, Gdx.graphics.getHeight()/4);
+//        player1.tank.setPosition(Gdx.graphics.getWidth()/7, Gdx.graphics.getHeight()/4);
+//        player2.tank.setPosition(Gdx.graphics.getWidth()*4/5, Gdx.graphics.getHeight()/4);
+//        player1.tank.setSize(100,60);
+//        player2.tank.setSize(100,60);
+////        stage.addActor(vslogo);
+        }
         // making buttons for main game screen
         {
             textButtonStyle = new TextButton.TextButtonStyle();
@@ -504,47 +697,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
                 }
             });
         }
-        tankAtlas = new TextureAtlas("Tanks/items.pack");
-        background = new Image(new Texture(Gdx.files.internal("Game Screen/gameScreenBackground.jpg")));
-        healthBarP1 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
-        healthbarP2 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
-        badgeP1 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
-        badgeP2 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
-        {
-//        InputController inputController1 = new InputController(){
-//            @Override
-//            public boolean keyDown(int keycode) {
-//                switch(keycode){
-//                    case Input.Keys.D:
-//                        if (isPlayer1Turn){
-//                            tank1Speed.x = 1000;
-//                        }
-//                        else{
-//                            tank2Speed.x = -1000;
-//                        }
-//                    case Input.Keys.A:
-//                        if (isPlayer1Turn){
-//                            tank1Speed.x = -1000;
-//                        }
-//                        else{
-//                            tank2Speed.x = 1000;
-//                        }
-//                }
-//            }
-//        };
-//        InputMultiplexer inputMultiplexer = new InputMultiplexer();
-//        inputMultiplexer.addProcessor(inputController1);
-
-//        inputMultiplexer.addProcessor();
-//        vslogo = new Image(new Texture(Gdx.files.internal("Game Screen/vslogo.png")));
-//        player1.tank.tankSprite.setPosition(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/4);
-//        player2.tank.tankSprite.setPosition(Gdx.graphics.getWidth()*4/5, Gdx.graphics.getHeight()/4);
-//        player1.tank.setPosition(Gdx.graphics.getWidth()/7, Gdx.graphics.getHeight()/4);
-//        player2.tank.setPosition(Gdx.graphics.getWidth()*4/5, Gdx.graphics.getHeight()/4);
-//        player1.tank.setSize(100,60);
-//        player2.tank.setSize(100,60);
-////        stage.addActor(vslogo);
-        }
         healthBarP1.setPosition(230, 600);
         badgeP1.setSize(60, 60);
         badgeP1.setPosition(190, 600);
@@ -587,6 +739,20 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             resumeButton.setScale(0.8f);
             mainMenuButton.setTransform(true);
             mainMenuButton.setScale(0.8f);
+            saveGameButton = new TextButton("Save Game", textButtonStyle);
+            saveGameButton.setTransform(true);
+            saveGameButton.setScale(0.8f);
+            saveGameButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    System.out.println("Save Game");
+                    try {
+                        saveGame();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
             resumeButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -597,7 +763,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         }
         pauseTable.add(resumeButton);
         pauseTable.row();
-        pauseTable.add(mainMenuButton);
+        pauseTable.add(saveGameButton);
         pauseTable.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         // Adding the buttons and images to table for Abrams
         {
@@ -780,8 +946,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
                 }
             }
         });
-
-
         stage.addActor(selectWeapon);
         stage.addActor(pauseButton);
 //        switch(Player1.getTankType()){
@@ -821,16 +985,12 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             }
         }
 
-        for(Bullet bill: bulletlist){
-            bill.draw(batch);
-        }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
             System.out.println("HERE");
             isPlayer1Turn = !isPlayer1Turn;
             bulletBody.applyLinearImpulse(bulletSpeed,bulletBody.getPosition(),true);
         }
-        bulletlist.add(new Bullet((int)tankBody.getPosition().x,(int)tankBody.getPosition().y,30));
 
         tankBody.applyForceToCenter(tank1Speed,true);
 //        tankBody.applyForce();
@@ -838,9 +998,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         world.step(1/60f, 6, 2);
         debugRenderer.render(world, camera.combined);
         batch.end();
-        for(Bullet bill: bulletlist){
-            bill.update(Gdx.graphics.getDeltaTime());
-        }
     }
     @Override
     public void dispose() {
