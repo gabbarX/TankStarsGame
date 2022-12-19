@@ -1,7 +1,7 @@
 package com.tankstars.game;
 
 public class Player extends com.tankstars.game.TankStars {
-    private int hitPoints = 800;
+    public static int health = 800;
     private com.tankstars.game.TankAbrams tankAbrams = null;
     private com.tankstars.game.TankBuratino tankBuratino = null;
     private com.tankstars.game.TankFrost tankFrost = null;

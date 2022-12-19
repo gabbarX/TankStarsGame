@@ -1,9 +1,6 @@
 package com.tankstars.game.screens;
 import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureData;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -203,6 +200,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     }
     @Override
     public void show() {
+
 //        bullet = new Image(new Texture(Gdx.files.internal("Game Screen/tempBullet.png")));
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
@@ -506,8 +504,8 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         }
         tankAtlas = new TextureAtlas("Tanks/items.pack");
         background = new Image(new Texture(Gdx.files.internal("Game Screen/gameScreenBackground.jpg")));
-        healthBarP1 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
-        healthbarP2 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
+//        healthBarP1 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
+//        healthbarP2 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
         badgeP1 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
         badgeP2 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
         {
@@ -545,16 +543,16 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 //        player2.tank.setSize(100,60);
 ////        stage.addActor(vslogo);
         }
-        healthBarP1.setPosition(230, 600);
-        badgeP1.setSize(60, 60);
-        badgeP1.setPosition(190, 600);
-        healthbarP2.setPosition(670, 600);
-        badgeP2.setPosition(930, 600);
-        badgeP2.setSize(60, 60);
+//        healthBarP1.setPosition(230, 600);
+//        badgeP1.setSize(60, 60);
+//        badgeP1.setPosition(190, 600);
+//        healthbarP2.setPosition(670, 600);
+//        badgeP2.setPosition(930, 600);
+//        badgeP2.setSize(60, 60);
 //        vslogo.setPosition(546,590);
         stage.addActor(background);
-        stage.addActor(healthBarP1);
-        stage.addActor(healthbarP2);
+//        stage.addActor(healthBarP1);
+//        stage.addActor(healthbarP2);
         stage.addActor(badgeP1);
         stage.addActor(badgeP2);
         stage.addActor(fireButton);
@@ -795,6 +793,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 //                stage.addActor(Player1.getTankBuratino().getTankSprite());
 //        }
 
+
     }
     @Override
     public void render(float delta) {
@@ -804,6 +803,26 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         stage.setDebugAll(true);
         stage.act(delta);
         stage.draw();
+
+
+        //Static HealthBar
+        {
+            Texture fullHealthBarTexture = new Texture("Game Screen/heathBarBlue.png");
+            TextureRegion fullHealthBarRegion = new TextureRegion(fullHealthBarTexture);
+            Texture emptyHealthBarTexture = new Texture("Game Screen/healthbar.png");
+            Sprite emptyHealthBarSprite = new Sprite(emptyHealthBarTexture);
+            float scale = Player.health / 800;
+            emptyHealthBarSprite.setPosition(230, 600);
+            emptyHealthBarSprite.setScale(scale, 1);
+            emptyHealthBarSprite.setColor(Color.BLUE);
+
+//            batch.begin();
+            batch.draw(fullHealthBarRegion, 230, 600);
+            emptyHealthBarSprite.draw(batch);
+//            batch.end();
+        }
+
+
         if(Gdx.input.isKeyPressed(Input.Keys.A)){
             if (isPlayer1Turn){
                 tank1Speed.x = -100000;
