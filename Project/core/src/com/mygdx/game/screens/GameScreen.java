@@ -44,7 +44,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     Vector2 tank2Speed = new Vector2(0f, 0f);
     private Texture myTexture;
     private Table pauseTable, AbramsTable, BuratinoTable, FrostTable;
-    private TextButton resumeButton, mainMenuButton;
+    private TextButton resumeButton, mainMenuButton, saveGameOptionButton, exitWindowButton, cancelButton, saveButton;
     //    private TextureRegion;
 //    private TextureRegionDrawable;
     private ImageButton pauseButton;
@@ -784,12 +784,25 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             resumeButton = new TextButton("Resume", textButtonStyle);
             mainMenuButton = new TextButton("MainMenu", textButtonStyle);
             resumeButton.setTransform(true);
-            resumeButton.setScale(0.8f);
+            resumeButton.setScale(0.6f);
             mainMenuButton.setTransform(true);
-            mainMenuButton.setScale(0.8f);
+            mainMenuButton.setScale(0.6f);
             saveGameButton = new TextButton("Save Game", textButtonStyle);
             saveGameButton.setTransform(true);
-            saveGameButton.setScale(0.8f);
+            saveGameButton.setScale(0.6f);
+            saveGameOptionButton = new TextButton("Save Game & Exit", textButtonStyle);
+            saveGameOptionButton.setTransform(true);
+            saveGameOptionButton.setScale(0.6f);
+            exitWindowButton = new TextButton("Exit", textButtonStyle);
+            exitWindowButton.setTransform(true);
+            exitWindowButton.setScale(0.6f);
+            saveButton = new TextButton("Save", textButtonStyle);
+            saveButton.setTransform(true);
+            saveButton.setScale(0.6f);
+            cancelButton = new TextButton("Cancel", textButtonStyle);
+            cancelButton.setTransform(true);
+            cancelButton.setScale(0.6f);
+
             saveGameButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {

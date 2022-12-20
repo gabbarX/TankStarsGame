@@ -15,10 +15,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.tankstars.game.TankStars;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+
 public class MainScreen extends com.tankstars.game.screens.DefaultScreen {
     private Stage stage;
+    String loadGameName;
     Image tankstars, background, tank, tankStarsLogo, popUp;
-    private TextButton exitButton, settingsButton, vsComputerButton, vsPlayerButton, loadGameButton, yesButton, noButton;
+    private TextButton exitButton, settingsButton, vsComputerButton, vsPlayerButton, loadGameButton, yesButton, noButton, loadButton, cancelButton;
     private Label heading, heading1;
     private Skin skin, skin1;
     private BitmapFont white,black;
@@ -28,6 +32,16 @@ public class MainScreen extends com.tankstars.game.screens.DefaultScreen {
     private Texture myTexture;
     private ImageButton pauseButton;
     public com.tankstars.game.Resources resources;
+    public void loadGame(String loadGameName) throws FileNotFoundException {
+        try {
+            FileReader fileReader = new FileReader("assets/savedGames/" + loadGameName);
+            if (fileReader != null) {
+                game.setScreen(new com.tankstars.game.screens.GameScreen(game, loadGameName));
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        }
+    }
     public MainScreen(TankStars game) {
         super(game);
         resources = new com.tankstars.game.Resources();
@@ -66,6 +80,14 @@ public class MainScreen extends com.tankstars.game.screens.DefaultScreen {
         noButton.setTransform(true);
         noButton.setScale(0.6f);
         noButton.pad(10);
+        loadButton = new TextButton("LOAD", textButtonStyle);
+        loadButton.setTransform(true);
+        loadButton.setScale(0.6f);
+        loadButton.pad(10);
+        cancelButton = new TextButton("CANCEL", textButtonStyle);
+        cancelButton.setTransform(true);
+        cancelButton.setScale(0.6f);
+        cancelButton.pad(10);
         exitTable.add(yesButton);
         exitTable.add(noButton);
         exitTable.setPosition(600, 300);
@@ -109,19 +131,38 @@ public class MainScreen extends com.tankstars.game.screens.DefaultScreen {
             }
         });
         loadGameTable = new Table();
-        Label loadGameLabel = new Label("Enter the name of game:", new Label.LabelStyle(white, null));
+        Label loadGameLabel = new Label("Enter the name of game:", new Label.LabelStyle(white, Color.WHITE));
         Skin defaultSkin = new Skin(Gdx.files.internal("data/uiskin.json"));
         TextField loadGameTextField = new TextField("", defaultSkin);
-        loadGameTable.add(loadGameLabel).pad(10);
+        // store the input in a variable
+        loadGameTextField.setTextFieldListener(new TextField.TextFieldListener() {
+            @Override
+            public void keyTyped(TextField textField, char c) {
+                loadGameName = textField.getText();
+            }
+        });
+
+        loadGameTable.add(loadGameLabel).center();
         loadGameTable.row();
-        loadGameTable.add(loadGameTextField).pad(10);
+        loadGameTable.add(loadGameTextField).center();
         loadGameTable.row();
-        loadGameTable.setPosition(400, 300);
+        loadGameTable.add(loadButton).center();
+        loadGameTable.add(cancelButton).center();
+        loadGameTable.row();
+        loadGameTable.setPosition(600,310);
         loadGameButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 stage.addActor(popUp);
                 stage.addActor(loadGameTable);
+            }
+        });
+        cancelButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // remove the loadGameTable and popup from screen
+                loadGameTable.remove();
+                popUp.remove();
             }
         });
         settingsButton.addListener(new ClickListener(){
@@ -149,6 +190,16 @@ public class MainScreen extends com.tankstars.game.screens.DefaultScreen {
             public void clicked(InputEvent event, float x, float y){
                 exitTable.remove();
                 popUp.remove();
+            }
+        });
+        loadButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                try {
+                    game.setScreen((Screen) new com.tankstars.game.screens.GameScreen(game, loadGameName));
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         table.add(tankstars);
