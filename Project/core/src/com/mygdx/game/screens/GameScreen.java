@@ -1045,24 +1045,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         }
 
 
-
-
-//        Static HealthBar
-        {
-//            Texture fullHealthBarTexture = new Texture("Game Screen/heathBarBlue.png");
-//            TextureRegion fullHealthBarRegion = new TextureRegion(fullHealthBarTexture);
-            Texture emptyHealthBarTexture = new Texture("Game Screen/healthbar.png");
-            Sprite emptyHealthBarSprite = new Sprite(emptyHealthBarTexture);
-//            float scale = Player.health / 800;
-            emptyHealthBarSprite.setPosition(230, 600);
-//            emptyHealthBarSprite.setScale(scale, 1);
-            emptyHealthBarSprite.setColor(Color.BLUE);
-//            batch.begin();
-//            batch.draw(fullHealthBarRegion, 230, 600);
-            emptyHealthBarSprite.draw(batch);
-//            batch.end();
-        }
-
         if(Gdx.input.isKeyPressed(Input.Keys.A)){
             if (isPlayer1Turn){
                 tank1Speed.x = -100000;
