@@ -20,7 +20,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
-
 public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     private World world;
     private Box2DDebugRenderer debugRenderer;
@@ -997,18 +996,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         });
         stage.addActor(selectWeapon);
         stage.addActor(pauseButton);
-//        switch(Player1.getTankType()){
-//            case 0:
-//                stage.addActor(Player1.getTankAbrams().getTankSprite3x());
-//                break;
-//            case 1:
-//                stage.addActor(Player1.getTankFrost().getTankSprite());
-//                break;
-//            case 2:
-//                stage.addActor(Player1.getTankBuratino().getTankSprite());
-//        }
-
-
     }
     @Override
     public void render(float delta) {

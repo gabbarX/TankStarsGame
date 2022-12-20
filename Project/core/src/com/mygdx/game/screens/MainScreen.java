@@ -1,6 +1,7 @@
 package com.tankstars.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -22,7 +23,7 @@ public class MainScreen extends com.tankstars.game.screens.DefaultScreen {
     private Skin skin, skin1;
     private BitmapFont white,black;
     private TextureAtlas atlas, atlas1;
-    private Table table, table1, exitTable;
+    private Table table, table1, exitTable, loadGameTable;
     private TextButton.TextButtonStyle textButtonStyle;
     private Texture myTexture;
     private ImageButton pauseButton;
@@ -98,21 +99,29 @@ public class MainScreen extends com.tankstars.game.screens.DefaultScreen {
         vsComputerButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new SelectTankScreen(game));
+                game.setScreen((Screen) new com.tankstars.game.screens.SelectTankScreen(game));
             }
         });
         vsPlayerButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new SelectTankScreen2(game));
+                game.setScreen((Screen) new com.tankstars.game.screens.SelectTankScreen2(game));
             }
         });
+        loadGameTable = new Table();
+        Label loadGameLabel = new Label("Enter the name of game:", new Label.LabelStyle(white, null));
+        Skin defaultSkin = new Skin(Gdx.files.internal("data/uiskin.json"));
+        TextField loadGameTextField = new TextField("", defaultSkin);
+        loadGameTable.add(loadGameLabel).pad(10);
+        loadGameTable.row();
+        loadGameTable.add(loadGameTextField).pad(10);
+        loadGameTable.row();
+        loadGameTable.setPosition(400, 300);
         loadGameButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //loadGameScreen
-//                System.out.println("Loading game...");
-                game.setScreen(new LoadGame(game));
+                stage.addActor(popUp);
+                stage.addActor(loadGameTable);
             }
         });
         settingsButton.addListener(new ClickListener(){
