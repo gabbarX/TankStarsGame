@@ -51,6 +51,8 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     private ImageButton selectWeapon;
     private com.tankstars.game.Tank player1Tank, player2Tank;
     String player1TankType, player2TankType;
+
+    ProgressBar healthPbar;
     //    private Image bullet;
     Image popUp = new Image(new Texture(Gdx.files.internal("mainMenu/popUpBackground.jpg")));
     Image weaponPopUp = new Image(new Texture(Gdx.files.internal("mainMenu/popUpBackground.jpg")));
@@ -746,11 +748,11 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 ////        stage.addActor(vslogo);
         }
 //        healthBarP1.setPosition(230, 600);
-//        badgeP1.setSize(60, 60);
-//        badgeP1.setPosition(190, 600);
+        badgeP1.setSize(60, 60);
+        badgeP1.setPosition(190, 600);
 //        healthbarP2.setPosition(670, 600);
-//        badgeP2.setPosition(930, 600);
-//        badgeP2.setSize(60, 60);
+        badgeP2.setPosition(930, 600);
+        badgeP2.setSize(60, 60);
 //        vslogo.setPosition(546,590);
         stage.addActor(background);
 //        stage.addActor(healthBarP1);
@@ -1018,7 +1020,15 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         stage.setDebugAll(true);
         stage.act(delta);
         stage.draw();
-        //Static HealthBar
+//        Skin healthBarSkin = new Skin(Gdx.files.internal("skins/comic-ui.json"));
+//        healthPbar = new ProgressBar(0,100,1,false,healthBarSkin);
+//        healthPbar.setValue(80);
+//        healthPbar.setPosition(240,600);
+//        stage.addActor(healthPbar);
+//
+
+
+//        Static HealthBar
         {
 //            Texture fullHealthBarTexture = new Texture("Game Screen/heathBarBlue.png");
 //            TextureRegion fullHealthBarRegion = new TextureRegion(fullHealthBarTexture);
@@ -1033,7 +1043,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             emptyHealthBarSprite.draw(batch);
 //            batch.end();
         }
-
 
         if(Gdx.input.isKeyPressed(Input.Keys.A)){
             if (isPlayer1Turn){
