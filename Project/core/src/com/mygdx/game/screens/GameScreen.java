@@ -1023,12 +1023,28 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         stage.setDebugAll(true);
         stage.act(delta);
         stage.draw();
-//        Skin healthBarSkin = new Skin(Gdx.files.internal("skins/comic-ui.json"));
-//        healthPbar = new ProgressBar(0,100,1,false,healthBarSkin);
-//        healthPbar.setValue(80);
-//        healthPbar.setPosition(240,600);
-//        stage.addActor(healthPbar);
-//
+
+        //HealthBar1
+        {
+            Skin healthBarSkin = new Skin(Gdx.files.internal("skins/comic/skin/comic-ui.json"));
+            healthPbar = new ProgressBar(0,100,1,false,healthBarSkin);
+            healthPbar.setValue(80);
+            healthPbar.setPosition(250,600);
+//        healthPbar.setScale(500,100);
+            stage.addActor(healthPbar);
+        }
+
+        //HealthBar2
+        {
+            Skin healthBarSkin = new Skin(Gdx.files.internal("skins/comic/skin/comic-ui.json"));
+            healthPbar = new ProgressBar(0,100,1,false,healthBarSkin);
+            healthPbar.setValue(20);
+            healthPbar.setPosition(790,600);
+//        healthPbar.setScale(500,100);
+            stage.addActor(healthPbar);
+        }
+
+
 
 
 //        Static HealthBar
