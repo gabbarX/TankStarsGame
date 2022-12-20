@@ -1069,25 +1069,25 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 
         if(Gdx.input.isKeyPressed(Input.Keys.A)){
             if (isPlayer1Turn){
-//                tankBody.applyForceToCenter(tankforceL,true);
-                tankBody.applyLinearImpulse(tankforceL,tankBody.getPosition(),true);
+                tankBody.applyForceToCenter(tankforceL,true);
+//                tankBody.applyLinearImpulse(tankforceL,tankBody.getPosition(),true);
             }
             else{
-                tankBody2.applyLinearImpulse(tankforceL,tankBody.getPosition(),true);
-//                tankBody2.applyForceToCenter(tankforceL,true);
+//                tankBody2.applyLinearImpulse(tankforceL,tankBody.getPosition(),true);
+                tankBody2.applyForceToCenter(tankforceL,true);
             }
         }
         if(Gdx.input.isKeyPressed(Input.Keys.D)){
             if (isPlayer1Turn){
-//                tankBody.applyForceToCenter(tankforceR,true);
-                tankBody.applyLinearImpulse(tankforceR,tankBody.getPosition(),true);
+                tankBody.applyForceToCenter(tankforceR,true);
+//                tankBody.applyLinearImpulse(tankforceR,tankBody.getPosition(),true);
             }
             else{
-//                tankBody2.applyForceToCenter(tankforceR,true);
-                tankBody2.applyLinearImpulse(tankforceR,tankBody.getPosition(),true);
+                tankBody2.applyForceToCenter(tankforceR,true);
+//                tankBody2.applyLinearImpulse(tankforceR,tankBody.getPosition(),true);
+//                tankBody.stop
             }
         }
-
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
             System.out.println("HERE");
