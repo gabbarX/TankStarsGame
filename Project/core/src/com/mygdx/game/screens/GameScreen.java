@@ -41,8 +41,8 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     boolean isPlayer1Turn = true;
     Vector2 bulletSpeed = new Vector2(1000000, 200000);
     Vector2 bulletSpeed2 = new Vector2(-1000000, 200000);
-    Vector2 tank1Speed = new Vector2(0f, 0f);
-    Vector2 tank2Speed = new Vector2(0f, 0f);
+    Vector2 tankforceR = new Vector2(1000000f, 0f);
+    Vector2 tankforceL = new Vector2(-1000000f, 0f);
     private Texture myTexture;
     private Table pauseTable, AbramsTable, BuratinoTable, FrostTable;
     private TextButton resumeButton, mainMenuButton, saveGameOptionButton, exitWindowButton, cancelButton, saveButton;
@@ -1069,18 +1069,22 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 
         if(Gdx.input.isKeyPressed(Input.Keys.A)){
             if (isPlayer1Turn){
-                tank1Speed.x = -100000;
+//                tankBody.applyForceToCenter(tankforceL,true);
+                tankBody.applyLinearImpulse(tankforceL,tankBody.getPosition(),true);
             }
             else{
-                tank2Speed.x = -100000;
+                tankBody2.applyLinearImpulse(tankforceL,tankBody.getPosition(),true);
+//                tankBody2.applyForceToCenter(tankforceL,true);
             }
         }
         if(Gdx.input.isKeyPressed(Input.Keys.D)){
             if (isPlayer1Turn){
-                tank1Speed.x = 100000;
+//                tankBody.applyForceToCenter(tankforceR,true);
+                tankBody.applyLinearImpulse(tankforceR,tankBody.getPosition(),true);
             }
             else{
-                tank2Speed.x = 100000;
+//                tankBody2.applyForceToCenter(tankforceR,true);
+                tankBody2.applyLinearImpulse(tankforceR,tankBody.getPosition(),true);
             }
         }
 
@@ -1097,9 +1101,9 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             }
         }
 
-        tankBody.applyForceToCenter(tank1Speed,true);
+//        tankBody.applyForceToCenter(tank1Speed,true);
 //        tankBody.applyForce();
-        tankBody2.applyForceToCenter(tank2Speed,true);
+//        tankBody2.applyForceToCenter(tank2Speed,true);
         world.step(1/60f, 6, 2);
         debugRenderer.render(world, camera.combined);
         batch.end();
