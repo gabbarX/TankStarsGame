@@ -707,7 +707,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         badgeP1.setSize(60, 60);
         badgeP1.setPosition(190, 600);
         healthbarP2.setPosition(670, 600);
-        badgeP2.setPosition(930, 600);
+        badgeP2.setPosition(1200, 600);
         badgeP2.setSize(60, 60);
         tankAtlas = new TextureAtlas("Tanks/items.pack");
         background = new Image(new Texture(Gdx.files.internal("Game Screen/gameScreenBackground.jpg")));
@@ -754,7 +754,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         badgeP1.setSize(60, 60);
         badgeP1.setPosition(190, 600);
 //        healthbarP2.setPosition(670, 600);
-        badgeP2.setPosition(930, 600);
+        badgeP2.setPosition(1000, 600);
         badgeP2.setSize(60, 60);
 //        vslogo.setPosition(546,590);
         stage.addActor(background);
@@ -1014,6 +1014,48 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         });
         stage.addActor(selectWeapon);
         stage.addActor(pauseButton);
+
+        //HealthBar1
+        {
+            Skin healthBarSkin = new Skin(Gdx.files.internal("skins/comic/skin/comic-ui.json"));
+            healthPbar = new ProgressBar(0,100,1,false,healthBarSkin);
+            healthPbar.setValue(80);
+            healthPbar.setPosition(250,600);
+            healthPbar.setWidth(300);
+            stage.addActor(healthPbar);
+        }
+
+        //HealthBar2
+        {
+            Skin healthBarSkin = new Skin(Gdx.files.internal("skins/comic/skin/comic-ui.json"));
+            healthPbar = new ProgressBar(0,100,1,false,healthBarSkin);
+            healthPbar.setValue(20);
+            healthPbar.setPosition(700,600);
+            healthPbar.setWidth(300);
+            stage.addActor(healthPbar);
+        }
+
+        //TankFuelBar1
+        {
+            Skin healthBarSkin = new Skin(Gdx.files.internal("skins/comic/skin/comic-ui.json"));
+            healthPbar = new ProgressBar(0,100,1,false,healthBarSkin);
+            healthPbar.setValue(20);
+            healthPbar.setPosition(50,40);
+            healthPbar.setColor(Color.GREEN);
+            stage.addActor(healthPbar);
+        }
+
+
+        //TankFuelBar2
+        {
+            Skin healthBarSkin = new Skin(Gdx.files.internal("skins/comic/skin/comic-ui.json"));
+            healthPbar = new ProgressBar(0,100,1,false,healthBarSkin);
+            healthPbar.setValue(20);
+            healthPbar.setPosition(1000,40);
+            healthPbar.setColor(Color.GREEN);
+            stage.addActor(healthPbar);
+        }
+
     }
     @Override
     public void render(float delta) {
@@ -1023,26 +1065,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         stage.setDebugAll(true);
         stage.act(delta);
         stage.draw();
-
-        //HealthBar1
-        {
-            Skin healthBarSkin = new Skin(Gdx.files.internal("skins/comic/skin/comic-ui.json"));
-            healthPbar = new ProgressBar(0,100,1,false,healthBarSkin);
-            healthPbar.setValue(80);
-            healthPbar.setPosition(250,600);
-//        healthPbar.setScale(500,100);
-            stage.addActor(healthPbar);
-        }
-
-        //HealthBar2
-        {
-            Skin healthBarSkin = new Skin(Gdx.files.internal("skins/comic/skin/comic-ui.json"));
-            healthPbar = new ProgressBar(0,100,1,false,healthBarSkin);
-            healthPbar.setValue(20);
-            healthPbar.setPosition(790,600);
-//        healthPbar.setScale(500,100);
-            stage.addActor(healthPbar);
-        }
 
 
         if(Gdx.input.isKeyPressed(Input.Keys.A)){
