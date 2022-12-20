@@ -36,10 +36,11 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     TextButton FrostBlast, FrostBite, FrostBlizzard, FrostAssaultDrones, FrostHighPressure, FrostIceSplitter;
     Skin skin;
     Body tankBody, tankBody2;
-    Body bulletBody;
+    Body bulletBody,bulletBody2;
     private TextureAtlas tankAtlas;
     boolean isPlayer1Turn = true;
-    Vector2 bulletSpeed = new Vector2(100000, 20000);
+    Vector2 bulletSpeed = new Vector2(1000000, 200000);
+    Vector2 bulletSpeed2 = new Vector2(-1000000, 200000);
     Vector2 tank1Speed = new Vector2(0f, 0f);
     Vector2 tank2Speed = new Vector2(0f, 0f);
     private Texture myTexture;
@@ -207,8 +208,8 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             // Tank Fixture Definition
             FixtureDef tankFixtureDef = new FixtureDef();
             tankFixtureDef.shape = tankShape;
-            tankFixtureDef.density = 12f;
-            tankFixtureDef.friction = 0.7f;
+            tankFixtureDef.density = 15f;
+            tankFixtureDef.friction = 0.6f;
             tankFixtureDef.restitution = 0.2f;
             Fixture tankFixture = tankBody.createFixture(tankFixtureDef);
             // Tank 2 Definition
@@ -219,23 +220,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             PolygonShape tankShape2 = new PolygonShape();
             tankShape.setAsBox(20, 20);
             Fixture tankFixture2 = tankBody2.createFixture(tankFixtureDef);
-        }
-        //Bullet body
-        {
-            BodyDef bulletDef = new BodyDef();
-            bulletDef.type = BodyDef.BodyType.DynamicBody;
-            bulletDef.position.set(-400,-32);
-            bulletBody = world.createBody(bulletDef);
-            PolygonShape bulletshape = new PolygonShape();
-            bulletshape.setAsBox(10,10);
-
-            //Bullet Fixture Defination
-            FixtureDef bulletFixtureDef = new FixtureDef();
-            bulletFixtureDef.shape = bulletshape;
-            bulletFixtureDef.density = 7f;
-//            bulletFixtureDef.friction = 0;
-//            bulletFixtureDef.restitution = 0.2f;
-            Fixture bulletFixture = bulletBody.createFixture(bulletFixtureDef);
         }
     }
 
@@ -336,23 +320,42 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             tankShape.setAsBox(20, 20);
             Fixture tankFixture2 = tankBody2.createFixture(tankFixtureDef);
         }
-        //Bullet body
+        //Bullet body 1
         {
             BodyDef bulletDef = new BodyDef();
             bulletDef.type = BodyDef.BodyType.DynamicBody;
-            bulletDef.position.set(-400,-32);
+            bulletDef.position.set(-400,-27);
             bulletBody = world.createBody(bulletDef);
             PolygonShape bulletshape = new PolygonShape();
-            bulletshape.setAsBox(10,10);
+            bulletshape.setAsBox(5,5);
 
             //Bullet Fixture Defination
             FixtureDef bulletFixtureDef = new FixtureDef();
             bulletFixtureDef.shape = bulletshape;
             bulletFixtureDef.density = 7f;
-//            bulletFixtureDef.friction = 0;
+            bulletFixtureDef.friction = 1;
 //            bulletFixtureDef.restitution = 0.2f;
             Fixture bulletFixture = bulletBody.createFixture(bulletFixtureDef);
         }
+
+        //Bullet body 2
+        {
+            BodyDef bulletDef = new BodyDef();
+            bulletDef.type = BodyDef.BodyType.DynamicBody;
+            bulletDef.position.set(300,60);
+            bulletBody2 = world.createBody(bulletDef);
+            PolygonShape bulletshape = new PolygonShape();
+            bulletshape.setAsBox(5,5);
+
+            //Bullet Fixture Defination
+            FixtureDef bulletFixtureDef = new FixtureDef();
+            bulletFixtureDef.shape = bulletshape;
+            bulletFixtureDef.density = 7f;
+            bulletFixtureDef.friction = 1;
+//            bulletFixtureDef.restitution = 0.2f;
+            Fixture bulletFixture = bulletBody2.createFixture(bulletFixtureDef);
+        }
+
 
     }
     @Override
@@ -1065,7 +1068,13 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
             System.out.println("HERE");
             isPlayer1Turn = !isPlayer1Turn;
-            bulletBody.applyLinearImpulse(bulletSpeed,bulletBody.getPosition(),true);
+            if(isPlayer1Turn){
+                bulletBody.applyLinearImpulse(bulletSpeed,bulletBody.getPosition(),true);
+            }
+            else{
+                bulletBody2.applyLinearImpulse(bulletSpeed2,bulletBody2.getPosition(),true);
+
+            }
         }
 
         tankBody.applyForceToCenter(tank1Speed,true);
