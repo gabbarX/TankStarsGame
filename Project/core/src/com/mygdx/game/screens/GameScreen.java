@@ -1068,7 +1068,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
             System.out.println("HERE");
             isPlayer1Turn = !isPlayer1Turn;
-            if(isPlayer1Turn){
+            if(!isPlayer1Turn){
                 bulletBody.applyLinearImpulse(bulletSpeed,bulletBody.getPosition(),true);
             }
             else{
