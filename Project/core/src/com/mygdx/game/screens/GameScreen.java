@@ -95,8 +95,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             myWriter.write("\n");
             myWriter.write(player2Tank.getCurrentWeapon());
             myWriter.write("\n");
-
-
+            myWriter.write(String.valueOf(isPlayer1Turn));
             myWriter.close();
             System.out.println("Successfully wrote to the file.");
         } catch (IOException e) {
@@ -123,6 +122,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         float player2Y = Float.parseFloat(scanner.nextLine());
         String player1CurrentWeapon = scanner.nextLine();
         String player2CurrentWeapon = scanner.nextLine();
+        isPlayer1Turn = Boolean.parseBoolean(scanner.nextLine());
         scanner.close();
         // defining the tank types for player 1 and player 2
         {
@@ -1018,21 +1018,18 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         stage.setDebugAll(true);
         stage.act(delta);
         stage.draw();
-
-
         //Static HealthBar
         {
-            Texture fullHealthBarTexture = new Texture("Game Screen/heathBarBlue.png");
-            TextureRegion fullHealthBarRegion = new TextureRegion(fullHealthBarTexture);
+//            Texture fullHealthBarTexture = new Texture("Game Screen/heathBarBlue.png");
+//            TextureRegion fullHealthBarRegion = new TextureRegion(fullHealthBarTexture);
             Texture emptyHealthBarTexture = new Texture("Game Screen/healthbar.png");
             Sprite emptyHealthBarSprite = new Sprite(emptyHealthBarTexture);
-            float scale = Player.health / 800;
+//            float scale = Player.health / 800;
             emptyHealthBarSprite.setPosition(230, 600);
-            emptyHealthBarSprite.setScale(scale, 1);
+//            emptyHealthBarSprite.setScale(scale, 1);
             emptyHealthBarSprite.setColor(Color.BLUE);
-
 //            batch.begin();
-            batch.draw(fullHealthBarRegion, 230, 600);
+//            batch.draw(fullHealthBarRegion, 230, 600);
             emptyHealthBarSprite.draw(batch);
 //            batch.end();
         }
