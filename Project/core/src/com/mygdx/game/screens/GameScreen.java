@@ -43,8 +43,9 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     boolean isPlayer1Turn = true;
     int theta1 = 45;
     int theta2 = 45;
-    int power = 14000;
-    int maxpower = 100000;
+
+    int maxpower = 1000000;
+    int power = 100000;
     Vector2 bulletSpeed = new Vector2(power* cos((float) Math.toRadians(theta1)), power* sin((float)Math.toRadians(theta1)));
     Vector2 bulletSpeed2 = new Vector2(-1*power* cos((float) Math.toRadians(theta2)), power* sin((float)Math.toRadians(theta2)));
     Vector2 tankforceR = new Vector2(1000000f, 0f);
@@ -1145,13 +1146,15 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 
         if(Gdx.input.isKeyPressed(Input.Keys.W))
         {
-            power+=1000;
-            powerBar.setValue(power);
+            power+=10000;
+            powerBar.setValue((power/maxpower)*10);
+            System.out.println("Power: "+ power);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.S))
         {
-            power-=1000;
-            powerBar.setValue(power);
+            power-=10000;
+            powerBar.setValue((power/maxpower)*10);
+            System.out.println("Power: "+ power);
         }
 
 
