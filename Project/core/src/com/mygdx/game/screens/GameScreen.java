@@ -17,12 +17,16 @@ import com.tankstars.game.TankStars;
 import java.io.*;
 import java.util.Objects;
 import java.util.Scanner;
+
+import static com.badlogic.gdx.math.MathUtils.cos;
+import static com.badlogic.gdx.math.MathUtils.sin;
+
 public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     private World world;
     private Box2DDebugRenderer debugRenderer;
     private OrthographicCamera camera;
     private Stage stage;
-    private Image background, vslogo, badgeP1, badgeP2;
+    private Image background, vslogo, badgeP1, badgeP2, arrow1, arrow2;
     int isPlayer1, isPlayer2;
     TextureAtlas atlas;
     BitmapFont white, black;
@@ -36,8 +40,10 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     Body bulletBody,bulletBody2;
     private TextureAtlas tankAtlas;
     boolean isPlayer1Turn = true;
-    Vector2 bulletSpeed = new Vector2(1000000, 200000);
-    Vector2 bulletSpeed2 = new Vector2(-1000000, 200000);
+    int theta1 = 45;
+    int theta2 = 45;
+    Vector2 bulletSpeed = new Vector2(1000000* cos((float) Math.toRadians(theta1)), 200000* sin((float)Math.toRadians(theta1)));
+    Vector2 bulletSpeed2 = new Vector2(-1000000* cos((float) Math.toRadians(theta2)), 200000* sin((float)Math.toRadians(theta2)));
     Vector2 tankforceR = new Vector2(1000000f, 0f);
     Vector2 tankforceL = new Vector2(-1000000f, 0f);
     private Texture myTexture;
@@ -371,6 +377,8 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 //        healthbarP2 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
         badgeP1 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
         badgeP2 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
+//        arrow1 =
+
         {
 //        InputController inputController1 = new InputController(){
 //            @Override
