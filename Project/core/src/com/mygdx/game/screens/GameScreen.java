@@ -43,8 +43,10 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     boolean isPlayer1Turn = true;
     int theta1 = 45;
     int theta2 = 45;
-    Vector2 bulletSpeed = new Vector2(14000* cos((float) Math.toRadians(theta1)), 14000* sin((float)Math.toRadians(theta1)));
-    Vector2 bulletSpeed2 = new Vector2(-14000* cos((float) Math.toRadians(theta2)), 14000* sin((float)Math.toRadians(theta2)));
+    int power = 14000;
+    int maxpower = 100000;
+    Vector2 bulletSpeed = new Vector2(power* cos((float) Math.toRadians(theta1)), power* sin((float)Math.toRadians(theta1)));
+    Vector2 bulletSpeed2 = new Vector2(-1*power* cos((float) Math.toRadians(theta2)), power* sin((float)Math.toRadians(theta2)));
     Vector2 tankforceR = new Vector2(1000000f, 0f);
     Vector2 tankforceL = new Vector2(-1000000f, 0f);
     private Texture myTexture;
@@ -57,7 +59,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     private com.tankstars.game.Tank player1Tank, player2Tank;
     String player1TankType, player2TankType;
 
-    ProgressBar healthBarP1,healthBarP2,fuelBarP1,fuelBarP2;
+    ProgressBar healthBarP1,healthBarP2,fuelBarP1,fuelBarP2,powerBar;
     //    private Image bullet;
     Image popUp = new Image(new Texture(Gdx.files.internal("mainMenu/popUpBackground.jpg")));
     Image weaponPopUp = new Image(new Texture(Gdx.files.internal("mainMenu/popUpBackground.jpg")));
@@ -1046,7 +1048,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             Skin healthBarSkin = new Skin(Gdx.files.internal("skins/comic/skin/comic-ui.json"));
             fuelBarP1 = new ProgressBar(0,100,1,false,healthBarSkin);
             fuelBarP1.setValue(player1Tank.getFuelLeft());
-            fuelBarP1.setPosition(50,40);
+            fuelBarP1.setPosition(50,180);
 //            fuelBarP1.setColor(Color.BLUE);
             stage.addActor(fuelBarP1);
         }
@@ -1056,10 +1058,25 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             Skin healthBarSkin = new Skin(Gdx.files.internal("skins/comic/skin/comic-ui.json"));
             fuelBarP2 = new ProgressBar(0,100,1,false,healthBarSkin);
             fuelBarP2.setValue(player2Tank.getFuelLeft());
-            fuelBarP2.setPosition(1000,40);
+            fuelBarP2.setPosition(1000,180);
 //            fuelBarP2.setColor(Color.GREEN);
             stage.addActor(fuelBarP2);
         }
+
+        //Power Bar
+        {
+            Skin healthBarSkin = new Skin(Gdx.files.internal("skins/comic/skin/comic-ui.json"));
+            powerBar = new ProgressBar(0,100,1,false,healthBarSkin);
+            powerBar.setValue((power/maxpower)*100);
+//            powerBar.setValue(50);
+            powerBar.setPosition(400,40);
+            powerBar.setWidth(400);
+//            powerBar.
+//            fuelBarP1.setColor(Color.BLUE);
+            stage.addActor(powerBar);
+        }
+
+
         arrow1 = new Image(new Texture(Gdx.files.internal("Game Screen/gradient aim.png")));
         arrow2 = new Image(new Texture(Gdx.files.internal("Game Screen/gradient aim.png")));
         arrow1.setPosition(200,330);
@@ -1091,6 +1108,8 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         stage.setDebugAll(true);
         stage.act(delta);
         stage.draw();
+
+//        black.draw(batch, "HEY", 100,100);
         update();
         if(Gdx.input.isKeyPressed(Input.Keys.A)){
             if (isPlayer1Turn){
@@ -1122,6 +1141,18 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
                 player2Tank.setFuelLeft(player2Tank.getHealth()-20);
             }
         }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.W))
+        {
+            power+=1000;
+            powerBar.setValue(power);
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.S))
+        {
+            power-=1000;
+            powerBar.setValue(power);
+        }
+
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
             System.out.println("HERE");
