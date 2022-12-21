@@ -2,9 +2,7 @@ package com.tankstars.game;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import java.util.ArrayList;
 
 public class Tank extends com.tankstars.game.TankStars {
     public Sprite tankSprite;
@@ -14,8 +12,8 @@ public class Tank extends com.tankstars.game.TankStars {
     public com.tankstars.game.Weapons AbramsSplitterChain, AbramsBigOne, AbramsAirStrike, AbramsShotgun, AbramsVolley, AbramsMIRV;
     public com.tankstars.game.Weapons FrostBlast, FrostBite, FrostBlizzard, FrostAssaultDrones, FrostHighPressure, FrostIceSplitter;
     public com.tankstars.game.Weapons BuratinoHoming, BuratinoMIRV,BuratinoShredder,BuratinoAreaStrike,BuratinoRapidFire, BuratinoHounds;
-    public int hitPoints = 800;
-    public int fuelLeft = 1000;
+    public int health = 100;
+    public int fuelLeft = 100;
     private boolean isPlayer1;
     private boolean isPlayer2;
     public Tank(){
@@ -46,14 +44,14 @@ public class Tank extends com.tankstars.game.TankStars {
             FrostIceSplitter = new com.tankstars.game.Weapons("IceSplitter");
         }
     }
-    public void setHitPoints(int hitPoints) {
-        this.hitPoints = hitPoints;
+    public void setHealth(int health) {
+        this.health = health;
     }
     public void setFuelLeft(int fuelLeft) {
         this.fuelLeft = fuelLeft;
     }
-    public int getHitPoints() {
-        return hitPoints;
+    public int getHealth() {
+        return health;
     }
     public String getCurrentWeapon(){
         return CurrentWeapon.getName();

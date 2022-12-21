@@ -12,12 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.mygdx.game.Bullet;
-import com.mygdx.game.InputController;
 import com.tankstars.game.TankStars;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
@@ -25,7 +22,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     private Box2DDebugRenderer debugRenderer;
     private OrthographicCamera camera;
     private Stage stage;
-    private Image background, healthBarP1, healthbarP2, badgeP1, badgeP2, vslogo;
+    private Image background, vslogo, badgeP1, badgeP2;
     int isPlayer1, isPlayer2;
     TextureAtlas atlas;
     BitmapFont white, black;
@@ -53,7 +50,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     private com.tankstars.game.Tank player1Tank, player2Tank;
     String player1TankType, player2TankType;
 
-    ProgressBar healthPbar;
+    ProgressBar healthBarP1,healthBarP2,fuelBarP1,fuelBarP2;
     //    private Image bullet;
     Image popUp = new Image(new Texture(Gdx.files.internal("mainMenu/popUpBackground.jpg")));
     Image weaponPopUp = new Image(new Texture(Gdx.files.internal("mainMenu/popUpBackground.jpg")));
@@ -75,9 +72,9 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             myWriter.write("\n");
             myWriter.write(player2TankType);
             myWriter.write("\n");
-            myWriter.write(String.valueOf(player1Tank.getHitPoints()));
+            myWriter.write(String.valueOf(player1Tank.getHealth()));
             myWriter.write("\n");
-            myWriter.write(String.valueOf(player2Tank.getHitPoints()));
+            myWriter.write(String.valueOf(player2Tank.getHealth()));
             myWriter.write("\n");
             myWriter.write(String.valueOf(player1Tank.getFuelLeft()));
             myWriter.write("\n");
@@ -137,7 +134,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
                     } else {
                         player1Tank = new com.tankstars.game.TankBuratino(true, false);
                     }
-                    player1Tank.setHitPoints(player1HitPoints);
+                    player1Tank.setHealth(player1HitPoints);
                     player1Tank.setFuelLeft(player1Fuel);
                     player1Tank.setCurrentWeapon(player1CurrentWeapon);
                 }
@@ -150,7 +147,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
                     } else {
                         player2Tank = new com.tankstars.game.TankBuratino(false, true);
                     }
-                    player2Tank.setHitPoints(player2HitPoints);
+                    player2Tank.setHealth(player2HitPoints);
                     player2Tank.setFuelLeft(player2Fuel);
                     player2Tank.setCurrentWeapon(player2CurrentWeapon);
                 }
@@ -370,8 +367,8 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         black = new BitmapFont(Gdx.files.internal("fonts/black.fnt"), false);
         tankAtlas = new TextureAtlas("Tanks/items.pack");
         background = new Image(new Texture(Gdx.files.internal("Game Screen/gameScreenBackground.jpg")));
-        healthBarP1 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
-        healthbarP2 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
+//        healthBarP1 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
+//        healthbarP2 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
         badgeP1 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
         badgeP2 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
         {
@@ -703,10 +700,10 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
                 }
             });
         }
-        healthBarP1.setPosition(230, 600);
+//        healthBarP1.setPosition(230, 600);
         badgeP1.setSize(60, 60);
         badgeP1.setPosition(190, 600);
-        healthbarP2.setPosition(670, 600);
+//        healthbarP2.setPosition(670, 600);
         badgeP2.setPosition(1200, 600);
         badgeP2.setSize(60, 60);
         tankAtlas = new TextureAtlas("Tanks/items.pack");
@@ -1018,44 +1015,50 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         //HealthBar1
         {
             Skin healthBarSkin = new Skin(Gdx.files.internal("skins/comic/skin/comic-ui.json"));
-            healthPbar = new ProgressBar(0,100,1,false,healthBarSkin);
-            healthPbar.setValue(80);
-            healthPbar.setPosition(250,600);
-            healthPbar.setWidth(300);
-            stage.addActor(healthPbar);
+            healthBarP1 = new ProgressBar(0,100,1,false,healthBarSkin);
+            healthBarP1.setValue(player1Tank.getHealth());
+            healthBarP1.setPosition(250,600);
+            healthBarP1.setWidth(300);
+            stage.addActor(healthBarP1);
         }
 
         //HealthBar2
         {
             Skin healthBarSkin = new Skin(Gdx.files.internal("skins/comic/skin/comic-ui.json"));
-            healthPbar = new ProgressBar(0,100,1,false,healthBarSkin);
-            healthPbar.setValue(20);
-            healthPbar.setPosition(700,600);
-            healthPbar.setWidth(300);
-            stage.addActor(healthPbar);
+            healthBarP2 = new ProgressBar(0,100,1,false,healthBarSkin);
+            healthBarP2.setValue(player2Tank.getHealth());
+            healthBarP2.setPosition(700,600);
+            healthBarP2.setWidth(300);
+            stage.addActor(healthBarP2);
         }
 
         //TankFuelBar1
         {
             Skin healthBarSkin = new Skin(Gdx.files.internal("skins/comic/skin/comic-ui.json"));
-            healthPbar = new ProgressBar(0,100,1,false,healthBarSkin);
-            healthPbar.setValue(20);
-            healthPbar.setPosition(50,40);
-            healthPbar.setColor(Color.GREEN);
-            stage.addActor(healthPbar);
+            fuelBarP1 = new ProgressBar(0,100,1,false,healthBarSkin);
+            fuelBarP1.setValue(player1Tank.getFuelLeft());
+            fuelBarP1.setPosition(50,40);
+            fuelBarP1.setColor(Color.GREEN);
+            stage.addActor(fuelBarP1);
         }
-
 
         //TankFuelBar2
         {
             Skin healthBarSkin = new Skin(Gdx.files.internal("skins/comic/skin/comic-ui.json"));
-            healthPbar = new ProgressBar(0,100,1,false,healthBarSkin);
-            healthPbar.setValue(20);
-            healthPbar.setPosition(1000,40);
-            healthPbar.setColor(Color.GREEN);
-            stage.addActor(healthPbar);
+            fuelBarP2 = new ProgressBar(0,100,1,false,healthBarSkin);
+            fuelBarP2.setValue(player2Tank.getFuelLeft());
+            fuelBarP2.setPosition(1000,40);
+            fuelBarP2.setColor(Color.GREEN);
+            stage.addActor(fuelBarP2);
         }
 
+    }
+
+    public void update(){
+        healthBarP1.setValue(player1Tank.getHealth());
+        healthBarP2.setValue(player2Tank.getHealth());
+        fuelBarP1.setValue(player1Tank.getFuelLeft());
+        fuelBarP2.setValue(player2Tank.getFuelLeft());
     }
     @Override
     public void render(float delta) {
@@ -1065,31 +1068,35 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         stage.setDebugAll(true);
         stage.act(delta);
         stage.draw();
-
-
+        update();
         if(Gdx.input.isKeyPressed(Input.Keys.A)){
             if (isPlayer1Turn){
                 tankBody.applyForceToCenter(tankforceL,true);
+                player1Tank.setFuelLeft(player1Tank.getHealth()-20);
 //                tankBody.applyLinearImpulse(tankforceL,tankBody.getPosition(),true);
             }
             else{
 //                tankBody2.applyLinearImpulse(tankforceL,tankBody.getPosition(),true);
                 tankBody2.applyForceToCenter(tankforceL,true);
+                player2Tank.setFuelLeft(player2Tank.getHealth()-20);
             }
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.D)){
+        if(Gdx.input.isKeyPressed(Input.Keys.D))
+        {
             if (isPlayer1Turn){
                 tankBody.applyForceToCenter(tankforceR,true);
 //                tankBody.applyLinearImpulse(tankforceR,tankBody.getPosition(),true);
+                player1Tank.setFuelLeft(player1Tank.getHealth()-20);
             }
             else{
                 tankBody2.applyForceToCenter(tankforceR,true);
 //                tankBody2.applyLinearImpulse(tankforceR,tankBody.getPosition(),true);
 //                tankBody.stop
+                player2Tank.setFuelLeft(player2Tank.getHealth()-20);
             }
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
             System.out.println("HERE");
             isPlayer1Turn = !isPlayer1Turn;
             if(!isPlayer1Turn){
