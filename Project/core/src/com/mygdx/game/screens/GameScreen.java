@@ -1038,7 +1038,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             fuelBarP1 = new ProgressBar(0,100,1,false,healthBarSkin);
             fuelBarP1.setValue(player1Tank.getFuelLeft());
             fuelBarP1.setPosition(50,40);
-            fuelBarP1.setColor(Color.GREEN);
+//            fuelBarP1.setColor(Color.BLUE);
             stage.addActor(fuelBarP1);
         }
 
@@ -1048,7 +1048,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             fuelBarP2 = new ProgressBar(0,100,1,false,healthBarSkin);
             fuelBarP2.setValue(player2Tank.getFuelLeft());
             fuelBarP2.setPosition(1000,40);
-            fuelBarP2.setColor(Color.GREEN);
+//            fuelBarP2.setColor(Color.GREEN);
             stage.addActor(fuelBarP2);
         }
 
@@ -1072,13 +1072,18 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         if(Gdx.input.isKeyPressed(Input.Keys.A)){
             if (isPlayer1Turn){
                 tankBody.applyForceToCenter(tankforceL,true);
-                player1Tank.setFuelLeft(player1Tank.getHealth()-20);
+                if(player1Tank.getHealth()>0) {
+                    player1Tank.setFuelLeft(player1Tank.getHealth() - 20);
+                }
 //                tankBody.applyLinearImpulse(tankforceL,tankBody.getPosition(),true);
             }
             else{
 //                tankBody2.applyLinearImpulse(tankforceL,tankBody.getPosition(),true);
                 tankBody2.applyForceToCenter(tankforceL,true);
-                player2Tank.setFuelLeft(player2Tank.getHealth()-20);
+                if(player2Tank.getHealth()>0)
+                {
+                    player2Tank.setFuelLeft(player2Tank.getHealth() - 20);
+                }
             }
         }
         if(Gdx.input.isKeyPressed(Input.Keys.D))

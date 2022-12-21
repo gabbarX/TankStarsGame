@@ -7,7 +7,7 @@ import com.tankstars.game.TankStars;
 
 public class DefaultScreen implements Screen {
     public TankStars game;
-    SpriteBatch batch;
+    public SpriteBatch batch;
     public DefaultScreen(TankStars game){
         this.game = game;
         batch = new SpriteBatch();
