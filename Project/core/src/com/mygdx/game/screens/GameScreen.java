@@ -28,6 +28,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     private Stage stage;
     private Image background, vslogo, badgeP1, badgeP2, arrow1, arrow2;
     int isPlayer1, isPlayer2;
+//    BodyDef bodyDef1, bodyDef2,bulletDef1,bulletDef2;
     TextureAtlas atlas;
     BitmapFont white, black;
     TextButton.TextButtonStyle textButtonStyle;
@@ -42,8 +43,8 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     boolean isPlayer1Turn = true;
     int theta1 = 45;
     int theta2 = 45;
-    Vector2 bulletSpeed = new Vector2(1000000* cos((float) Math.toRadians(theta1)), 200000* sin((float)Math.toRadians(theta1)));
-    Vector2 bulletSpeed2 = new Vector2(-1000000* cos((float) Math.toRadians(theta2)), 200000* sin((float)Math.toRadians(theta2)));
+    Vector2 bulletSpeed = new Vector2(14000* cos((float) Math.toRadians(theta1)), 14000* sin((float)Math.toRadians(theta1)));
+    Vector2 bulletSpeed2 = new Vector2(-14000* cos((float) Math.toRadians(theta2)), 14000* sin((float)Math.toRadians(theta2)));
     Vector2 tankforceR = new Vector2(1000000f, 0f);
     Vector2 tankforceL = new Vector2(-1000000f, 0f);
     private Texture myTexture;
@@ -325,10 +326,11 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         }
         //Bullet body 1
         {
-            BodyDef bulletDef = new BodyDef();
-            bulletDef.type = BodyDef.BodyType.DynamicBody;
-            bulletDef.position.set(-400,-27);
-            bulletBody = world.createBody(bulletDef);
+            BodyDef bulletDef1 = new BodyDef();
+            bulletDef1.type = BodyDef.BodyType.DynamicBody;
+            bulletDef1.position.set(-400,-27);
+
+            bulletBody = world.createBody(bulletDef1);
             PolygonShape bulletshape = new PolygonShape();
             bulletshape.setAsBox(5,5);
 
@@ -343,10 +345,10 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 
         //Bullet body 2
         {
-            BodyDef bulletDef = new BodyDef();
-            bulletDef.type = BodyDef.BodyType.DynamicBody;
-            bulletDef.position.set(300,60);
-            bulletBody2 = world.createBody(bulletDef);
+            BodyDef bulletDef2 = new BodyDef();
+            bulletDef2.type = BodyDef.BodyType.DynamicBody;
+            bulletDef2.position.set(300,60);
+            bulletBody2 = world.createBody(bulletDef2);
             PolygonShape bulletshape = new PolygonShape();
             bulletshape.setAsBox(5,5);
 
@@ -377,8 +379,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 //        healthbarP2 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
         badgeP1 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
         badgeP2 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
-//        arrow1 =
-
         {
 //        InputController inputController1 = new InputController(){
 //            @Override
@@ -720,6 +720,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 //        healthbarP2 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
         badgeP1 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
         badgeP2 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
+
         {
 //        InputController inputController1 = new InputController(){
 //            @Override
@@ -1059,7 +1060,21 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 //            fuelBarP2.setColor(Color.GREEN);
             stage.addActor(fuelBarP2);
         }
+        arrow1 = new Image(new Texture(Gdx.files.internal("Game Screen/gradient aim.png")));
+        arrow2 = new Image(new Texture(Gdx.files.internal("Game Screen/gradient aim.png")));
+        arrow1.setPosition(200,330);
+        arrow1.setSize(arrow1.getWidth()/3,arrow1.getHeight()/3);
+//        arrow1.setScaling(0.5f);
+        arrow1.rotateBy(theta1);
 
+        arrow2.setPosition(820,510);
+        arrow2.setSize(arrow1.getWidth(),arrow1.getHeight());
+//        arrow1.setScaling(0.5f);
+        arrow2.rotateBy((float) ((-1)*theta2));
+
+
+        stage.addActor(arrow1);
+        stage.addActor(arrow2);
     }
 
     public void update(){
@@ -1083,7 +1098,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
                 if(player1Tank.getHealth()>0) {
                     player1Tank.setFuelLeft(player1Tank.getHealth() - 20);
                 }
-//                tankBody.applyLinearImpulse(tankforceL,tankBody.getPosition(),true);
             }
             else{
 //                tankBody2.applyLinearImpulse(tankforceL,tankBody.getPosition(),true);
@@ -1109,7 +1123,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             }
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
             System.out.println("HERE");
             isPlayer1Turn = !isPlayer1Turn;
             if(!isPlayer1Turn){
