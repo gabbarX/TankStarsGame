@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.tankstars.game.TankStars;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -26,7 +28,9 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     private Box2DDebugRenderer debugRenderer;
     private OrthographicCamera camera;
     private Stage stage;
-    private Image background, vslogo, badgeP1, badgeP2, arrow1, arrow2;
+    ArrayList<Float> Tx,Ty;
+    private Image background, vslogo, badgeP1, badgeP2,arrow2;
+    Texture arrow1;
     int isPlayer1, isPlayer2;
 //    BodyDef bodyDef1, bodyDef2,bulletDef1,bulletDef2;
     TextureAtlas atlas;
@@ -1078,22 +1082,28 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         }
 
 
-        arrow1 = new Image(new Texture(Gdx.files.internal("Game Screen/gradient aim.png")));
+//        arrow1 = new Image(new Texture(Gdx.files.internal("Game Screen/gradient aim.png")));
         arrow2 = new Image(new Texture(Gdx.files.internal("Game Screen/gradient aim.png")));
-        arrow1.setPosition(200,330);
-        arrow1.setSize(arrow1.getWidth()/3,arrow1.getHeight()/3);
-//        arrow1.setScaling(0.5f);
-        arrow1.rotateBy(theta1);
+
+        arrow1 = new Texture("Game Screen/gradient aim.png");
+
+
+//        arrow1.setPosition(200,330);
+//        arrow1.set(tankBody.getPosition().x,tankBody.getPosition().y);
+//        arrow1.setSize(arrow1.getWidth()/3,arrow1.getHeight()/3);
+////        arrow1.setScaling(0.5f);
+//        arrow1.rotateBy(theta1);
 
         arrow2.setPosition(820,510);
-        arrow2.setSize(arrow1.getWidth(),arrow1.getHeight());
-//        arrow1.setScaling(0.5f);
+        arrow2.setSize(arrow2.getWidth()/3,arrow2.getHeight()/3);
+////        arrow1.setScaling(0.5f);
         arrow2.rotateBy((float) ((-1)*theta2));
 
 
-        stage.addActor(arrow1);
-        stage.addActor(arrow2);
+//        stage.addActor(arrow1);
+//        stage.addActor(arrow2);
     }
+
 
     public void update(){
         healthBarP1.setValue(player1Tank.getHealth());
@@ -1108,9 +1118,52 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.setDebugAll(true);
         stage.act(delta);
+//        arrow2.setPosition(tankBody.getPosition().x,tankBody.getPosition().y);
+//        stage.addActor(arrow2);
+
+
+        //        stage.addActor(arrow1);
         stage.draw();
 
+
+
+
+
+//        batch.draw(arrow1,tankBody.getPosition().x,tankBody.getPosition().y,2,2);
+        Tx = new ArrayList<Float>();
+        Ty = new ArrayList<Float>();
+        float angle = 45;
+        float initialVelocity = 10;
+        float gravity = 9.81f;
+
+        float velX = initialVelocity * MathUtils.cosDeg(angle);
+        float velY = initialVelocity * MathUtils.sinDeg(angle);
+
+        float x = tankBody.getPosition().x;
+        float y = tankBody.getPosition().y;
+
+        float timeStep = 0.01f;
+        float totalTime = 5;
+
+        for (float t = 0; t < totalTime; t += timeStep) {
+            x += velX * timeStep;
+            y += velY * timeStep;
+            Tx.add(x);
+            Ty.add(y);
+
+            velY -= gravity * timeStep;
+
+//            System.out.println("x: " + x + ", y: " + y);
+        }
+
+
+        for(int i=0;i<Tx.size();i++){
+            batch.draw(arrow1,Tx.get(i),Tx.get(i),2,2);
+        }
+        batch.draw(arrow1, tankBody.getPosition().x,tankBody.getPosition().y,5,5);
 //        black.draw(batch, "HEY", 100,100);
+
+
         update();
         if(Gdx.input.isKeyPressed(Input.Keys.A)){
             if (isPlayer1Turn){
@@ -1131,7 +1184,8 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         }
         if(Gdx.input.isKeyPressed(Input.Keys.D))
         {
-            if (isPlayer1Turn){
+            if (isPlayer1Turn)
+            {
                 tankBody.applyForceToCenter(tankforceR,true);
 //                tankBody.applyLinearImpulse(tankforceR,tankBody.getPosition(),true);
                 player1Tank.setFuelLeft(player1Tank.getHealth()-20);
