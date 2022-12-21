@@ -1114,7 +1114,8 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         if(Gdx.input.isKeyPressed(Input.Keys.A)){
             if (isPlayer1Turn){
                 tankBody.applyForceToCenter(tankforceL,true);
-                if(player1Tank.getHealth()>0) {
+                if(player1Tank.getHealth()>0)
+                {
                     player1Tank.setFuelLeft(player1Tank.getHealth() - 20);
                 }
             }
