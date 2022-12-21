@@ -3,7 +3,6 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -28,7 +27,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     private Box2DDebugRenderer debugRenderer;
     private OrthographicCamera camera;
     private Stage stage;
-    ArrayList<Float> Tx,Ty;
+    ArrayList<Float> Tx1, Ty1,Tx2,Ty2;
     private Image background, vslogo, badgeP1, badgeP2,arrow2;
     Texture arrow1;
     int isPlayer1, isPlayer2;
@@ -336,7 +335,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             BodyDef bulletDef1 = new BodyDef();
             bulletDef1.type = BodyDef.BodyType.DynamicBody;
             bulletDef1.position.set(-400,-27);
-
             bulletBody = world.createBody(bulletDef1);
             PolygonShape bulletshape = new PolygonShape();
             bulletshape.setAsBox(5,5);
@@ -345,7 +343,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             FixtureDef bulletFixtureDef = new FixtureDef();
             bulletFixtureDef.shape = bulletshape;
             bulletFixtureDef.density = 7f;
-            bulletFixtureDef.friction = 1;
+            bulletFixtureDef.friction = 100;
 //            bulletFixtureDef.restitution = 0.2f;
             Fixture bulletFixture = bulletBody.createFixture(bulletFixtureDef);
         }
@@ -1104,6 +1102,62 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 //        stage.addActor(arrow2);
     }
 
+    public void trajectory1(){
+        Tx1 = new ArrayList<Float>();
+        Ty1 = new ArrayList<Float>();
+        float angle = theta1;
+        float initialVelocity = power/1000;
+        float gravity = 9.81f;
+
+        float velX = initialVelocity * MathUtils.cosDeg(angle);
+        float velY = initialVelocity * MathUtils.sinDeg(angle);
+
+        float x = tankBody.getPosition().x;
+        float y = tankBody.getPosition().y;
+
+        float timeStep = 0.01f;
+        float totalTime = 2;
+
+        for (float t = 0; t < totalTime; t += timeStep) {
+            x += velX * timeStep;
+            y += velY * timeStep;
+            Tx1.add(x);
+            Ty1.add(y);
+
+            velY -= gravity * timeStep;
+
+//            System.out.println("x: " + x + ", y: " + y);
+        }
+    }
+
+    public void trajectory2(){
+        Tx2 = new ArrayList<Float>();
+        Ty2 = new ArrayList<Float>();
+        float angle = theta2;
+        float initialVelocity = power/1000;
+        float gravity = 9.81f;
+
+        float velX = initialVelocity * MathUtils.cosDeg(angle);
+        float velY = initialVelocity * MathUtils.sinDeg(angle);
+
+        float x = tankBody2.getPosition().x;
+        float y = tankBody2.getPosition().y;
+
+        float timeStep = 0.01f;
+        float totalTime = 2;
+
+        for (float t = 0; t < totalTime; t += timeStep) {
+            x -= velX * timeStep;
+            y += velY * timeStep;
+            Tx2.add(x);
+            Ty2.add(y);
+
+            velY -= gravity * timeStep;
+
+//            System.out.println("x: " + x + ", y: " + y);
+        }
+
+    }
 
     public void update(){
         healthBarP1.setValue(player1Tank.getHealth());
@@ -1126,43 +1180,19 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         stage.draw();
 
 
-
-
-
+        trajectory1();
+        trajectory2();
 //        batch.draw(arrow1,tankBody.getPosition().x,tankBody.getPosition().y,2,2);
-        Tx = new ArrayList<Float>();
-        Ty = new ArrayList<Float>();
-        float angle = theta1;
-        float initialVelocity = power/1000;
-        float gravity = 9.81f;
 
-        float velX = initialVelocity * MathUtils.cosDeg(angle);
-        float velY = initialVelocity * MathUtils.sinDeg(angle);
-
-        float x = tankBody.getPosition().x;
-        float y = tankBody.getPosition().y;
-
-        float timeStep = 0.01f;
-        float totalTime = 4;
-
-        for (float t = 0; t < totalTime; t += timeStep) {
-            x += velX * timeStep;
-            y += velY * timeStep;
-            Tx.add(x);
-            Ty.add(y);
-
-            velY -= gravity * timeStep;
-
-//            System.out.println("x: " + x + ", y: " + y);
+        for(int i = 0; i< Tx1.size(); i++){
+            batch.draw(arrow1, Tx1.get(i), Ty1.get(i),2,2);
         }
-
-
-        for(int i=0;i<Tx.size();i++){
-            batch.draw(arrow1,Tx.get(i),Ty.get(i),2,2);
-        }
-        batch.draw(arrow1, tankBody.getPosition().x,tankBody.getPosition().y,5,5);
+//        batch.draw(arrow1, tankBody.getPosition().x,tankBody.getPosition().y,5,5);
 //        black.draw(batch, "HEY", 100,100);
 
+        for(int i=0; i<Tx2.size();i++){
+            batch.draw(arrow1, Tx2.get(i), Ty2.get(i),2,2);
+        }
 
         update();
         if(Gdx.input.isKeyPressed(Input.Keys.A)){
