@@ -1132,8 +1132,8 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 //        batch.draw(arrow1,tankBody.getPosition().x,tankBody.getPosition().y,2,2);
         Tx = new ArrayList<Float>();
         Ty = new ArrayList<Float>();
-        float angle = 45;
-        float initialVelocity = 10;
+        float angle = theta1;
+        float initialVelocity = power/1000;
         float gravity = 9.81f;
 
         float velX = initialVelocity * MathUtils.cosDeg(angle);
@@ -1143,7 +1143,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         float y = tankBody.getPosition().y;
 
         float timeStep = 0.01f;
-        float totalTime = 5;
+        float totalTime = 4;
 
         for (float t = 0; t < totalTime; t += timeStep) {
             x += velX * timeStep;
@@ -1158,7 +1158,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 
 
         for(int i=0;i<Tx.size();i++){
-            batch.draw(arrow1,Tx.get(i),Tx.get(i),2,2);
+            batch.draw(arrow1,Tx.get(i),Ty.get(i),2,2);
         }
         batch.draw(arrow1, tankBody.getPosition().x,tankBody.getPosition().y,5,5);
 //        black.draw(batch, "HEY", 100,100);
