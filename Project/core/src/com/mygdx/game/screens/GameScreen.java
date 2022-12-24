@@ -1223,20 +1223,24 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             case "Abrams":
                 Abrams.setPosition(position1.x,position1.y);
                 stage.addActor(Abrams);
-            case "Buratino":
-                Buratino.setPosition(position1.x,position1.y);
-                stage.addActor(Buratino);
+                break;
             case "Frost":
                 Frost.setPosition(position1.x,position1.y);
                 stage.addActor(Frost);
+                break;
+            case "Buratino":
+                Buratino.setPosition(position1.x,position1.y);
+                stage.addActor(Buratino);
         }
         switch(player2TankType){
             case "Abrams":
                 AbramsReverse.setPosition(position2.x, position2.y);
                 stage.addActor(AbramsReverse);
+                break;
             case "Buratino":
                 BuratinoReverse.setPosition(position2.x, position2.y);
                 stage.addActor(BuratinoReverse);
+                break;
             case "Frost":
                 FrostReverse.setPosition(position2.x, position2.y);
                 stage.addActor(FrostReverse);
