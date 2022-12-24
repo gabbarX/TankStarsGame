@@ -13,6 +13,7 @@ public class Tank extends com.tankstars.game.TankStars {
     public com.tankstars.game.Weapons FrostBlast, FrostBite, FrostBlizzard, FrostAssaultDrones, FrostHighPressure, FrostIceSplitter;
     public com.tankstars.game.Weapons BuratinoHoming, BuratinoMIRV,BuratinoShredder,BuratinoAreaStrike,BuratinoRapidFire, BuratinoHounds;
     public int health = 100;
+    public int speed = 0;
     public int fuelLeft = 100;
     private boolean isPlayer1;
     private boolean isPlayer2;
@@ -43,6 +44,25 @@ public class Tank extends com.tankstars.game.TankStars {
             FrostHighPressure = new com.tankstars.game.Weapons("HighPressure");
             FrostIceSplitter = new com.tankstars.game.Weapons("IceSplitter");
         }
+    }
+    public void moveLeft(){
+        if (isPlayer1){
+            speed = -100;
+        }
+        else{
+            speed = 100;
+        }
+    }
+    public void moveRight(){
+        if (isPlayer1){
+            speed = 100;
+        }
+        else{
+            speed = -100;
+        }
+    }
+    public void stop(){
+        speed = 0;
     }
     public void setHealth(int health) {
         this.health = health;

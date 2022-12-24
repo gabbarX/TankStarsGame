@@ -63,6 +63,9 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     Image popUp = new Image(new Texture(Gdx.files.internal("mainMenu/popUpBackground.jpg")));
     Image weaponPopUp = new Image(new Texture(Gdx.files.internal("mainMenu/popUpBackground.jpg")));
     Image Abrams, AbramsReverse, Buratino, BuratinoReverse, Frost, FrostReverse;
+    public void stop(boolean isPlayer1){
+
+    }
     public void saveGame(String filename) throws IOException {
         try {
             String file = "savedGames\\" + filename + ".txt";
@@ -114,56 +117,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         }
 
     }
-    public GameScreen(TankStars game, String filename) throws FileNotFoundException {
-        super(game);
-        // reading the data from the file
-        String fileName = "savedGames\\" + filename + ".txt";
-        File file = new File(fileName);
-        Scanner scanner = new Scanner(file);
-        player1TankType = scanner.nextLine();
-        player2TankType = scanner.nextLine();
-        gameFileName = filename;
-        int player1HitPoints = Integer.parseInt(scanner.nextLine());
-        int player2HitPoints = Integer.parseInt(scanner.nextLine());
-        int player1Fuel = Integer.parseInt(scanner.nextLine());
-        int player2Fuel = Integer.parseInt(scanner.nextLine());
-        float player1X = Float.parseFloat(scanner.nextLine());
-        float player1Y = Float.parseFloat(scanner.nextLine());
-        float player2X = Float.parseFloat(scanner.nextLine());
-        float player2Y = Float.parseFloat(scanner.nextLine());
-        String player1CurrentWeapon = scanner.nextLine();
-        String player2CurrentWeapon = scanner.nextLine();
-        isPlayer1Turn = Boolean.parseBoolean(scanner.nextLine());
-        scanner.close();
-        // defining the tank types for player 1 and player 2
-        {
-                // tank definition for tank 1
-                {
-                    if (player1TankType.equals("Abrams")) {
-                        player1Tank = new com.tankstars.game.TankAbrams(true, false);
-                    } else if (player1TankType.equals("Frost")) {
-                        player1Tank = new com.tankstars.game.TankFrost(true, false);
-                    } else {
-                        player1Tank = new com.tankstars.game.TankBuratino(true, false);
-                    }
-                    player1Tank.setHealth(player1HitPoints);
-                    player1Tank.setFuelLeft(player1Fuel);
-                    player1Tank.setCurrentWeapon(player1CurrentWeapon);
-                }
-                // tank definition for tank 2
-                {
-                    if (player2TankType.equals("Abrams")) {
-                        player2Tank = new com.tankstars.game.TankAbrams(false, true);
-                    } else if (player2TankType.equals("Frost")) {
-                        player2Tank = new com.tankstars.game.TankFrost(false, true);
-                    } else {
-                        player2Tank = new com.tankstars.game.TankBuratino(false, true);
-                    }
-                    player2Tank.setHealth(player2HitPoints);
-                    player2Tank.setFuelLeft(player2Fuel);
-                    player2Tank.setCurrentWeapon(player2CurrentWeapon);
-                }
-            }
+    public void setUpWorld(){
         // setting up the box2d world, camera and debugrenderer
         {
             world = new World(new Vector2(0, -9.8f), true);
@@ -206,6 +160,60 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             groundFixtureDef.restitution = 0f;
             Fixture groundFixture = groundBody.createFixture(groundFixtureDef);
         }
+
+    }
+    public GameScreen(TankStars game, String filename) throws FileNotFoundException {
+        super(game);
+        // reading the data from the file
+        String fileName = "savedGames\\" + filename + ".txt";
+        File file = new File(fileName);
+        Scanner scanner = new Scanner(file);
+        player1TankType = scanner.nextLine();
+        player2TankType = scanner.nextLine();
+        gameFileName = filename;
+        int player1HitPoints = Integer.parseInt(scanner.nextLine());
+        int player2HitPoints = Integer.parseInt(scanner.nextLine());
+        int player1Fuel = Integer.parseInt(scanner.nextLine());
+        int player2Fuel = Integer.parseInt(scanner.nextLine());
+        float player1X = Float.parseFloat(scanner.nextLine());
+        float player1Y = Float.parseFloat(scanner.nextLine());
+        float player2X = Float.parseFloat(scanner.nextLine());
+        float player2Y = Float.parseFloat(scanner.nextLine());
+        String player1CurrentWeapon = scanner.nextLine();
+        String player2CurrentWeapon = scanner.nextLine();
+        isPlayer1Turn = Boolean.parseBoolean(scanner.nextLine());
+        scanner.close();
+        // setting up the world
+        setUpWorld();
+        // defining the tank types for player 1 and player 2
+        {
+                // tank definition for tank 1
+                {
+                    if (player1TankType.equals("Abrams")) {
+                        player1Tank = new com.tankstars.game.TankAbrams(true, false);
+                    } else if (player1TankType.equals("Frost")) {
+                        player1Tank = new com.tankstars.game.TankFrost(true, false);
+                    } else {
+                        player1Tank = new com.tankstars.game.TankBuratino(true, false);
+                    }
+                    player1Tank.setHealth(player1HitPoints);
+                    player1Tank.setFuelLeft(player1Fuel);
+                    player1Tank.setCurrentWeapon(player1CurrentWeapon);
+                }
+                // tank definition for tank 2
+                {
+                    if (player2TankType.equals("Abrams")) {
+                        player2Tank = new com.tankstars.game.TankAbrams(false, true);
+                    } else if (player2TankType.equals("Frost")) {
+                        player2Tank = new com.tankstars.game.TankFrost(false, true);
+                    } else {
+                        player2Tank = new com.tankstars.game.TankBuratino(false, true);
+                    }
+                    player2Tank.setHealth(player2HitPoints);
+                    player2Tank.setFuelLeft(player2Fuel);
+                    player2Tank.setCurrentWeapon(player2CurrentWeapon);
+                }
+            }
         // Tanks Definition
         {
             BodyDef tankDef = new BodyDef();
@@ -264,48 +272,8 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
                 }
             }
         }
-        // setting up the box2d world, camera and debugrenderer
-        {
-            world = new World(new Vector2(0, -9.8f), true);
-            debugRenderer = new Box2DDebugRenderer();
-            camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        }
-        //  ground definition
-        {
-            BodyDef groundBodyDef = new BodyDef();
-            groundBodyDef.position.set(0, 0);
-            Body groundBody = world.createBody(groundBodyDef);
-            // ground shape
-            ChainShape groundShape = new ChainShape();
-            groundShape.createChain(new Vector2[]{
-                    new Vector2(-600, 337.5f),
-                    new Vector2(-600, 65),
-                    new Vector2(-565, 65),
-                    new Vector2(-515, 10),
-                    new Vector2(-460, -55),
-                    new Vector2(-325, -55),
-                    new Vector2(-270, 10),
-                    new Vector2(-245, 37),
-                    new Vector2(-180, 37),
-                    new Vector2(-155, 10),
-                    new Vector2(-92, -64),
-                    new Vector2(100, -64),
-                    new Vector2(190, 38),
-                    new Vector2(350, 38),
-                    new Vector2(420, -35),
-                    new Vector2(500, -35),
-                    new Vector2(560, -110),
-                    new Vector2(600, -110),
-                    new Vector2(600, 337.5f),
-            });
-            // ground fixture
-            FixtureDef groundFixtureDef = new FixtureDef();
-            groundFixtureDef.shape = groundShape;
-            groundFixtureDef.density = 100000f;
-            groundFixtureDef.friction = 0f;
-            groundFixtureDef.restitution = 0f;
-            Fixture groundFixture = groundBody.createFixture(groundFixtureDef);
-        }
+        // setting up the world
+        setUpWorld();
         // Tanks Definition
         {
             BodyDef tankDef = new BodyDef();
@@ -655,18 +623,41 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         FrostReverse.setSize(60, 50);
         BuratinoReverse.setSize(60, 50);
         stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
-        atlas = new TextureAtlas("mainMenu/pack/button.atlas");
-        skin = new Skin(atlas);
-        white = new BitmapFont(Gdx.files.internal("fonts/white.fnt"), false);
-        black = new BitmapFont(Gdx.files.internal("fonts/black.fnt"), false);
-        tankAtlas = new TextureAtlas("Tanks/items.pack");
-        background = new Image(new Texture(Gdx.files.internal("Game Screen/gameScreenBackground.jpg")));
-//        healthBarP1 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
-//        healthbarP2 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
-        badgeP1 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
-        badgeP2 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
-        {
+        InputController inputController = new InputController() {
+            @Override
+            public boolean keyDown(int keycode) {
+                switch (keycode) {
+                    case Input.Keys.A:
+                        if (isPlayer1Turn) {
+                            player1Tank.moveRight();
+                        } else {
+                            player2Tank.moveRight();
+                        }
+                        break;
+                    case Input.Keys.D:
+                        if (isPlayer1Turn) {
+                            player1Tank.moveLeft();
+                        } else {
+                            player2Tank.moveLeft();
+                        }
+                }
+                return true;
+            }
+            @Override
+            public boolean keyUp(int keycode) {
+                switch (keycode) {
+                    case Input.Keys.A:
+                    case Input.Keys.D:
+                        if (isPlayer1Turn) {
+                            player1Tank.stop();
+                        } else {
+                            player2Tank.stop();
+                        }
+                        break;
+                }
+                return false;
+            }
+        };
 //        InputController inputController1 = new InputController(){
 //            @Override
 //            public boolean keyDown(int keycode) {
@@ -700,7 +691,17 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 //        player1.tank.setSize(100,60);
 //        player2.tank.setSize(100,60);
 ////        stage.addActor(vslogo);
-        }
+        Gdx.input.setInputProcessor(stage);
+        atlas = new TextureAtlas("mainMenu/pack/button.atlas");
+        skin = new Skin(atlas);
+        white = new BitmapFont(Gdx.files.internal("fonts/white.fnt"), false);
+        black = new BitmapFont(Gdx.files.internal("fonts/black.fnt"), false);
+        tankAtlas = new TextureAtlas("Tanks/items.pack");
+        background = new Image(new Texture(Gdx.files.internal("Game Screen/gameScreenBackground.jpg")));
+//        healthBarP1 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
+//        healthbarP2 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
+        badgeP1 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
+        badgeP2 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
         // making buttons for main game screen
         {
             textButtonStyle = new TextButton.TextButtonStyle();
@@ -1230,42 +1231,35 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 
         //        stage.addActor(arrow1);
         stage.draw();
-        Vector2 position1 = tankBody.getPosition();
-        Vector2 position2 = tankBody2.getPosition();
-        position1.x += 600-20;
-        position2.x += 600-20;
-        position1.y += 675/2f-20;
-        position2.y += 675/2f-20;
         switch(player1TankType){
             case "Abrams":
-                Abrams.setPosition(position1.x,position1.y);
+                Abrams.setPosition(tankBody.getPosition().x + 580,tankBody.getPosition().y + 675/2f-20);
                 stage.addActor(Abrams);
                 break;
             case "Frost":
-                Frost.setPosition(position1.x,position1.y);
+                Frost.setPosition(tankBody.getPosition().x + 580,tankBody.getPosition().y + 675/2f-20);
                 stage.addActor(Frost);
                 break;
             case "Buratino":
-                Buratino.setPosition(position1.x,position1.y);
+                Buratino.setPosition(tankBody.getPosition().x + 580,tankBody.getPosition().y + 675/2f-20);
                 stage.addActor(Buratino);
         }
         switch(player2TankType){
             case "Abrams":
-                AbramsReverse.setPosition(position2.x, position2.y);
+                AbramsReverse.setPosition(tankBody2.getPosition().x + 580, tankBody2.getPosition().y + 675/2f-20);
                 stage.addActor(AbramsReverse);
                 break;
             case "Buratino":
-                BuratinoReverse.setPosition(position2.x, position2.y);
+                BuratinoReverse.setPosition(tankBody2.getPosition().x + 580, tankBody2.getPosition().y + 675/2f-20);
                 stage.addActor(BuratinoReverse);
                 break;
             case "Frost":
-                FrostReverse.setPosition(position2.x, position2.y);
+                FrostReverse.setPosition(tankBody2.getPosition().x + 580, tankBody2.getPosition().y + 675/2f-20);
                 stage.addActor(FrostReverse);
         }
         trajectory1();
         trajectory2();
 //        batch.draw(arrow1,tankBody.getPosition().x,tankBody.getPosition().y,2,2);
-
         for(int i = 0; i< Tx1.size(); i++){
             batch.draw(arrow1, Tx1.get(i), Ty1.get(i),2,2);
         }
@@ -1276,38 +1270,41 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             batch.draw(arrow1, Tx2.get(i), Ty2.get(i),2,2);
         }
         update();
-        if(Gdx.input.isKeyPressed(Input.Keys.A)){
-            if (isPlayer1Turn){
-                tankBody.applyForceToCenter(tankforceL,true);
-                if(player1Tank.getHealth()>0)
-                {
-                    player1Tank.setFuelLeft(player1Tank.getHealth() - 20);
-                }
-            }
-            else{
-//                tankBody2.applyLinearImpulse(tankforceL,tankBody.getPosition(),true);
-                tankBody2.applyForceToCenter(tankforceL,true);
-                if(player2Tank.getHealth()>0)
-                {
-                    player2Tank.setFuelLeft(player2Tank.getHealth() - 20);
-                }
-            }
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.D))
-        {
-            if (isPlayer1Turn)
-            {
-                tankBody.applyForceToCenter(tankforceR,true);
-//                tankBody.applyLinearImpulse(tankforceR,tankBody.getPosition(),true);
-                player1Tank.setFuelLeft(player1Tank.getHealth()-20);
-            }
-            else{
-                tankBody2.applyForceToCenter(tankforceR,true);
-//                tankBody2.applyLinearImpulse(tankforceR,tankBody.getPosition(),true);
-//                tankBody.stop
-                player2Tank.setFuelLeft(player2Tank.getHealth()-20);
-            }
-        }
+        // apply velocity to the tank
+//        tankBody.setLinearVelocity(velocity);
+//        tankBody2.setLinearVelocity(velocity2);
+//        if(Gdx.input.isKeyPressed(Input.Keys.A)){
+//            if (isPlayer1Turn){
+//                tankBody.applyForceToCenter(tankforceL,true);
+//                if(player1Tank.getHealth()>0)
+//                {
+//                    player1Tank.setFuelLeft(player1Tank.getHealth() - 20);
+//                }
+//            }
+//            else{
+////                tankBody2.applyLinearImpulse(tankforceL,tankBody.getPosition(),true);
+//                tankBody2.applyForceToCenter(tankforceL,true);
+//                if(player2Tank.getHealth()>0)
+//                {
+//                    player2Tank.setFuelLeft(player2Tank.getHealth() - 20);
+//                }
+//            }
+//        }
+//        if(Gdx.input.isKeyPressed(Input.Keys.D))
+//        {
+//            if (isPlayer1Turn)
+//            {
+//                tankBody.applyForceToCenter(tankforceR,true);
+////                tankBody.applyLinearImpulse(tankforceR,tankBody.getPosition(),true);
+//                player1Tank.setFuelLeft(player1Tank.getHealth()-20);
+//            }
+//            else{
+//                tankBody2.applyForceToCenter(tankforceR,true);
+////                tankBody2.applyLinearImpulse(tankforceR,tankBody.getPosition(),true);
+////                tankBody.stop
+//                player2Tank.setFuelLeft(player2Tank.getHealth()-20);
+//            }
+//        }
 
         if(Gdx.input.isKeyPressed(Input.Keys.W))
         {
@@ -1322,7 +1319,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             System.out.println("Power: "+ power);
         }
 
-
+//
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
             System.out.println("HERE");
             isPlayer1Turn = !isPlayer1Turn;
