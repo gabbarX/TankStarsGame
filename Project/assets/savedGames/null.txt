@@ -1,0 +1,13 @@
+Frost
+Abrams
+100
+100
+100
+100
+-400.0
+-34.985023
+300.0
+58.014977
+Blast
+SplitterChain
+true

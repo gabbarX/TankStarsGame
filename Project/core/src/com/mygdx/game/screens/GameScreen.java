@@ -66,6 +66,135 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     private Image weaponPopUp = new Image(new Texture(Gdx.files.internal("mainMenu/popUpBackground.jpg")));
     private Image Abrams, AbramsReverse, Buratino, BuratinoReverse, Frost, FrostReverse;
     private Vector2 tankSpeed1, tankSpeed2;
+    private Label saveGameLabel;
+    private TextField saveGameTextField;
+    private Skin defaultskin;
+    private String[] savedGameName;
+    public void buttonInputDefinition(){
+        // exit buttons
+        {
+            exitButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    switch (check()) {
+                        case 1:
+                        case 4: {
+                            AbramsTable.remove();
+                            break;
+                        }
+                        case 2:
+                        case 5: {
+                            BuratinoTable.remove();
+                            break;
+                        }
+                        case 3:
+                        case 6: {
+                            FrostTable.remove();
+                            break;
+                        }
+                    }
+                    weaponPopUp.remove();
+                }
+            });
+            exitButton1.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    switch (check()) {
+                        case 1:
+                        case 4: {
+                            AbramsTable.remove();
+                            break;
+                        }
+                        case 2:
+                        case 5: {
+                            BuratinoTable.remove();
+                            break;
+                        }
+                        case 3:
+                        case 6: {
+                            FrostTable.remove();
+                            break;
+                        }
+                    }
+                    weaponPopUp.remove();
+                }
+            });
+            exitButton2.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    switch (check()) {
+                        case 1:
+                        case 4: {
+                            AbramsTable.remove();
+                            break;
+                        }
+                        case 2:
+                        case 5: {
+                            BuratinoTable.remove();
+                            break;
+                        }
+                        case 3:
+                        case 6: {
+                            FrostTable.remove();
+                            break;
+                        }
+                    }
+                    weaponPopUp.remove();
+                }
+            });
+        }
+        // pause button
+        {
+            myTexture = new Texture(Gdx.files.internal("Game Screen/pause.png"));
+            pauseButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(myTexture)));
+            pauseButton.setPosition(0,Gdx.graphics.getHeight()-60);
+            pauseButton.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y){
+                    popUp.setPosition(Gdx.graphics.getWidth()-780,Gdx.graphics.getHeight()-480);
+                    stage.addActor(popUp);
+                    stage.addActor(pauseTable);
+//                black.draw(stage.getBatch(), "Are you sure you want to exit?", 400, 400);
+                }
+            });
+        }
+        // select weapon button
+        {
+            selectWeapon = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Tanks/chooseButton.png")))));
+            selectWeapon.setPosition(Gdx.graphics.getWidth()/2+60,Gdx.graphics.getHeight()/6);
+            selectWeapon.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y){
+                    weaponPopUp.setPosition(Gdx.graphics.getWidth()-400,0);
+                    weaponPopUp.setSize(700,Gdx.graphics.getHeight());
+                    stage.addActor(weaponPopUp);
+                    System.out.println(isPlayer1Turn);
+                    if (isPlayer1Turn){
+                        if (Objects.equals(player1TankType, "Abrams")){
+                            stage.addActor(AbramsTable);
+                        }
+                        else if (Objects.equals(player1TankType, "Buratino")){
+                            stage.addActor(BuratinoTable);
+                        }
+                        else{
+                            stage.addActor(FrostTable);
+                        }
+                    }
+                    else{
+                        if (Objects.equals(player2TankType, "Abrams")){
+                            stage.addActor(AbramsTable);
+                        }
+                        else if (Objects.equals(player2TankType, "Buratino")){
+                            stage.addActor(BuratinoTable);
+                        }
+                        else{
+                            stage.addActor(FrostTable);
+                        }
+                    }
+                }
+            });
+        }
+    }
     public void saveGame(String filename) throws IOException {
         try {
             String file = "savedGames\\" + filename + ".txt";
@@ -160,180 +289,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             groundFixtureDef.restitution = 0f;
             Fixture groundFixture = groundBody.createFixture(groundFixtureDef);
         }
-
-    }
-    public GameScreen(TankStars game, String filename) throws FileNotFoundException {
-        super(game);
-        // reading the data from the file
-        String fileName = "savedGames\\" + filename + ".txt";
-        File file = new File(fileName);
-        Scanner scanner = new Scanner(file);
-        player1TankType = scanner.nextLine();
-        player2TankType = scanner.nextLine();
-        gameFileName = filename;
-        int player1HitPoints = Integer.parseInt(scanner.nextLine());
-        int player2HitPoints = Integer.parseInt(scanner.nextLine());
-        int player1Fuel = Integer.parseInt(scanner.nextLine());
-        int player2Fuel = Integer.parseInt(scanner.nextLine());
-        float player1X = Float.parseFloat(scanner.nextLine());
-        float player1Y = Float.parseFloat(scanner.nextLine());
-        float player2X = Float.parseFloat(scanner.nextLine());
-        float player2Y = Float.parseFloat(scanner.nextLine());
-        String player1CurrentWeapon = scanner.nextLine();
-        String player2CurrentWeapon = scanner.nextLine();
-        isPlayer1Turn = Boolean.parseBoolean(scanner.nextLine());
-        scanner.close();
-        // setting up the world
-        setUpWorld();
-        // defining the tank types for player 1 and player 2
-        {
-                // tank definition for tank 1
-                {
-                    if (player1TankType.equals("Abrams")) {
-                        player1Tank = new com.tankstars.game.TankAbrams(true, false);
-                    } else if (player1TankType.equals("Frost")) {
-                        player1Tank = new com.tankstars.game.TankFrost(true, false);
-                    } else {
-                        player1Tank = new com.tankstars.game.TankBuratino(true, false);
-                    }
-                    player1Tank.setHealth(player1HitPoints);
-                    player1Tank.setFuelLeft(player1Fuel);
-                    player1Tank.setCurrentWeapon(player1CurrentWeapon);
-                }
-                // tank definition for tank 2
-                {
-                    if (player2TankType.equals("Abrams")) {
-                        player2Tank = new com.tankstars.game.TankAbrams(false, true);
-                    } else if (player2TankType.equals("Frost")) {
-                        player2Tank = new com.tankstars.game.TankFrost(false, true);
-                    } else {
-                        player2Tank = new com.tankstars.game.TankBuratino(false, true);
-                    }
-                    player2Tank.setHealth(player2HitPoints);
-                    player2Tank.setFuelLeft(player2Fuel);
-                    player2Tank.setCurrentWeapon(player2CurrentWeapon);
-                }
-            }
-        // Tanks Definition
-        {
-            BodyDef tankDef = new BodyDef();
-            tankDef.type = BodyDef.BodyType.DynamicBody;
-            tankDef.position.set(player1X, player1Y);
-            tankBody = world.createBody(tankDef);
-            PolygonShape tankShape = new PolygonShape();
-            tankShape.setAsBox(20, 20);
-            // Tank Fixture Definition
-            FixtureDef tankFixtureDef = new FixtureDef();
-            tankFixtureDef.shape = tankShape;
-            tankFixtureDef.density = 15f;
-            tankFixtureDef.friction = 0.6f;
-            tankFixtureDef.restitution = 0.2f;
-            Fixture tankFixture = tankBody.createFixture(tankFixtureDef);
-            // Tank 2 Definition
-            BodyDef tankDef2 = new BodyDef();
-            tankDef2.type = BodyDef.BodyType.DynamicBody;
-            tankDef2.position.set(player2X, player2Y);
-            tankBody2 = world.createBody(tankDef2);
-            PolygonShape tankShape2 = new PolygonShape();
-            tankShape.setAsBox(20, 20);
-            Fixture tankFixture2 = tankBody2.createFixture(tankFixtureDef);
-        }
-    }
-
-    public GameScreen(TankStars game, int player1, int player2) {
-        super(game);
-        gameFileName = null;
-        // defining the tank types for player 1 and player 2
-        {
-            // tank definition for tank 1
-            {
-                if (player1 == 0) {
-                    player1Tank = new com.tankstars.game.TankAbrams(true, false);
-                    player1TankType = "Abrams";
-                } else if (player1 == 1) {
-                    player1Tank = new com.tankstars.game.TankFrost(true, false);
-                    player1TankType = "Frost";
-                } else {
-                    player1Tank = new com.tankstars.game.TankBuratino(true, false);
-                    player1TankType = "Buratino";
-                }
-            }
-            // tank definition for tank 2
-            {
-                if (player2 == 0) {
-                    player2Tank = new com.tankstars.game.TankAbrams(false, true);
-                    player2TankType = "Abrams";
-                } else if (player2 == 1) {
-                    player2Tank = new com.tankstars.game.TankFrost(false, true);
-                    player2TankType = "Frost";
-                } else {
-                    player2Tank = new com.tankstars.game.TankBuratino(false, true);
-                    player2TankType = "Buratino";
-                }
-            }
-        }
-        // setting up the world
-        setUpWorld();
-        // Tanks Definition
-        {
-            BodyDef tankDef = new BodyDef();
-            tankDef.type = BodyDef.BodyType.DynamicBody;
-            tankDef.position.set(-400, -42);
-            tankBody = world.createBody(tankDef);
-            PolygonShape tankShape = new PolygonShape();
-            tankShape.setAsBox(20, 20);
-            // Tank Fixture Definition
-            FixtureDef tankFixtureDef = new FixtureDef();
-            tankFixtureDef.shape = tankShape;
-            tankFixtureDef.density = 12f;
-            tankFixtureDef.friction = 0.7f;
-            tankFixtureDef.restitution = 0.2f;
-            Fixture tankFixture = tankBody.createFixture(tankFixtureDef);
-            // Tank 2 Definition
-            BodyDef tankDef2 = new BodyDef();
-            tankDef2.type = BodyDef.BodyType.DynamicBody;
-            tankDef2.position.set(300, 55);
-            tankBody2 = world.createBody(tankDef2);
-            PolygonShape tankShape2 = new PolygonShape();
-            tankShape.setAsBox(20, 20);
-            Fixture tankFixture2 = tankBody2.createFixture(tankFixtureDef);
-        }
-        //Bullet body 1
-        {
-            BodyDef bulletDef1 = new BodyDef();
-            bulletDef1.type = BodyDef.BodyType.DynamicBody;
-            bulletDef1.position.set(-400,-27);
-            bulletBody = world.createBody(bulletDef1);
-            PolygonShape bulletshape = new PolygonShape();
-            bulletshape.setAsBox(5,5);
-
-            //Bullet Fixture Defination
-            FixtureDef bulletFixtureDef = new FixtureDef();
-            bulletFixtureDef.shape = bulletshape;
-            bulletFixtureDef.density = 7f;
-            bulletFixtureDef.friction = 100;
-//            bulletFixtureDef.restitution = 0.2f;
-            Fixture bulletFixture = bulletBody.createFixture(bulletFixtureDef);
-        }
-
-        //Bullet body 2
-        {
-            BodyDef bulletDef2 = new BodyDef();
-            bulletDef2.type = BodyDef.BodyType.DynamicBody;
-            bulletDef2.position.set(300,60);
-            bulletBody2 = world.createBody(bulletDef2);
-            PolygonShape bulletshape = new PolygonShape();
-            bulletshape.setAsBox(5,5);
-
-            //Bullet Fixture Defination
-            FixtureDef bulletFixtureDef = new FixtureDef();
-            bulletFixtureDef.shape = bulletshape;
-            bulletFixtureDef.density = 7f;
-            bulletFixtureDef.friction = 1;
-//            bulletFixtureDef.restitution = 0.2f;
-            Fixture bulletFixture = bulletBody2.createFixture(bulletFixtureDef);
-        }
-
 
     }
     public void AbramsWeaponDefinition(){
@@ -607,6 +562,22 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             });
         }
     }
+    public void gameButtonDefinition(){
+        fireButton = new TextButton("FIRE", textButtonStyle);
+        fireButton.setTransform(true);
+        fireButton.setScale(0.6f);
+        fireButton.pad(10);
+        fireButton.setPosition(750, 100);
+        exitButton = new TextButton("EXIT", textButtonStyle);
+        exitButton.setTransform(true);
+        exitButton.setScale(0.6f);
+        exitButton1 = new TextButton("EXIT", textButtonStyle);
+        exitButton1.setTransform(true);
+        exitButton1.setScale(0.6f);
+        exitButton2 = new TextButton("EXIT", textButtonStyle);
+        exitButton2.setTransform(true);
+        exitButton2.setScale(0.6f);
+    }
     public void tankSpriteSetUp(){
         // define the sprites for tanks from the tank folder
         Abrams = new Image(new Texture(Gdx.files.internal("Tanks/TankAbrams.png")));
@@ -622,139 +593,181 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         FrostReverse.setSize(60, 50);
         BuratinoReverse.setSize(60, 50);
     }
-    @Override
-    public void show() {
-        stage = new Stage();
-        tankSpriteSetUp();
-        inputController = new InputController() {
-            @Override
-            public boolean keyDown(int keycode) {
-                switch (keycode) {
-                    case Input.Keys.A:
-                        if (isPlayer1Turn) {
-                            player1Tank.moveRight();
-                        } else {
-                            player2Tank.moveRight();
-                        }
-                        break;
-                    case Input.Keys.D:
-                        if (isPlayer1Turn) {
-                            player1Tank.moveLeft();
-                        } else {
-                            player2Tank.moveLeft();
-                        }
-                }
-                return true;
-            }
-            @Override
-            public boolean keyUp(int keycode) {
-                switch (keycode) {
-                    case Input.Keys.A:
-                    case Input.Keys.D:
-                        if (isPlayer1Turn) {
-                            player1Tank.stop();
-                        } else {
-                            player2Tank.stop();
-                        }
-                        break;
-                }
-                return false;
-            }
-        };
-        inputMultiplexer = new InputMultiplexer();
-//        inputMultiplexer.addProcessor(stage);
-//        inputMultiplexer.addProcessor(inputController);
-//        inputMultiplexer.addProcessor(inputController1);
-//
-//        inputMultiplexer.addProcessor(stage);
-//        vslogo = new Image(new Texture(Gdx.files.internal("Game Screen/vslogo.png")));
-////        stage.addActor(vslogo);
-        Gdx.input.setInputProcessor(stage);
-        atlas = new TextureAtlas("mainMenu/pack/button.atlas");
-        skin = new Skin(atlas);
-        white = new BitmapFont(Gdx.files.internal("fonts/white.fnt"), false);
-        black = new BitmapFont(Gdx.files.internal("fonts/black.fnt"), false);
-        tankAtlas = new TextureAtlas("Tanks/items.pack");
-        background = new Image(new Texture(Gdx.files.internal("Game Screen/gameScreenBackground.jpg")));
-//        healthBarP1 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
-//        healthbarP2 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
-        badgeP1 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
-        badgeP2 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
-        // making buttons for main game screen
+    public GameScreen(TankStars game, String filename) throws FileNotFoundException {
+        super(game);
+        // reading the data from the file
+        String fileName = "savedGames\\" + filename + ".txt";
+        File file = new File(fileName);
+        Scanner scanner = new Scanner(file);
+        player1TankType = scanner.nextLine();
+        player2TankType = scanner.nextLine();
+        gameFileName = filename;
+        int player1HitPoints = Integer.parseInt(scanner.nextLine());
+        int player2HitPoints = Integer.parseInt(scanner.nextLine());
+        int player1Fuel = Integer.parseInt(scanner.nextLine());
+        int player2Fuel = Integer.parseInt(scanner.nextLine());
+        float player1X = Float.parseFloat(scanner.nextLine());
+        float player1Y = Float.parseFloat(scanner.nextLine());
+        float player2X = Float.parseFloat(scanner.nextLine());
+        float player2Y = Float.parseFloat(scanner.nextLine());
+        String player1CurrentWeapon = scanner.nextLine();
+        String player2CurrentWeapon = scanner.nextLine();
+        isPlayer1Turn = Boolean.parseBoolean(scanner.nextLine());
+        scanner.close();
+        // setting up the world
+        setUpWorld();
+        // defining the tank types for player 1 and player 2
         {
-            textButtonStyle = new TextButton.TextButtonStyle();
-            textButtonStyle.up = skin.getDrawable("button_up");
-            textButtonStyle.down = skin.getDrawable("button_down");
-            textButtonStyle.pressedOffsetX = 1;
-            textButtonStyle.pressedOffsetY = -1;
-            textButtonStyle.font = black;
-            fireButton = new TextButton("FIRE", textButtonStyle);
-            fireButton.setTransform(true);
-            fireButton.setScale(0.6f);
-            fireButton.pad(10);
-            fireButton.setPosition(750, 100);
-            exitButton = new TextButton("EXIT", textButtonStyle);
-            exitButton.setTransform(true);
-            exitButton.setScale(0.6f);
-            exitButton1 = new TextButton("EXIT", textButtonStyle);
-            exitButton1.setTransform(true);
-            exitButton1.setScale(0.6f);
-            exitButton2 = new TextButton("EXIT", textButtonStyle);
-            exitButton2.setTransform(true);
-            exitButton2.setScale(0.6f);
-        }
-        AbramsWeaponDefinition();
-        BuratinoWeaponDefinition();
-        FrostWeaponDefinition();
-//        healthBarP1.setPosition(230, 600);
-        badgeP1.setSize(60, 60);
-        badgeP1.setPosition(190, 600);
-//        healthbarP2.setPosition(670, 600);
-        badgeP2.setPosition(1200, 600);
-        badgeP2.setSize(60, 60);
-        tankAtlas = new TextureAtlas("Tanks/items.pack");
-        background = new Image(new Texture(Gdx.files.internal("Game Screen/gameScreenBackground.jpg")));
-//        healthBarP1 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
-//        healthbarP2 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
-        badgeP1 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
-        badgeP2 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
-//        healthBarP1.setPosition(230, 600);
-        badgeP1.setSize(60, 60);
-        badgeP1.setPosition(190, 600);
-//        healthbarP2.setPosition(670, 600);
-        badgeP2.setPosition(1000, 600);
-        badgeP2.setSize(60, 60);
-//        vslogo.setPosition(546,590);
-        stage.addActor(background);
-//        stage.addActor(healthBarP1);
-//        stage.addActor(healthbarP2);
-        stage.addActor(badgeP1);
-        stage.addActor(badgeP2);
-        stage.addActor(fireButton);
-        fireButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Fire");
-                isPlayer1Turn = !isPlayer1Turn;
+                // tank definition for tank 1
+                {
+                    if (player1TankType.equals("Abrams")) {
+                        player1Tank = new com.tankstars.game.TankAbrams(true, false);
+                    } else if (player1TankType.equals("Frost")) {
+                        player1Tank = new com.tankstars.game.TankFrost(true, false);
+                    } else {
+                        player1Tank = new com.tankstars.game.TankBuratino(true, false);
+                    }
+                    player1Tank.setHealth(player1HitPoints);
+                    player1Tank.setFuelLeft(player1Fuel);
+                    player1Tank.setCurrentWeapon(player1CurrentWeapon);
+                }
+                // tank definition for tank 2
+                {
+                    if (player2TankType.equals("Abrams")) {
+                        player2Tank = new com.tankstars.game.TankAbrams(false, true);
+                    } else if (player2TankType.equals("Frost")) {
+                        player2Tank = new com.tankstars.game.TankFrost(false, true);
+                    } else {
+                        player2Tank = new com.tankstars.game.TankBuratino(false, true);
+                    }
+                    player2Tank.setHealth(player2HitPoints);
+                    player2Tank.setFuelLeft(player2Fuel);
+                    player2Tank.setCurrentWeapon(player2CurrentWeapon);
+                }
             }
-        });
+        // Tanks Definition
+        {
+            BodyDef tankDef = new BodyDef();
+            tankDef.type = BodyDef.BodyType.DynamicBody;
+            tankDef.position.set(player1X, player1Y);
+            tankBody = world.createBody(tankDef);
+            PolygonShape tankShape = new PolygonShape();
+            tankShape.setAsBox(20, 20);
+            // Tank Fixture Definition
+            FixtureDef tankFixtureDef = new FixtureDef();
+            tankFixtureDef.shape = tankShape;
+            tankFixtureDef.density = 15f;
+            tankFixtureDef.friction = 0.6f;
+            tankFixtureDef.restitution = 0.2f;
+            Fixture tankFixture = tankBody.createFixture(tankFixtureDef);
+            // Tank 2 Definition
+            BodyDef tankDef2 = new BodyDef();
+            tankDef2.type = BodyDef.BodyType.DynamicBody;
+            tankDef2.position.set(player2X, player2Y);
+            tankBody2 = world.createBody(tankDef2);
+            PolygonShape tankShape2 = new PolygonShape();
+            tankShape.setAsBox(20, 20);
+            Fixture tankFixture2 = tankBody2.createFixture(tankFixtureDef);
+        }
+    }
 
-//        stage.addActor(vslogo);
-        TextureAtlas atlas = new TextureAtlas("mainMenu/pack/button.atlas");
-        Skin skin = new Skin(atlas);
-        BitmapFont black = new BitmapFont(Gdx.files.internal("fonts/black.fnt"), false);
-        pauseTable = new Table(skin);
-        AbramsTable = new Table(skin);
-        BuratinoTable = new Table(skin);
-        FrostTable = new Table(skin);
-        saveGameTable = new Table(skin);
-        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.up = skin.getDrawable("button_up");
-        textButtonStyle.down = skin.getDrawable("button_down");
-        textButtonStyle.pressedOffsetX = 1;
-        textButtonStyle.pressedOffsetY = -1;
-        textButtonStyle.font = black;
-        // Making the buttons for the pause menu
+    public GameScreen(TankStars game, int player1, int player2) {
+        super(game);
+        gameFileName = null;
+        // defining the tank types for player 1 and player 2
+        {
+            // tank definition for tank 1
+            {
+                if (player1 == 0) {
+                    player1Tank = new com.tankstars.game.TankAbrams(true, false);
+                    player1TankType = "Abrams";
+                } else if (player1 == 1) {
+                    player1Tank = new com.tankstars.game.TankFrost(true, false);
+                    player1TankType = "Frost";
+                } else {
+                    player1Tank = new com.tankstars.game.TankBuratino(true, false);
+                    player1TankType = "Buratino";
+                }
+            }
+            // tank definition for tank 2
+            {
+                if (player2 == 0) {
+                    player2Tank = new com.tankstars.game.TankAbrams(false, true);
+                    player2TankType = "Abrams";
+                } else if (player2 == 1) {
+                    player2Tank = new com.tankstars.game.TankFrost(false, true);
+                    player2TankType = "Frost";
+                } else {
+                    player2Tank = new com.tankstars.game.TankBuratino(false, true);
+                    player2TankType = "Buratino";
+                }
+            }
+        }
+        // setting up the world
+        setUpWorld();
+        // Tanks Definition
+        {
+            BodyDef tankDef = new BodyDef();
+            tankDef.type = BodyDef.BodyType.DynamicBody;
+            tankDef.position.set(-400, -42);
+            tankBody = world.createBody(tankDef);
+            PolygonShape tankShape = new PolygonShape();
+            tankShape.setAsBox(20, 20);
+            // Tank Fixture Definition
+            FixtureDef tankFixtureDef = new FixtureDef();
+            tankFixtureDef.shape = tankShape;
+            tankFixtureDef.density = 12f;
+            tankFixtureDef.friction = 0.7f;
+            tankFixtureDef.restitution = 0.0f;
+            Fixture tankFixture = tankBody.createFixture(tankFixtureDef);
+            // Tank 2 Definition
+            BodyDef tankDef2 = new BodyDef();
+            tankDef2.type = BodyDef.BodyType.DynamicBody;
+            tankDef2.position.set(300, 55);
+            tankBody2 = world.createBody(tankDef2);
+            PolygonShape tankShape2 = new PolygonShape();
+            tankShape.setAsBox(20, 20);
+            Fixture tankFixture2 = tankBody2.createFixture(tankFixtureDef);
+        }
+        //Bullet body 1
+        {
+            BodyDef bulletDef1 = new BodyDef();
+            bulletDef1.type = BodyDef.BodyType.DynamicBody;
+            bulletDef1.position.set(-400,-27);
+            bulletBody = world.createBody(bulletDef1);
+            PolygonShape bulletshape = new PolygonShape();
+            bulletshape.setAsBox(5,5);
+
+            //Bullet Fixture Defination
+            FixtureDef bulletFixtureDef = new FixtureDef();
+            bulletFixtureDef.shape = bulletshape;
+            bulletFixtureDef.density = 7f;
+            bulletFixtureDef.friction = 100;
+//            bulletFixtureDef.restitution = 0.2f;
+            Fixture bulletFixture = bulletBody.createFixture(bulletFixtureDef);
+        }
+
+        //Bullet body 2
+        {
+            BodyDef bulletDef2 = new BodyDef();
+            bulletDef2.type = BodyDef.BodyType.DynamicBody;
+            bulletDef2.position.set(300,60);
+            bulletBody2 = world.createBody(bulletDef2);
+            PolygonShape bulletshape = new PolygonShape();
+            bulletshape.setAsBox(5,5);
+
+            //Bullet Fixture Defination
+            FixtureDef bulletFixtureDef = new FixtureDef();
+            bulletFixtureDef.shape = bulletshape;
+            bulletFixtureDef.density = 7f;
+            bulletFixtureDef.friction = 1;
+//            bulletFixtureDef.restitution = 0.2f;
+            Fixture bulletFixture = bulletBody2.createFixture(bulletFixtureDef);
+        }
+
+
+    }
+    public void pauseMenu(){
         {
             resumeButton = new TextButton("Resume", textButtonStyle);
             mainMenuButton = new TextButton("MainMenu", textButtonStyle);
@@ -771,9 +784,9 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             exitWindowButton = new TextButton("Exit", textButtonStyle);
             exitWindowButton.setTransform(true);
             exitWindowButton.setScale(0.6f);
-            Label saveGameLabel = new Label("Would you like to save the game?", new Label.LabelStyle(white, Color.WHITE));
-            Skin defaultskin = new Skin(Gdx.files.internal("data/uiskin.json"));
-            TextField saveGameTextField = new TextField("", defaultskin);
+            saveGameLabel = new Label("Would you like to save the game?", new Label.LabelStyle(white, Color.WHITE));
+            defaultskin = new Skin(Gdx.files.internal("data/uiskin.json"));
+            saveGameTextField = new TextField("", defaultskin);
             final String[] savedGameName = new String[1];
             saveGameButton.addListener(new ClickListener() {
                 @Override
@@ -781,7 +794,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
                     System.out.println("Save Game");
                     pauseTable.remove();
                     stage.addActor(saveGameTable);
-
                 }
             });
             saveGameOptionButton.addListener(new ClickListener() {
@@ -832,195 +844,192 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
                     pauseTable.remove();
                 }
             });
+            pauseTable.add(resumeButton);
+            pauseTable.row();
+            pauseTable.add(saveGameButton);
+            pauseTable.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         }
-        pauseTable.add(resumeButton);
-        pauseTable.row();
-        pauseTable.add(saveGameButton);
-        pauseTable.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-        // Adding the buttons and images to table for Abrams
-        {
-            AbramsTable.add(game.resources.AbramsSplitterChain);
-            AbramsTable.add(AbramsSplitterChain);
-            AbramsTable.row();
-            AbramsTable.add(game.resources.AbramsBigOne);
-            AbramsTable.add(AbramsBigOne);
-            AbramsTable.row();
-            AbramsTable.add(game.resources.AbramsAirStrike);
-            AbramsTable.add(AbramsAirStrike);
-            AbramsTable.row();
-            AbramsTable.add(game.resources.AbramsShotgun);
-            AbramsTable.add(AbramsShotgun);
-            AbramsTable.row();
-            AbramsTable.add(game.resources.AbramsVolley);
-            AbramsTable.add(AbramsVolley);
-            AbramsTable.row();
-            AbramsTable.add(exitButton);
-            AbramsTable.row();
-            AbramsTable.setPosition(1000, 675 / 2f);
-        }
-        // Adding the buttons and images to table for Buratino
-        {
-            BuratinoTable.add(game.resources.BuratinoHoming);
-            BuratinoTable.add(BuratinoHoming);
-            BuratinoTable.row();
-            BuratinoTable.add(game.resources.BuratinoMIRV);
-            BuratinoTable.add(BuratinoMIRV);
-            BuratinoTable.row();
-            BuratinoTable.add(game.resources.BuratinoShredder);
-            BuratinoTable.add(BuratinoShredder);
-            BuratinoTable.row();
-            BuratinoTable.add(game.resources.BuratinoAreaStrike);
-            BuratinoTable.add(BuratinoAreaStrike);
-            BuratinoTable.row();
-            BuratinoTable.add(game.resources.BuratinoHounds);
-            BuratinoTable.add(BuratinoHounds);
-            BuratinoTable.row();
-            BuratinoTable.add(exitButton1);
-            BuratinoTable.setPosition(1040, 675 / 2f);
-        }
-        // Adding the buttons and images to table for Frost
-        {
-            FrostTable.add(game.resources.FrostBlast);
-            FrostTable.add(FrostBlast);
-            FrostTable.row();
-            FrostTable.add(game.resources.FrostBite);
-            FrostTable.add(FrostBite);
-            FrostTable.row();
-            FrostTable.add(game.resources.FrostBlizzard);
-            FrostTable.add(FrostBlizzard);
-            FrostTable.row();
-            FrostTable.add(game.resources.FrostAssaultDrones);
-            FrostTable.add(FrostAssaultDrones);
-            FrostTable.row();
-            FrostTable.add(game.resources.FrostHighPressure);
-            FrostTable.add(FrostHighPressure);
-            FrostTable.row();
+    }
+    private void AbramsTable(){
+        AbramsTable.add(game.resources.AbramsSplitterChain);
+        AbramsTable.add(AbramsSplitterChain);
+        AbramsTable.row();
+        AbramsTable.add(game.resources.AbramsBigOne);
+        AbramsTable.add(AbramsBigOne);
+        AbramsTable.row();
+        AbramsTable.add(game.resources.AbramsAirStrike);
+        AbramsTable.add(AbramsAirStrike);
+        AbramsTable.row();
+        AbramsTable.add(game.resources.AbramsShotgun);
+        AbramsTable.add(AbramsShotgun);
+        AbramsTable.row();
+        AbramsTable.add(game.resources.AbramsVolley);
+        AbramsTable.add(AbramsVolley);
+        AbramsTable.row();
+        AbramsTable.add(exitButton);
+        AbramsTable.row();
+        AbramsTable.setPosition(1000, 675 / 2f);
+    }
+    private void BuratinoTable(){
+        BuratinoTable.add(game.resources.BuratinoHoming);
+        BuratinoTable.add(BuratinoHoming);
+        BuratinoTable.row();
+        BuratinoTable.add(game.resources.BuratinoMIRV);
+        BuratinoTable.add(BuratinoMIRV);
+        BuratinoTable.row();
+        BuratinoTable.add(game.resources.BuratinoShredder);
+        BuratinoTable.add(BuratinoShredder);
+        BuratinoTable.row();
+        BuratinoTable.add(game.resources.BuratinoAreaStrike);
+        BuratinoTable.add(BuratinoAreaStrike);
+        BuratinoTable.row();
+        BuratinoTable.add(game.resources.BuratinoHounds);
+        BuratinoTable.add(BuratinoHounds);
+        BuratinoTable.row();
+        BuratinoTable.add(exitButton1);
+        BuratinoTable.setPosition(1040, 675 / 2f);
+    }
+    private void FrostTable(){
+        FrostTable.add(game.resources.FrostBlast);
+        FrostTable.add(FrostBlast);
+        FrostTable.row();
+        FrostTable.add(game.resources.FrostBite);
+        FrostTable.add(FrostBite);
+        FrostTable.row();
+        FrostTable.add(game.resources.FrostBlizzard);
+        FrostTable.add(FrostBlizzard);
+        FrostTable.row();
+        FrostTable.add(game.resources.FrostAssaultDrones);
+        FrostTable.add(FrostAssaultDrones);
+        FrostTable.row();
+        FrostTable.add(game.resources.FrostHighPressure);
+        FrostTable.add(FrostHighPressure);
+        FrostTable.row();
 //        FrostTable.add(game.resources.FrostIceSplitter);
 //        FrostTable.add(FrostIceSplitter);
 //        FrostTable.row();
-            FrostTable.add(exitButton2);
-            FrostTable.setPosition(1000, 675 / 2f);
-        }
-        myTexture = new Texture(Gdx.files.internal("Game Screen/pause.png"));
-        pauseButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(myTexture)));
-        pauseButton.setPosition(0,Gdx.graphics.getHeight()-60);
-        pauseButton.addListener(new ClickListener(){
+        FrostTable.add(exitButton2);
+        FrostTable.setPosition(1000, 675 / 2f);
+    }
+    @Override
+    public void show() {
+        stage = new Stage();
+        tankSpriteSetUp();
+        inputController = new InputController() {
             @Override
-            public void clicked(InputEvent event, float x, float y){
-                popUp.setPosition(Gdx.graphics.getWidth()-780,Gdx.graphics.getHeight()-480);
-                stage.addActor(popUp);
-                stage.addActor(pauseTable);
-//                black.draw(stage.getBatch(), "Are you sure you want to exit?", 400, 400);
+            public boolean keyDown(int keycode) {
+                switch (keycode) {
+                    case Input.Keys.A:
+                        if (isPlayer1Turn) {
+                            player1Tank.moveRight();
+                        } else {
+                            player2Tank.moveRight();
+                        }
+                        break;
+                    case Input.Keys.D:
+                        if (isPlayer1Turn) {
+                            player1Tank.moveLeft();
+                        } else {
+                            player2Tank.moveLeft();
+                        }
+                }
+                return true;
             }
-        });
-        // making the exit button clickable
+            @Override
+            public boolean keyUp(int keycode) {
+                switch (keycode) {
+                    case Input.Keys.A:
+                    case Input.Keys.D:
+                        if (isPlayer1Turn) {
+                            player1Tank.stop();
+                        } else {
+                            player2Tank.stop();
+                        }
+                        break;
+                }
+                return false;
+            }
+        };
+        inputMultiplexer = new InputMultiplexer();
+//        vslogo = new Image(new Texture(Gdx.files.internal("Game Screen/vslogo.png")));
+////        stage.addActor(vslogo);
+        atlas = new TextureAtlas("mainMenu/pack/button.atlas");
+        skin = new Skin(atlas);
+        white = new BitmapFont(Gdx.files.internal("fonts/white.fnt"), false);
+        black = new BitmapFont(Gdx.files.internal("fonts/black.fnt"), false);
+        tankAtlas = new TextureAtlas("Tanks/items.pack");
+        background = new Image(new Texture(Gdx.files.internal("Game Screen/gameScreenBackground.jpg")));
+//        healthBarP1 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
+//        healthbarP2 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
+        badgeP1 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
+        badgeP2 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
+        // textButtonStyle definition
         {
-            exitButton.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    switch (check()) {
-                        case 1:
-                        case 4: {
-                            AbramsTable.remove();
-                            break;
-                        }
-                        case 2:
-                        case 5: {
-                            BuratinoTable.remove();
-                            break;
-                        }
-                        case 3:
-                        case 6: {
-                            FrostTable.remove();
-                            break;
-                        }
-                    }
-                    weaponPopUp.remove();
-                }
-            });
-            exitButton1.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    switch (check()) {
-                        case 1:
-                        case 4: {
-                            AbramsTable.remove();
-                            break;
-                        }
-                        case 2:
-                        case 5: {
-                            BuratinoTable.remove();
-                            break;
-                        }
-                        case 3:
-                        case 6: {
-                            FrostTable.remove();
-                            break;
-                        }
-                    }
-                    weaponPopUp.remove();
-                }
-            });
-            exitButton2.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    switch (check()) {
-                        case 1:
-                        case 4: {
-                            AbramsTable.remove();
-                            break;
-                        }
-                        case 2:
-                        case 5: {
-                            BuratinoTable.remove();
-                            break;
-                        }
-                        case 3:
-                        case 6: {
-                            FrostTable.remove();
-                            break;
-                        }
-                    }
-                    weaponPopUp.remove();
-                }
-            });
+            textButtonStyle = new TextButton.TextButtonStyle();
+            textButtonStyle.up = skin.getDrawable("button_up");
+            textButtonStyle.down = skin.getDrawable("button_down");
+            textButtonStyle.pressedOffsetX = 1;
+            textButtonStyle.pressedOffsetY = -1;
+            textButtonStyle.font = black;
         }
-        selectWeapon = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("Tanks/chooseButton.png")))));
-        selectWeapon.setPosition(Gdx.graphics.getWidth()/2+60,Gdx.graphics.getHeight()/6);
-        selectWeapon.addListener(new ClickListener(){
+        gameButtonDefinition();
+        AbramsWeaponDefinition();
+        BuratinoWeaponDefinition();
+        FrostWeaponDefinition();
+        tankAtlas = new TextureAtlas("Tanks/items.pack");
+        background = new Image(new Texture(Gdx.files.internal("Game Screen/gameScreenBackground.jpg")));
+//        healthBarP1 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
+//        healthbarP2 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
+        badgeP1 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
+        badgeP2 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
+//        healthBarP1.setPosition(230, 600);
+        badgeP1.setSize(60, 60);
+        badgeP1.setPosition(190, 600);
+//        healthbarP2.setPosition(670, 600);
+        badgeP2.setPosition(1000, 600);
+        badgeP2.setSize(60, 60);
+//        vslogo.setPosition(546,590);
+        stage.addActor(background);
+//        stage.addActor(healthBarP1);
+//        stage.addActor(healthbarP2);
+        stage.addActor(badgeP1);
+        stage.addActor(badgeP2);
+        stage.addActor(fireButton);
+        fireButton.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y){
-                weaponPopUp.setPosition(Gdx.graphics.getWidth()-400,0);
-                weaponPopUp.setSize(700,Gdx.graphics.getHeight());
-                stage.addActor(weaponPopUp);
-                System.out.println(isPlayer1Turn);
-                if (isPlayer1Turn){
-                    if (Objects.equals(player1TankType, "Abrams")){
-                        stage.addActor(AbramsTable);
-                    }
-                    else if (Objects.equals(player1TankType, "Buratino")){
-                        stage.addActor(BuratinoTable);
-                    }
-                    else{
-                        stage.addActor(FrostTable);
-                    }
-                }
-                else{
-                    if (Objects.equals(player2TankType, "Abrams")){
-                        stage.addActor(AbramsTable);
-                    }
-                    else if (Objects.equals(player2TankType, "Buratino")){
-                        stage.addActor(BuratinoTable);
-                    }
-                    else{
-                        stage.addActor(FrostTable);
-                    }
-                }
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("Fire");
+                isPlayer1Turn = !isPlayer1Turn;
             }
         });
+
+//        stage.addActor(vslogo);
+        TextureAtlas atlas = new TextureAtlas("mainMenu/pack/button.atlas");
+        Skin skin = new Skin(atlas);
+        BitmapFont black = new BitmapFont(Gdx.files.internal("fonts/black.fnt"), false);
+        pauseTable = new Table(skin);
+        AbramsTable = new Table(skin);
+        BuratinoTable = new Table(skin);
+        FrostTable = new Table(skin);
+        saveGameTable = new Table(skin);
+        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.up = skin.getDrawable("button_up");
+        textButtonStyle.down = skin.getDrawable("button_down");
+        textButtonStyle.pressedOffsetX = 1;
+        textButtonStyle.pressedOffsetY = -1;
+        textButtonStyle.font = black;
+        // Making the buttons for the pause menu
+        pauseMenu();
+        // Adding the buttons and images to table for Abrams
+        AbramsTable();
+        // Adding the buttons and images to table for Buratino
+        BuratinoTable();
+        // Adding the buttons and images to table for Frost
+        FrostTable();
+        // making the button clickable
+        buttonInputDefinition();
         stage.addActor(selectWeapon);
         stage.addActor(pauseButton);
-
         //HealthBar1
         {
             Skin healthBarSkin = new Skin(Gdx.files.internal("skins/comic/skin/comic-ui.json"));
@@ -1030,7 +1039,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             healthBarP1.setWidth(300);
             stage.addActor(healthBarP1);
         }
-
         //HealthBar2
         {
             Skin healthBarSkin = new Skin(Gdx.files.internal("skins/comic/skin/comic-ui.json"));
@@ -1040,7 +1048,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             healthBarP2.setWidth(300);
             stage.addActor(healthBarP2);
         }
-
         //TankFuelBar1
         {
             Skin healthBarSkin = new Skin(Gdx.files.internal("skins/comic/skin/comic-ui.json"));
@@ -1050,7 +1057,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 //            fuelBarP1.setColor(Color.BLUE);
             stage.addActor(fuelBarP1);
         }
-
         //TankFuelBar2
         {
             Skin healthBarSkin = new Skin(Gdx.files.internal("skins/comic/skin/comic-ui.json"));
@@ -1060,7 +1066,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 //            fuelBarP2.setColor(Color.GREEN);
             stage.addActor(fuelBarP2);
         }
-
         //Power Bar
         {
             Skin healthBarSkin = new Skin(Gdx.files.internal("skins/comic/skin/comic-ui.json"));
@@ -1073,26 +1078,18 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 //            fuelBarP1.setColor(Color.BLUE);
             stage.addActor(powerBar);
         }
-
-
 //        arrow1 = new Image(new Texture(Gdx.files.internal("Game Screen/gradient aim.png")));
         arrow2 = new Image(new Texture(Gdx.files.internal("Game Screen/gradient aim.png")));
-
         arrow1 = new Texture("Game Screen/gradient aim.png");
-
-
 //        arrow1.setPosition(200,330);
 //        arrow1.set(tankBody.getPosition().x,tankBody.getPosition().y);
 //        arrow1.setSize(arrow1.getWidth()/3,arrow1.getHeight()/3);
 ////        arrow1.setScaling(0.5f);
 //        arrow1.rotateBy(theta1);
-
         arrow2.setPosition(820,510);
         arrow2.setSize(arrow2.getWidth()/3,arrow2.getHeight()/3);
 ////        arrow1.setScaling(0.5f);
         arrow2.rotateBy((float) ((-1)*theta2));
-
-
 //        stage.addActor(arrow1);
 //        stage.addActor(arrow2);
     }
