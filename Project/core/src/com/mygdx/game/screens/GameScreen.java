@@ -44,6 +44,8 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     private Skin skin;
     private Body tankBody, tankBody2, bulletBody,bulletBody2;
     private String gameFileName;
+    private InputMultiplexer inputMultiplexer;
+    private InputController inputController;
     private boolean isPlayer1Turn = true;
     int theta1 = 45;
     int theta2 = 45;
@@ -58,14 +60,12 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     private TextButton resumeButton, mainMenuButton, saveGameOptionButton, exitWindowButton, cancelButton, saveButton;
     private ImageButton pauseButton, selectWeapon;
     private com.tankstars.game.Tank player1Tank, player2Tank;
-    String player1TankType, player2TankType;
-    ProgressBar healthBarP1,healthBarP2,fuelBarP1,fuelBarP2,powerBar;
-    Image popUp = new Image(new Texture(Gdx.files.internal("mainMenu/popUpBackground.jpg")));
-    Image weaponPopUp = new Image(new Texture(Gdx.files.internal("mainMenu/popUpBackground.jpg")));
-    Image Abrams, AbramsReverse, Buratino, BuratinoReverse, Frost, FrostReverse;
-    public void stop(boolean isPlayer1){
-
-    }
+    private String player1TankType, player2TankType;
+    private ProgressBar healthBarP1,healthBarP2,fuelBarP1,fuelBarP2,powerBar;
+    private Image popUp = new Image(new Texture(Gdx.files.internal("mainMenu/popUpBackground.jpg")));
+    private Image weaponPopUp = new Image(new Texture(Gdx.files.internal("mainMenu/popUpBackground.jpg")));
+    private Image Abrams, AbramsReverse, Buratino, BuratinoReverse, Frost, FrostReverse;
+    private Vector2 tankSpeed1, tankSpeed2;
     public void saveGame(String filename) throws IOException {
         try {
             String file = "savedGames\\" + filename + ".txt";
@@ -607,8 +607,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             });
         }
     }
-    @Override
-    public void show() {
+    public void tankSpriteSetUp(){
         // define the sprites for tanks from the tank folder
         Abrams = new Image(new Texture(Gdx.files.internal("Tanks/TankAbrams.png")));
         Frost = new Image(new Texture(Gdx.files.internal("Tanks/TankFrost.png")));
@@ -622,8 +621,12 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         AbramsReverse.setSize(60, 50);
         FrostReverse.setSize(60, 50);
         BuratinoReverse.setSize(60, 50);
+    }
+    @Override
+    public void show() {
         stage = new Stage();
-        InputController inputController = new InputController() {
+        tankSpriteSetUp();
+        inputController = new InputController() {
             @Override
             public boolean keyDown(int keycode) {
                 switch (keycode) {
@@ -658,38 +661,13 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
                 return false;
             }
         };
-//        InputController inputController1 = new InputController(){
-//            @Override
-//            public boolean keyDown(int keycode) {
-//                switch(keycode){
-//                    case Input.Keys.D:
-//                        if (isPlayer1Turn){
-//                            tank1Speed.x = 1000;
-//                        }
-//                        else{
-//                            tank2Speed.x = -1000;
-//                        }
-//                    case Input.Keys.A:
-//                        if (isPlayer1Turn){
-//                            tank1Speed.x = -1000;
-//                        }
-//                        else{
-//                            tank2Speed.x = 1000;
-//                        }
-//                }
-//            }
-//        };
-//        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer = new InputMultiplexer();
+//        inputMultiplexer.addProcessor(stage);
+//        inputMultiplexer.addProcessor(inputController);
 //        inputMultiplexer.addProcessor(inputController1);
 //
 //        inputMultiplexer.addProcessor(stage);
 //        vslogo = new Image(new Texture(Gdx.files.internal("Game Screen/vslogo.png")));
-//        player1.tank.tankSprite.setPosition(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/4);
-//        player2.tank.tankSprite.setPosition(Gdx.graphics.getWidth()*4/5, Gdx.graphics.getHeight()/4);
-//        player1.tank.setPosition(Gdx.graphics.getWidth()/7, Gdx.graphics.getHeight()/4);
-//        player2.tank.setPosition(Gdx.graphics.getWidth()*4/5, Gdx.graphics.getHeight()/4);
-//        player1.tank.setSize(100,60);
-//        player2.tank.setSize(100,60);
 ////        stage.addActor(vslogo);
         Gdx.input.setInputProcessor(stage);
         atlas = new TextureAtlas("mainMenu/pack/button.atlas");
@@ -740,42 +718,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 //        healthbarP2 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
         badgeP1 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
         badgeP2 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
-
-        {
-//        InputController inputController1 = new InputController(){
-//            @Override
-//            public boolean keyDown(int keycode) {
-//                switch(keycode){
-//                    case Input.Keys.D:
-//                        if (isPlayer1Turn){
-//                            tank1Speed.x = 1000;
-//                        }
-//                        else{
-//                            tank2Speed.x = -1000;
-//                        }
-//                    case Input.Keys.A:
-//                        if (isPlayer1Turn){
-//                            tank1Speed.x = -1000;
-//                        }
-//                        else{
-//                            tank2Speed.x = 1000;
-//                        }
-//                }
-//            }
-//        };
-//        InputMultiplexer inputMultiplexer = new InputMultiplexer();
-//        inputMultiplexer.addProcessor(inputController1);
-
-//        inputMultiplexer.addProcessor();
-//        vslogo = new Image(new Texture(Gdx.files.internal("Game Screen/vslogo.png")));
-//        player1.tank.tankSprite.setPosition(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/4);
-//        player2.tank.tankSprite.setPosition(Gdx.graphics.getWidth()*4/5, Gdx.graphics.getHeight()/4);
-//        player1.tank.setPosition(Gdx.graphics.getWidth()/7, Gdx.graphics.getHeight()/4);
-//        player2.tank.setPosition(Gdx.graphics.getWidth()*4/5, Gdx.graphics.getHeight()/4);
-//        player1.tank.setSize(100,60);
-//        player2.tank.setSize(100,60);
-////        stage.addActor(vslogo);
-        }
 //        healthBarP1.setPosition(230, 600);
         badgeP1.setSize(60, 60);
         badgeP1.setPosition(190, 600);
@@ -1225,12 +1167,17 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.setDebugAll(true);
         stage.act(delta);
+        tankSpeed1 = new Vector2(player1Tank.getSpeed(),0);
+        tankSpeed2 = new Vector2(player2Tank.getSpeed(),0);
+        tankBody.applyLinearImpulse(tankSpeed1,tankBody.getWorldCenter(),true);
+        tankBody2.applyLinearImpulse(tankSpeed2,tankBody2.getWorldCenter(),true);
 //        arrow2.setPosition(tankBody.getPosition().x,tankBody.getPosition().y);
 //        stage.addActor(arrow2);
-
-
         //        stage.addActor(arrow1);
         stage.draw();
+        inputMultiplexer.addProcessor(stage);
+        inputMultiplexer.addProcessor(inputController);
+        Gdx.input.setInputProcessor(inputMultiplexer);
         switch(player1TankType){
             case "Abrams":
                 Abrams.setPosition(tankBody.getPosition().x + 580,tankBody.getPosition().y + 675/2f-20);
@@ -1259,6 +1206,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         }
         trajectory1();
         trajectory2();
+
 //        batch.draw(arrow1,tankBody.getPosition().x,tankBody.getPosition().y,2,2);
         for(int i = 0; i< Tx1.size(); i++){
             batch.draw(arrow1, Tx1.get(i), Ty1.get(i),2,2);

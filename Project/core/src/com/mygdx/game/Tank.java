@@ -47,18 +47,18 @@ public class Tank extends com.tankstars.game.TankStars {
     }
     public void moveLeft(){
         if (isPlayer1){
-            speed = -100;
+            speed = -5000;
         }
         else{
-            speed = 100;
+            speed = 5000;
         }
     }
     public void moveRight(){
         if (isPlayer1){
-            speed = 100;
+            speed = 5000;
         }
         else{
-            speed = -100;
+            speed = -5000;
         }
     }
     public void stop(){
@@ -79,6 +79,11 @@ public class Tank extends com.tankstars.game.TankStars {
     public int getFuelLeft() {
         return fuelLeft;
     }
+
+    public int getSpeed() {
+        return speed;
+    }
+
     public void setCurrentWeapon(String weaponName) {
         switch(weaponName){
             case "SplitterChain":
