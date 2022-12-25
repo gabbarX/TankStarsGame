@@ -194,6 +194,16 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
                 }
             });
         }
+        // fire button
+        {
+            fireButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    System.out.println("Fire");
+                    isPlayer1Turn = !isPlayer1Turn;
+                }
+            });
+        }
     }
     public void saveGame(String filename) throws IOException {
         try {
@@ -246,7 +256,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         }
 
     }
-    public void setUpWorld(){
+    private void setUpWorld(){
         // setting up the box2d world, camera and debugrenderer
         {
             world = new World(new Vector2(0, -9.8f), true);
@@ -291,7 +301,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         }
 
     }
-    public void AbramsWeaponDefinition(){
+    private void AbramsWeaponDefinition(){
         {
             AbramsSplitterChain = new TextButton("Splitter Chain", textButtonStyle);
             AbramsSplitterChain.setTransform(true);
@@ -381,7 +391,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             });
         }
     }
-    public void BuratinoWeaponDefinition() {
+    private void BuratinoWeaponDefinition() {
         {
             BuratinoHoming = new TextButton("Homing", textButtonStyle);
             BuratinoHoming.setTransform(true);
@@ -471,7 +481,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             });
         }
     }
-    public void FrostWeaponDefinition(){
+    private void FrostWeaponDefinition(){
         {
             FrostBlast = new TextButton("Blast", textButtonStyle);
             FrostBlast.setTransform(true);
@@ -562,7 +572,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             });
         }
     }
-    public void gameButtonDefinition(){
+    private void gameButtonDefinition(){
         fireButton = new TextButton("FIRE", textButtonStyle);
         fireButton.setTransform(true);
         fireButton.setScale(0.6f);
@@ -951,8 +961,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             }
         };
         inputMultiplexer = new InputMultiplexer();
-//        vslogo = new Image(new Texture(Gdx.files.internal("Game Screen/vslogo.png")));
-////        stage.addActor(vslogo);
         atlas = new TextureAtlas("mainMenu/pack/button.atlas");
         skin = new Skin(atlas);
         white = new BitmapFont(Gdx.files.internal("fonts/white.fnt"), false);
@@ -976,12 +984,6 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         AbramsWeaponDefinition();
         BuratinoWeaponDefinition();
         FrostWeaponDefinition();
-        tankAtlas = new TextureAtlas("Tanks/items.pack");
-        background = new Image(new Texture(Gdx.files.internal("Game Screen/gameScreenBackground.jpg")));
-//        healthBarP1 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
-//        healthbarP2 = new Image(new Texture(Gdx.files.internal("Game Screen/healthbar.png")));
-        badgeP1 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
-        badgeP2 = new Image(new Texture(Gdx.files.internal("Game Screen/badge.png")));
 //        healthBarP1.setPosition(230, 600);
         badgeP1.setSize(60, 60);
         badgeP1.setPosition(190, 600);
@@ -995,23 +997,17 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         stage.addActor(badgeP1);
         stage.addActor(badgeP2);
         stage.addActor(fireButton);
-        fireButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Fire");
-                isPlayer1Turn = !isPlayer1Turn;
-            }
-        });
-
-//        stage.addActor(vslogo);
-        TextureAtlas atlas = new TextureAtlas("mainMenu/pack/button.atlas");
-        Skin skin = new Skin(atlas);
-        BitmapFont black = new BitmapFont(Gdx.files.internal("fonts/black.fnt"), false);
-        pauseTable = new Table(skin);
-        AbramsTable = new Table(skin);
-        BuratinoTable = new Table(skin);
-        FrostTable = new Table(skin);
-        saveGameTable = new Table(skin);
+        // Table definitions
+        {
+            TextureAtlas atlas = new TextureAtlas("mainMenu/pack/button.atlas");
+            Skin skin = new Skin(atlas);
+            BitmapFont black = new BitmapFont(Gdx.files.internal("fonts/black.fnt"), false);
+            pauseTable = new Table(skin);
+            AbramsTable = new Table(skin);
+            BuratinoTable = new Table(skin);
+            FrostTable = new Table(skin);
+            saveGameTable = new Table(skin);
+        }
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.up = skin.getDrawable("button_up");
         textButtonStyle.down = skin.getDrawable("button_down");
