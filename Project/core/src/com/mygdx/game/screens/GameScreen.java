@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -51,8 +52,8 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     int theta2 = 45;
     int maxpower = 1000000;
     int power = 100000;
-    Vector2 bulletSpeed = new Vector2(power* cos((float) Math.toRadians(theta1)), power* sin((float)Math.toRadians(theta1)));
-    Vector2 bulletSpeed2 = new Vector2(-1*power* cos((float) Math.toRadians(theta2)), power* sin((float)Math.toRadians(theta2)));
+    int bulletSpeed = 100000;
+    int bulletSpeed2 = 100000;
     Vector2 tankforceR = new Vector2(1000000f, 0f);
     Vector2 tankforceL = new Vector2(-1000000f, 0f);
     private Texture myTexture;
@@ -924,6 +925,10 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     @Override
     public void show() {
         stage = new Stage();
+        Tx1 = new ArrayList<Float>();
+        Ty1 = new ArrayList<Float>();
+        Tx2 = new ArrayList<Float>();
+        Ty2 = new ArrayList<Float>();
         tankSpriteSetUp();
         inputController = new InputController() {
             @Override
@@ -1089,69 +1094,103 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
 //        stage.addActor(arrow1);
 //        stage.addActor(arrow2);
     }
+//
 
-    public void trajectory1(){
-        Tx1 = new ArrayList<Float>();
-        Ty1 = new ArrayList<Float>();
-        float angle = theta1;
-        float initialVelocity = power/1000;
-        float gravity = 9.81f;
 
-        float velX = initialVelocity * MathUtils.cosDeg(angle);
-        float velY = initialVelocity * MathUtils.sinDeg(angle);
+//  Old trajectory functions.
 
-        float x = tankBody.getPosition().x;
-        float y = tankBody.getPosition().y;
-
-        float timeStep = 0.01f;
-        float totalTime = 2;
-
-        for (float t = 0; t < totalTime; t += timeStep) {
-            x += velX * timeStep;
-            y += velY * timeStep;
-            Tx1.add(x);
-            Ty1.add(y);
-
-            velY -= gravity * timeStep;
-
-//            System.out.println("x: " + x + ", y: " + y);
-        }
-    }
-
-    public void trajectory2(){
-        Tx2 = new ArrayList<Float>();
-        Ty2 = new ArrayList<Float>();
-        float angle = theta2;
-        float initialVelocity = power/1000;
-        float gravity = 9.81f;
-
-        float velX = initialVelocity * MathUtils.cosDeg(angle);
-        float velY = initialVelocity * MathUtils.sinDeg(angle);
-
-        float x = tankBody2.getPosition().x;
-        float y = tankBody2.getPosition().y;
-
-        float timeStep = 0.01f;
-        float totalTime = 2;
-
-        for (float t = 0; t < totalTime; t += timeStep) {
-            x -= velX * timeStep;
-            y += velY * timeStep;
-            Tx2.add(x);
-            Ty2.add(y);
-
-            velY -= gravity * timeStep;
-
-//            System.out.println("x: " + x + ", y: " + y);
-        }
-
-    }
+//    public void trajectory1(){
+//        Tx1 = new ArrayList<Float>();
+//        Ty1 = new ArrayList<Float>();
+//        float angle = theta1;
+//        float initialVelocity = power/1000;
+//        float gravity = 9.81f;
+//
+//        float velX = initialVelocity * MathUtils.cosDeg(angle);
+//        float velY = initialVelocity * MathUtils.sinDeg(angle);
+//
+//        float x = tankBody.getPosition().x;
+//        float y = tankBody.getPosition().y;
+//
+//        float timeStep = 0.01f;
+//        float totalTime = 2;
+//
+//        for (float t = 0; t < totalTime; t += timeStep) {
+//            x += velX * timeStep;
+//            y += velY * timeStep;
+//            Tx1.add(x);
+//            Ty1.add(y);
+//
+//            velY -= gravity * timeStep;
+//
+////            System.out.println("x: " + x + ", y: " + y);
+//        }
+//    }
+//
+//    public void trajectory2(){
+//        Tx2 = new ArrayList<Float>();
+//        Ty2 = new ArrayList<Float>();
+//        float angle = theta2;
+//        float initialVelocity = power/1000;
+//        float gravity = 9.81f;
+//
+//        float velX = initialVelocity * MathUtils.cosDeg(angle);
+//        float velY = initialVelocity * MathUtils.sinDeg(angle);
+//
+//        float x = tankBody2.getPosition().x;
+//        float y = tankBody2.getPosition().y;
+//
+//        float timeStep = 0.01f;
+//        float totalTime = 2;
+//
+//        for (float t = 0; t < totalTime; t += timeStep) {
+//            x -= velX * timeStep;
+//            y += velY * timeStep;
+//            Tx2.add(x);
+//            Ty2.add(y);
+//
+//            velY -= gravity * timeStep;
+//
+////            System.out.println("x: " + x + ", y: " + y);
+//        }
+//
+//    }
 
     public void update(){
         healthBarP1.setValue(player1Tank.getHealth());
         healthBarP2.setValue(player2Tank.getHealth());
         fuelBarP1.setValue(player1Tank.getFuelLeft());
         fuelBarP2.setValue(player2Tank.getFuelLeft());
+    }
+
+
+    private void calculateTrajectory(Vector2 startPosition, Vector2 direction, float bulletSpeed, ArrayList<Float> Tx, ArrayList<Float> Ty) {
+        float gravity = 9.81f;
+        float timeStep = 0.1f;
+        float maxTime = 2.0f;
+
+        Tx.clear();
+        Ty.clear();
+
+        Vector2 position = startPosition.cpy();
+        Vector2 velocity = direction.cpy().scl(bulletSpeed);
+
+        for (float t = 0; t < maxTime; t += timeStep) {
+            position.x += velocity.x * timeStep;
+            position.y += velocity.y * timeStep;
+            position.y -= 0.5f * gravity * timeStep * timeStep;
+
+            Tx.add(position.x);
+            Ty.add(position.y);
+
+            velocity.y -= gravity * timeStep;
+        }
+    }
+
+    private void renderTrajectory(ArrayList<Float> Tx, ArrayList<Float> Ty) {
+        for (int i = 0; i < Tx.size(); i++) {
+            batch.draw(arrow1, Tx.get(i), Ty.get(i), 2, 2);
+        }
     }
     @Override
     public void render(float delta) {
@@ -1197,55 +1236,58 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
                 FrostReverse.setPosition(tankBody2.getPosition().x + 580, tankBody2.getPosition().y + 675/2f-20);
                 stage.addActor(FrostReverse);
         }
-        trajectory1();
-        trajectory2();
 
+
+
+//  old code that brought two white lines to suffice the need of trajectory
+        {
+//        trajectory1();
+//        trajectory2();
+//
 //        batch.draw(arrow1,tankBody.getPosition().x,tankBody.getPosition().y,2,2);
-        for(int i = 0; i< Tx1.size(); i++){
-            batch.draw(arrow1, Tx1.get(i), Ty1.get(i),2,2);
-        }
+//        for(int i = 0; i< Tx1.size(); i++){
+//            batch.draw(arrow1, Tx1.get(i), Ty1.get(i),2,2);
+//        }
 //        batch.draw(arrow1, tankBody.getPosition().x,tankBody.getPosition().y,5,5);
 //        black.draw(batch, "HEY", 100,100);
+//
+//        for(int i=0; i<Tx2.size();i++){
+//            batch.draw(arrow1, Tx2.get(i), Ty2.get(i),2,2);
+//        }
 
-        for(int i=0; i<Tx2.size();i++){
-            batch.draw(arrow1, Tx2.get(i), Ty2.get(i),2,2);
         }
+
+//        New trajectory logic
+        {
+            float mouseX = Gdx.input.getX();
+            float mouseY = Gdx.input.getY();
+            Vector3 mousePosition = new Vector3(mouseX, mouseY, 0);
+            camera.unproject(mousePosition);
+
+            if (isPlayer1Turn) {
+                Vector2 startPosition = tankBody.getPosition();
+                Vector2 direction = new Vector2(mousePosition.x - startPosition.x, mousePosition.y - startPosition.y);
+                direction.nor();
+
+                calculateTrajectory(startPosition, direction, bulletSpeed, Tx1, Ty1);
+            } else {
+                Vector2 startPosition = tankBody2.getPosition();
+                Vector2 direction = new Vector2(mousePosition.x - startPosition.x, mousePosition.y - startPosition.y);
+                direction.nor();
+
+                calculateTrajectory(startPosition, direction, bulletSpeed2, Tx2, Ty2);
+            }
+
+
+            batch.draw(arrow1, tankBody.getPosition().x, tankBody.getPosition().y, 2, 2);
+            renderTrajectory(Tx1, Ty1);
+            batch.draw(arrow1, tankBody.getPosition().x, tankBody.getPosition().y, 2, 2);
+
+            renderTrajectory(Tx2, Ty2);
+        }
+
         update();
-        // apply velocity to the tank
-//        tankBody.setLinearVelocity(velocity);
-//        tankBody2.setLinearVelocity(velocity2);
-//        if(Gdx.input.isKeyPressed(Input.Keys.A)){
-//            if (isPlayer1Turn){
-//                tankBody.applyForceToCenter(tankforceL,true);
-//                if(player1Tank.getHealth()>0)
-//                {
-//                    player1Tank.setFuelLeft(player1Tank.getHealth() - 20);
-//                }
-//            }
-//            else{
-////                tankBody2.applyLinearImpulse(tankforceL,tankBody.getPosition(),true);
-//                tankBody2.applyForceToCenter(tankforceL,true);
-//                if(player2Tank.getHealth()>0)
-//                {
-//                    player2Tank.setFuelLeft(player2Tank.getHealth() - 20);
-//                }
-//            }
-//        }
-//        if(Gdx.input.isKeyPressed(Input.Keys.D))
-//        {
-//            if (isPlayer1Turn)
-//            {
-//                tankBody.applyForceToCenter(tankforceR,true);
-////                tankBody.applyLinearImpulse(tankforceR,tankBody.getPosition(),true);
-//                player1Tank.setFuelLeft(player1Tank.getHealth()-20);
-//            }
-//            else{
-//                tankBody2.applyForceToCenter(tankforceR,true);
-////                tankBody2.applyLinearImpulse(tankforceR,tankBody.getPosition(),true);
-////                tankBody.stop
-//                player2Tank.setFuelLeft(player2Tank.getHealth()-20);
-//            }
-//        }
+
 
         if(Gdx.input.isKeyPressed(Input.Keys.W))
         {
@@ -1260,22 +1302,36 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             System.out.println("Power: "+ power);
         }
 
-//
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            System.out.println("HERE");
-            isPlayer1Turn = !isPlayer1Turn;
-            if(!isPlayer1Turn){
-                bulletBody.applyLinearImpulse(bulletSpeed,bulletBody.getPosition(),true);
-            }
-            else{
-                bulletBody2.applyLinearImpulse(bulletSpeed2,bulletBody2.getPosition(),true);
 
-            }
-        }
+// Spacebar -> FIRE (Direction of fire is decided using the location of the mouse pointer)
+if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+    System.out.println("HERE");
 
-//        tankBody.applyForceToCenter(tank1Speed,true);
-//        tankBody.applyForce();
-//        tankBody2.applyForceToCenter(tank2Speed,true);
+    float mouseX = Gdx.input.getX();
+    float mouseY = Gdx.input.getY();
+
+    Vector3 mousePosition = new Vector3(mouseX, mouseY, 0);
+    camera.unproject(mousePosition);
+
+    if (isPlayer1Turn) {
+        Vector2 direction = new Vector2(mousePosition.x - bulletBody.getPosition().x, mousePosition.y - bulletBody.getPosition().y);
+
+        direction.nor();
+
+        Vector2 impulse = new Vector2(direction.x * bulletSpeed, direction.y * bulletSpeed);
+        bulletBody.applyLinearImpulse(impulse, bulletBody.getWorldCenter(), true);
+    } else {
+        Vector2 direction2 = new Vector2(mousePosition.x - bulletBody2.getPosition().x, mousePosition.y - bulletBody2.getPosition().y);
+
+        direction2.nor();
+
+        Vector2 impulse2 = new Vector2(direction2.x * bulletSpeed2, direction2.y * bulletSpeed2);
+        bulletBody2.applyLinearImpulse(impulse2, bulletBody2.getWorldCenter(), true);
+    }
+
+    isPlayer1Turn = !isPlayer1Turn;
+}
+
         world.step(1/60f, 6, 2);
         debugRenderer.render(world, camera.combined);
         batch.end();
