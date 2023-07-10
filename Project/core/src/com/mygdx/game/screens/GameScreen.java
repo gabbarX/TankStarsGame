@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
@@ -15,19 +14,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.mygdx.game.InputController;
+import com.mygdx.game.TankBulletContactListener;
 import com.tankstars.game.TankStars;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
-import java.util.Vector;
-
-import static com.badlogic.gdx.math.MathUtils.cos;
-import static com.badlogic.gdx.math.MathUtils.sin;
 
 public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     private World world;
+    Body groundBody;
     private Box2DDebugRenderer debugRenderer;
     private OrthographicCamera camera;
     private Stage stage;
@@ -52,8 +49,8 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
     int theta2 = 45;
     int maxpower = 1000000;
     int power = 100000;
-    int bulletSpeed = 100000;
-    int bulletSpeed2 = 100000;
+    int bulletSpeed = 80000;
+    int bulletSpeed2 = bulletSpeed;
     Vector2 tankforceR = new Vector2(1000000f, 0f);
     Vector2 tankforceL = new Vector2(-1000000f, 0f);
     private Texture myTexture;
@@ -268,7 +265,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         {
             BodyDef groundBodyDef = new BodyDef();
             groundBodyDef.position.set(0, 0);
-            Body groundBody = world.createBody(groundBodyDef);
+            groundBody = world.createBody(groundBodyDef);
             // ground shape
             ChainShape groundShape = new ChainShape();
             groundShape.createChain(new Vector2[]{
@@ -604,6 +601,8 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         FrostReverse.setSize(60, 50);
         BuratinoReverse.setSize(60, 50);
     }
+
+// Game screen for load game
     public GameScreen(TankStars game, String filename) throws FileNotFoundException {
         super(game);
         // reading the data from the file
@@ -729,7 +728,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             tankFixtureDef.shape = tankShape;
             tankFixtureDef.density = 12f;
             tankFixtureDef.friction = 0.7f;
-            tankFixtureDef.restitution = 0.0f;
+            tankFixtureDef.restitution = 0f;
             Fixture tankFixture = tankBody.createFixture(tankFixtureDef);
             // Tank 2 Definition
             BodyDef tankDef2 = new BodyDef();
@@ -752,7 +751,7 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             //Bullet Fixture Defination
             FixtureDef bulletFixtureDef = new FixtureDef();
             bulletFixtureDef.shape = bulletshape;
-            bulletFixtureDef.density = 7f;
+            bulletFixtureDef.density = 9f;
             bulletFixtureDef.friction = 100;
 //            bulletFixtureDef.restitution = 0.2f;
             Fixture bulletFixture = bulletBody.createFixture(bulletFixtureDef);
@@ -770,11 +769,14 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
             //Bullet Fixture Defination
             FixtureDef bulletFixtureDef = new FixtureDef();
             bulletFixtureDef.shape = bulletshape;
-            bulletFixtureDef.density = 7f;
+            bulletFixtureDef.density = 9f;
             bulletFixtureDef.friction = 1;
 //            bulletFixtureDef.restitution = 0.2f;
             Fixture bulletFixture = bulletBody2.createFixture(bulletFixtureDef);
         }
+
+        TankBulletContactListener contactListener = new TankBulletContactListener(groundBody,tankBody,tankBody2,bulletBody,bulletBody2);
+        world.setContactListener(contactListener);
 
 
     }
@@ -1303,34 +1305,34 @@ public class GameScreen extends com.tankstars.game.screens.DefaultScreen {
         }
 
 
-// Spacebar -> FIRE (Direction of fire is decided using the location of the mouse pointer)
-if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-    System.out.println("HERE");
+        // Spacebar -> FIRE (Direction of fire is decided using the location of the mouse pointer)
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            System.out.println("HERE");
 
-    float mouseX = Gdx.input.getX();
-    float mouseY = Gdx.input.getY();
+            float mouseX = Gdx.input.getX();
+            float mouseY = Gdx.input.getY();
 
-    Vector3 mousePosition = new Vector3(mouseX, mouseY, 0);
-    camera.unproject(mousePosition);
+            Vector3 mousePosition = new Vector3(mouseX, mouseY, 0);
+            camera.unproject(mousePosition);
 
-    if (isPlayer1Turn) {
-        Vector2 direction = new Vector2(mousePosition.x - bulletBody.getPosition().x, mousePosition.y - bulletBody.getPosition().y);
+            if (isPlayer1Turn) {
+                Vector2 direction = new Vector2(mousePosition.x - bulletBody.getPosition().x, mousePosition.y - bulletBody.getPosition().y);
 
-        direction.nor();
+                direction.nor();
 
-        Vector2 impulse = new Vector2(direction.x * bulletSpeed, direction.y * bulletSpeed);
-        bulletBody.applyLinearImpulse(impulse, bulletBody.getWorldCenter(), true);
-    } else {
-        Vector2 direction2 = new Vector2(mousePosition.x - bulletBody2.getPosition().x, mousePosition.y - bulletBody2.getPosition().y);
+                Vector2 impulse = new Vector2(direction.x * bulletSpeed, direction.y * bulletSpeed);
+                bulletBody.applyLinearImpulse(impulse, bulletBody.getWorldCenter(), true);
+            } else {
+                Vector2 direction2 = new Vector2(mousePosition.x - bulletBody2.getPosition().x, mousePosition.y - bulletBody2.getPosition().y);
 
-        direction2.nor();
+                direction2.nor();
 
-        Vector2 impulse2 = new Vector2(direction2.x * bulletSpeed2, direction2.y * bulletSpeed2);
-        bulletBody2.applyLinearImpulse(impulse2, bulletBody2.getWorldCenter(), true);
-    }
+                Vector2 impulse2 = new Vector2(direction2.x * bulletSpeed2, direction2.y * bulletSpeed2);
+                bulletBody2.applyLinearImpulse(impulse2, bulletBody2.getWorldCenter(), true);
+            }
 
-    isPlayer1Turn = !isPlayer1Turn;
-}
+            isPlayer1Turn = !isPlayer1Turn;
+        }
 
         world.step(1/60f, 6, 2);
         debugRenderer.render(world, camera.combined);
